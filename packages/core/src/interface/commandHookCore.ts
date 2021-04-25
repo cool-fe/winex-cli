@@ -1,4 +1,3 @@
-// import { ICommandInstance } from "./plugin";
 export interface ILog {
   log: (...any: any[]) => void;
   error?: (...any: any[]) => void;
@@ -50,15 +49,6 @@ export declare class IPlugin {
 
 export interface ICommands {
   [command: string]: any;
-  // {
-  //   usage: string;
-  //   type: string;
-  //   lifecycleEvents: string[];
-  //   rank: number;
-  //   options: {};
-  //   origin: ICommandInstance[];
-  //   commands: ICommands;
-  // };
 }
 
 export type IHookFun = (content: any, options?: any) => Promise<void> | void;
