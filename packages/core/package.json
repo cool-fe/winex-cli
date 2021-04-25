@@ -1,0 +1,28 @@
+{
+  "name": "@tzfe/trn-core",
+  "version": "0.0.2-alpha.13",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/",
+    "scr/"
+  ],
+  "keywords": [
+    "trn"
+  ],
+  "devDependencies": {
+    "@types/mri": "^1.1.0",
+    "minimist": "^1.2.5",
+    "os": "^0.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.5",
+    "mri": "^1.1.6"
+  },
+  "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8"
+}

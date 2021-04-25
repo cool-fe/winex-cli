@@ -1,0 +1,16 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+
+  "env": {
+    "es6": true
+  },
+  "globals": {
+    "use": true
+  },
+  "rules": {
+    "complexity": ["warn", { "max": 10 }]
+  },
+  "ignorePatterns": ["node_modules", "dist", "fixtures", "**/*/*.md"]
+}

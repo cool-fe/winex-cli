@@ -1,0 +1,24 @@
+{
+  "version": "0.0.1",
+  "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "bootstrap": {
+      "noCi": true,
+      "ignorePrepublish": true
+    },
+    "publish": {
+      "ignoreChanges": ["*.md", ".npmrc"],
+      "registry": "http://nexus.tanzk.com:8081/repository/tzedu-npm-releases/",
+      "version": "prerelease"
+    },
+    "version": {
+      "conventionalCommits": true,
+      "includeMergedTags": true,
+      "ignoreChanges": ["*.md", ".npmrc"]
+    }
+  },
+  "npmClientArgs": ["--no-optional"],
+  "ignoreChanges": ["**/*.md", "**/*.test.ts", "**/test/**", "**/*.npmrc"]
+}

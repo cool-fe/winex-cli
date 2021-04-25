@@ -1,2 +1,1 @@
 # winex-cli
-cli winex

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+
+# Logs
+npm-debug.log
+
+# Coverage
+coverage
+.nyc_output
+
+# Editors
+.vscode
+.idea
+
+# Misc
+.DS_Store
+
+.umi
+**/lib
+**/node_modules
+dist
+public
+.scannerwork
+sonar-project.properties
+report
