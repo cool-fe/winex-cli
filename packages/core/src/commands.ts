@@ -12,6 +12,7 @@ interface HelpSection {
 interface CommandConsArgu {
   description: string | undefined;
   type?: string;
+  name:string;
   lifecycleEvents?: string[];
   usage?: string;
   config?:
@@ -35,7 +36,6 @@ interface CommandConsArgu {
 type HelpCallback = (sections: HelpSection[]) => void | HelpSection[];
 
 class Command {
-  rawName!: string;
   options: any[];
   /* Parsed command name */
   name: string;
@@ -59,6 +59,7 @@ class Command {
       lifecycleEvents = [],
       cliArgs,
       commands,
+      name
     } = argument;
     this.options = [];
     this.config = config;
@@ -67,6 +68,7 @@ class Command {
     this.usageText = description;
     this.cliArgs = [...cliArgs];
     this.commands = commands;
+    this.name = name
   }
 
   usage(text: string) {
@@ -123,7 +125,7 @@ class Command {
 
     sections.push({
       title: "\n\nCommand",
-      body: `  $ ${name}     ${this.usageText || this.rawName}`,
+      body: `  $ ${name}     ${this.usageText || this.name}`,
     });
 
     const options = this.options;

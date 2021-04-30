@@ -1,5 +1,4 @@
-import { BasePlugin } from "@tzfe/trn-core";
-import { getMaterialSources } from "@tzfe/trncli-interact-utils/lib/material";
+import { BasePlugin } from "@winfe/cli-core";
 import axios from "axios";
 import { render, Sources } from "./render";
 
@@ -24,7 +23,7 @@ export class ListPlugin extends BasePlugin {
   hooks = {
     "list:create": async (content: any) => {
       // 获取物料配置信息
-      const materials: Materials[] = await getMaterialSources();
+      const materials: Materials[] = [];
       // 获取物料资源
       const sources: Sources[] = [];
       await materials.reduce(async (pre, cur: Materials) => {

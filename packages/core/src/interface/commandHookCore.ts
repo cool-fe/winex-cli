@@ -40,7 +40,6 @@ export interface ICoreInstance {
     options: any;
     commands: string[];
   };
-  spawn(commandsArray: string[], options?: any): any;
 }
 
 export declare class IPlugin {

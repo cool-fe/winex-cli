@@ -181,7 +181,6 @@ export class CommandHookCore implements ICommandHooksCore {
       // 调用某命令
       invoke: this.invoke.bind(this),
       //调用某命令
-      spawn: this.spawn.bind(this),
       debug: this.debug.bind(this),
 
       // 保存执行命令过程option和command
@@ -217,6 +216,7 @@ export class CommandHookCore implements ICommandHooksCore {
           commands: {},
           config: commandInstance.config,
           cliArgs: this.options?.options,
+          name:command
         });
       }
 
