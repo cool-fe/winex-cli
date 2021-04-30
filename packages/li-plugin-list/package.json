@@ -9,7 +9,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@winfe/cli-core": "^0.0.2-alpha.13",
+    "@winfe/cli-core": "^0.0.1",
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "tty-table": "^4.1.3"

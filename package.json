@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@wn/winex-cli",
+  "name": "@winfe/winex-cli",
   "version": "0.0.1",
   "description": "Create a Nuxt.js App in seconds.",
   "files": [
