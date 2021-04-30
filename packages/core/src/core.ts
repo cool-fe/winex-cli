@@ -164,10 +164,6 @@ export class CommandHookCore implements ICommandHooksCore {
     }
   }
 
-  public getCommands() {
-    return this.commands;
-  }
-
   public async ready() {
     await this.loadNpmPlugins();
     await this.asyncInit();

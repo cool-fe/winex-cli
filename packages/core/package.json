@@ -1,6 +1,6 @@
 {
-  "name": "@tzfe/trn-core",
-  "version": "0.0.2-alpha.13",
+  "name": "@winfe/cli-core",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",

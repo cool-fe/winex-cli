@@ -1,0 +1,49 @@
+{
+  "name": "lint-hooks",
+  "version": "0.0.1",
+  "description": "githooks management forked from yorkie",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "install": "node bin/install.js",
+    "uninstall": "node bin/uninstall.js"
+  },
+  "files": [
+    "lib/"
+  ],
+  "authors": [
+    "18570148691@163.com",
+    "gaowujun"
+  ],
+  "keywords": [
+    "git",
+    "hook",
+    "hooks",
+    "pre-commit",
+    "precommit",
+    "post-commit",
+    "postcommit",
+    "pre-push",
+    "prepush",
+    "post-merge",
+    "postmerge",
+    "test"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "execa": "^0.8.0",
+    "is-ci": "^1.0.10",
+    "normalize-path": "^1.0.0",
+    "strip-indent": "^2.0.0"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "mkdirp": "^0.5.1",
+    "prettier": "^1.4.4",
+    "rimraf": "^2.6.1",
+    "tempy": "^0.1.0"
+  },
+  "gitHead": ""
+}

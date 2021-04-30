@@ -23,9 +23,9 @@ const argvs = [
   // "--conventional-commits",
   // "false",
   "--legacy-auth",
-  process.env.NEXUS_TOKEN,
+  process.env.NODE_AUTH_TOKEN,
   "--registry",
-  process.env.NEXUS_REGISTRY,
+  "http://registry.npmjs.org/",
   "--yes",
 ];
 
