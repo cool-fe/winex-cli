@@ -43,43 +43,33 @@ export async function installSaveDev(
       : [`${packages}${packageVersionStr}`];
     const cliArgus =
       pmToolName === "yarn" ? ["add", "--dev"] : ["install", "--save-dev"];
-    // await sleep(8);
     try {
       const npmProcess = spawn(pmToolName, cliArgus.concat(packageList), {
-        stdio: "inherit",
+        stdio: "pipe",
       });
 
-      npmProcess.stdout.on("data", (data) => {
-        // console.log(`1111: ${data}`);
-      });
+      npmProcess.stdout && npmProcess.stdout.on("data", (data) => {});
 
-      npmProcess.stderr.on("data", (data) => {
-        console.error(`000: ${data}`);
-      });
+      npmProcess.stderr &&
+        npmProcess.stderr.on("data", (data) => {
+          if (data && data.code === "ENOENT") {
+            const pluralS = packageList.length > 1 ? "s" : "";
+            Logger.error(
+              `Could not execute npm. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
+                ", "
+              )}`
+            );
+          }
+          reject(data);
+        });
 
       npmProcess.on("close", (code) => {
-        console.log(`999: child process exited with code ${code}`);
         resolve(true);
       });
-
-      const error = npmProcess.error;
-      //@ts-ignore
-      if (error && error.code === "ENOENT") {
-        const pluralS = packageList.length > 1 ? "s" : "";
-        Logger.error(
-          `Could not execute npm. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
-            ", "
-          )}`
-        );
-      } else {
-        // Logger.info(`${packageList.join(", ")} installed success`);
-        // resolve(true);
-      }
     } catch (error) {
       Logger.error(error);
-      // reject();
+      reject();
     }
-    // resolve(true);
   });
 }
 

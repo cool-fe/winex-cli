@@ -3,18 +3,22 @@
  * @author dashixiong
  */
 
+import chalk from "chalk";
+import fs from "fs";
 import fileUtil from "./utils/file";
 import { DeafultSharedEslintConfig } from "./config";
 import { runPrompts } from "./prompts";
 import { Logger } from "./logger";
-
-const chalk = require("chalk");
-const fs = require("fs");
+import { checkEslintConfig } from "./utils/config-file";
+import assign from "lodash/assign";
 
 function hasSpecialTsConfig(projectType: string): boolean {
   return ["node", "vue"].indexOf(projectType) > -1;
 }
 
+/**
+ * get winex shared eslint config by packageName,projectType,supportTypeScript
+ */
 function getEslintExtendsConfig(
   packageName: string,
   projectType: string,
@@ -40,11 +44,16 @@ function getEslintExtendsConfig(
  * 配置 eslintrc.js 文件的内容
  * 如果存在 eslintrc.js，只修改 extends 字段
  * 如果不存在 eslintrc.js，提供默认的 eslintrc.js 文件
- * @param projectType 工程类型
- * @param sharedEslintConfig 共享的eslint规则集
  */
 async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   const eslintRcPath = `${process.cwd()}/.eslintrc.js`;
+  const checkResult = checkEslintConfig(process.cwd());
+  if (checkResult.length) {
+    Logger.info(
+      chalk.green("检测到如下eslint配置文件\n"),
+      checkResult.join("\n")
+    );
+  }
   const exsit = await fileUtil.checkExist(eslintRcPath, false);
   const packageName = Object.keys(DeafultSharedEslintConfig)[0];
   const eslintConfigPath = getEslintExtendsConfig(
@@ -59,34 +68,47 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
       extends: ${eslintConfigPath}
     }`;
 
+  const filterJs = checkResult.filter(
+    (file) => file && file !== ".eslintrc.js"
+  );
+
+  filterJs.length &&
+    Logger.info(
+      chalk.green("我们会忽略并删除如下eslint 配置文件\n"),
+      filterJs.join("\n")
+    );
   // 根据优先级规则，eslintrc.js 的优先级最高，如果该项目目前不存在 eslintrc.js,
   // 则生成 eslintrc.js 作为最优配置文件，以优先级覆盖其他配置
   // 旧的配置文件不进行处理，也不进行规则的拷贝处理
   if (exsit) {
     // 存在 eslint 配置文件, 询问是否扩展
-    const answer = await runPrompts({
-      type: "confirm",
-      message: "eslint配置文件已存在，是否要增加团队标准配置扩展(Y/n)?",
-      name: "eslint",
-    });
+    const answer = await runPrompts([
+      {
+        type: "toggle",
+        message: `eslint配置文件已存在，是否要增加团队标准配置扩展(Y/n),已废弃的配置方式 ${filterJs.join(
+          "\n"
+        )} 将会被迁移(Y/n)?`,
+        name: "eslint",
+      },
+    ]);
 
     if (answer.eslint) {
       Logger.info(chalk.green("更新当前 eslintrc.js 配置文件，增加 extend..."));
       const modifyResult = fileUtil.syncModifyFile(
         eslintRcPath,
-        "utf-8",
         /(?<=["']?extends["']?:\s)('[^']+?'|"[^"]+?"|\[[^]+?\])/,
-        eslintConfigPath
+        eslintConfigPath,
+        "utf-8"
       );
       if (modifyResult === 1) {
         Logger.info(chalk.green("eslintrc.js 配置文件更新完成"));
       } else if (modifyResult === 0) {
         const addExtendsResult = fileUtil.syncModifyFile(
           eslintRcPath,
-          "utf-8",
           /(?<=module.exports[\s]?=[\s]?{)/,
           `
-extends: ${eslintConfigPath},`
+extends: ${eslintConfigPath},`,
+          "utf-8"
         );
         if (addExtendsResult === 1) {
           Logger.info(chalk.green("eslintrc.js 配置文件更新完成"));
@@ -104,49 +126,47 @@ extends: ${eslintConfigPath},`
       }
     }
   } else {
-    const eslintRcOld = `${process.cwd()}/.eslintrc`;
-    const oldExsit = await fileUtil.checkExist(eslintRcOld, false);
-    if (oldExsit) {
-      // 存在 .eslintrc 文件，该配置方式已被废弃，升级到 .eslintrc.js 的配置方式
+    if (filterJs.length) {
+      // 存在 .eslintrc.js  其他配置文件，该配置方式已被废弃，升级到 .eslintrc.js 的配置方式
       const choice = await runPrompts({
-        type: "confirm",
+        type: "toggle",
         name: "eslint",
-        message:
-          "检查到已废弃的配置方式 .eslintrc, 是否升级为 .eslintrc.js, 原有配置会被迁移(Y/n)",
+        message: `检查到已废弃的配置方式 ${filterJs.join(
+          "\n"
+        )}, 是否升级为 .eslintrc.js, 原有配置会被迁移(Y/n)`,
       });
       if (choice.eslint) {
-        const fileContent = fs.readFileSync(eslintRcOld, "utf-8");
-        const fileJSON = JSON.parse(fileContent);
-        // 增加 precommit hook
-        const newFileJSON = _.assign(
-          {
-            extends: eslintConfigPath,
-          },
-          fileJSON
-        );
-        if (newFileJSON && newFileJSON.rules) {
-          const choiceToDeleteOldRules = await runPrompts({
-            type: "confirm",
-            name: "eslint",
-            message: "检测到存在已有的 eslint 规则，是否保留Y/n?",
-          });
-          if (!choiceToDeleteOldRules) {
-            delete newFileJSON.rules;
+        let newFileContent = "";
+        for (const oldFile of filterJs) {
+          const eslintRcOld = `${process.cwd()}/${oldFile}`;
+          const fileContent = fs.readFileSync(oldFile, "utf-8");
+          const fileJSON = JSON.parse(fileContent);
+          const newFileJSON = assign(
+            {
+              extends: eslintConfigPath,
+            },
+            fileJSON
+          );
+          if (newFileJSON && newFileJSON.rules) {
+            const choiceToDeleteOldRules = await runPrompts({
+              type: "confirm",
+              name: "eslint",
+              message: "检测到存在已有的 eslint 规则，是否保留Y/n?",
+            });
+            if (!choiceToDeleteOldRules) {
+              delete newFileJSON.rules;
+            }
           }
-        }
-        const newFileContent = `module.exports = ${JSON.stringify(
-          newFileJSON,
-          null,
-          2
-        )};\n`;
+          newFileContent += ` ${JSON.stringify(newFileJSON, null, 2)};\n`;
 
-        fs.writeFileSync(eslintRcPath, newFileContent);
-        fs.unlinkSync(eslintRcOld);
+          fs.unlinkSync(eslintRcOld);
+        }
+        fs.writeFileSync(eslintRcPath, `module.exports = ${newFileContent}`);
         Logger.info(
           chalk.green("eslint 配置升级并更新完成，please check for sure")
         );
       } else {
-        console.log(chalk.red("放弃升级eslint配置，请手动进行eslint配置"));
+        Logger.info(chalk.red("放弃升级eslint配置，请手动进行eslint配置"));
       }
     } else {
       // 不存在 eslint 配置文件, copy 模板到新建 eslintrc.js 文件

@@ -65,7 +65,7 @@ async function checkExist(
  */
 function syncModifyFile(
   filePath: string,
-  pattern: any,
+  pattern: RegExp,
   replace: string,
   encode = "utf8"
 ) {

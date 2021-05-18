@@ -1,11 +1,6 @@
-/* eslint-disable global-require */
 /**
  * @fileoverview Helper to locate and load configuration files. Copied from eslint-project
  */
-
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
 
 import { Logger } from "../logger";
 import fs from "fs";
@@ -15,15 +10,17 @@ import stripComments from "strip-json-comments";
 import stringify from "json-stable-stringify-without-jsonify";
 import importFresh from "import-fresh";
 
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
+export type configName =
+  | ".eslintrc.js"
+  | ".eslintrc.yaml"
+  | ".eslintrc.yml"
+  | ".eslintrc.json"
+  | ".eslintrc"
+  | "package.json";
 
 /**
  * Determines sort order for object keys for json-stable-stringify
- *
  * see: https://github.com/samn/json-stable-stringify#cmp
- *
  * @param   {Object} a The first comparison object ({key: akey, value: avalue})
  * @param   {Object} b The second comparison object ({key: bkey, value: bvalue})
  * @returns {number}   1 or -1, used in stringify cmp method
@@ -32,11 +29,7 @@ function sortByKey(a: { key: number }, b: { key: number }) {
   return a.key > b.key ? 1 : -1;
 }
 
-//------------------------------------------------------------------------------
-// Private
-//------------------------------------------------------------------------------
-
-const CONFIG_FILES = [
+export const CONFIG_FILES: configName[] = [
   ".eslintrc.js",
   ".eslintrc.yaml",
   ".eslintrc.yml",
@@ -47,24 +40,16 @@ const CONFIG_FILES = [
 
 /**
  * Convenience wrapper for synchronously reading file contents.
- * @param {string} filePath The filename to read.
- * @returns {string} The file contents, with the BOM removed.
- * @private
  */
-function readFile(filePath: any) {
+function readFile(filePath: string) {
   return fs.readFileSync(filePath, "utf8").replace(/^\ufeff/u, "");
 }
 
 /**
  * Loads a YAML configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
  */
-function loadYAMLConfigFile(filePath: any) {
+function loadYAMLConfigFile(filePath: string) {
   Logger.debug(`Loading YAML config file: ${filePath}`);
-
   // lazy load YAML to improve performance when not used
   const yaml = require("js-yaml");
 
@@ -80,12 +65,8 @@ function loadYAMLConfigFile(filePath: any) {
 
 /**
  * Loads a JSON configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
  */
-function loadJSONConfigFile(filePath: any) {
+function loadJSONConfigFile(filePath: string) {
   Logger.debug(`Loading JSON config file: ${filePath}`);
 
   try {
@@ -104,12 +85,8 @@ function loadJSONConfigFile(filePath: any) {
 
 /**
  * Loads a legacy (.eslintrc) configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
  */
-function loadLegacyConfigFile(filePath: any) {
+function loadLegacyConfigFile(filePath: string) {
   Logger.debug(`Loading config file: ${filePath}`);
 
   // lazy load YAML to improve performance when not used
@@ -129,12 +106,8 @@ function loadLegacyConfigFile(filePath: any) {
 
 /**
  * Loads a JavaScript configuration from a file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
  */
-function loadJSConfigFile(filePath: any) {
+function loadJSConfigFile(filePath: string) {
   Logger.debug(`Loading JS config file: ${filePath}`);
   try {
     return importFresh(filePath);
@@ -147,10 +120,6 @@ function loadJSConfigFile(filePath: any) {
 
 /**
  * Loads a configuration from a package.json file.
- * @param {string} filePath The filename to load.
- * @returns {Object} The configuration object from the file.
- * @throws {Error} If the file cannot be read.
- * @private
  */
 function loadPackageJSONConfigFile(filePath: any) {
   Logger.debug(`Loading package.json config file: ${filePath}`);
@@ -165,9 +134,6 @@ function loadPackageJSONConfigFile(filePath: any) {
 
 /**
  * Creates an error to notify about a missing config to extend from.
- * @param {string} configName The name of the missing config.
- * @returns {Error} The error object to throw
- * @private
  */
 function configMissingError(configName: any) {
   const error = new Error(
@@ -185,11 +151,8 @@ function configMissingError(configName: any) {
 /**
  * Loads a configuration file regardless of the source. Inspects the file path
  * to determine the correctly way to load the config file.
- * @param {Object} file The path to the configuration.
- * @returns {Object} The configuration information.
- * @private
  */
-function loadConfigFile(file: {
+export function loadConfigFile(file: {
   configName?: any;
   configFullName?: any;
   filePath?: any;
@@ -233,45 +196,9 @@ function loadConfigFile(file: {
 }
 
 /**
- * Writes a configuration file in JSON format.
- * @param {Object} config The configuration object to write.
- * @param {string} filePath The filename to write to.
- * @returns {void}
- * @private
- */
-function writeJSONConfigFile(config: any, filePath: any) {
-  Logger.debug(`Writing JSON config file: ${filePath}`);
-  const content = stringify(config, { cmp: sortByKey, space: 4 });
-  fs.writeFileSync(filePath, content, "utf8");
-}
-
-/**
- * Writes a configuration file in YAML format.
- * @param {Object} config The configuration object to write.
- * @param {string} filePath The filename to write to.
- * @returns {void}
- * @private
- */
-function writeYAMLConfigFile(config: any, filePath: any) {
-  Logger.debug(`Writing YAML config file: ${filePath}`);
-
-  // lazy load YAML to improve performance when not used
-  const yaml = require("js-yaml");
-
-  const content = yaml.safeDump(config, { sortKeys: true });
-
-  fs.writeFileSync(filePath, content, "utf8");
-}
-
-/**
  * Writes a configuration file in JavaScript format.
- * @param {Object} config The configuration object to write.
- * @param {string} filePath The filename to write to.
- * @throws {Error} If an error occurs linting the config file contents.
- * @returns {void}
- * @private
  */
-function writeJSConfigFile(config: any, filePath: any) {
+function writeJSConfigFile(config: object, filePath: any) {
   Logger.debug(`Writing JS config file: ${filePath}`);
 
   const stringifiedContent = `module.exports = ${stringify(config, {
@@ -284,13 +211,8 @@ function writeJSConfigFile(config: any, filePath: any) {
 
 /**
  * Writes a configuration file.
- * @param {Object} config The configuration object to write.
- * @param {string} filePath The filename to write to.
- * @returns {void}
- * @throws {Error} When an unknown file type is specified.
- * @private
  */
-function write(config: any, filePath: any) {
+export function write(config: any, filePath: any) {
   switch (path.extname(filePath)) {
     case ".js":
       writeJSConfigFile(config, filePath);
@@ -312,10 +234,8 @@ function write(config: any, filePath: any) {
 
 /**
  * Checks whether the given filename points to a file
- * @param {string} filename A path to a file
- * @returns {boolean} `true` if a file exists at the given location
  */
-function isExistingFile(filename: any) {
+function isExistingFile(filename: string) {
   try {
     return fs.statSync(filename).isFile();
   } catch (err) {
@@ -326,27 +246,16 @@ function isExistingFile(filename: any) {
   }
 }
 
-//------------------------------------------------------------------------------
-// Public Interface
-//------------------------------------------------------------------------------
+export function checkEslintConfig(directory: string = process.cwd()) {
+  return CONFIG_FILES.filter(
+    (filename) =>
+      filename !== "package.json" &&
+      isExistingFile(path.join(directory, filename))
+  );
+}
 
-module.exports = {
-  loadConfigFile,
-  write,
-  CONFIG_FILES,
-
-  /**
-   * Retrieves the configuration filename for a given directory. It loops over all
-   * of the valid configuration filenames in order to find the first one that exists.
-   * @param {string} directory The directory to check for a config file.
-   * @returns {?string} The filename of the configuration file for the directory
-   *      or null if there is no configuration file in the directory.
-   */
-  getFilenameForDirectory(directory: any) {
-    return (
-      CONFIG_FILES.map((filename) => path.join(directory, filename)).find(
-        isExistingFile
-      ) || null
-    );
-  },
-};
+export function getFilenameForDirectory(directory: string) {
+  return CONFIG_FILES.map((filename) => path.join(directory, filename)).find(
+    isExistingFile
+  );
+}

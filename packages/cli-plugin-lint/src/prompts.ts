@@ -170,17 +170,16 @@ const renderProjectPrompt = function (options: PluginOptions): PromptOptions[] {
   ];
 };
 
-export const runPrompts = async function (
+export const runPrompts = async function <T>(
   prompts: PromptOptions | PromptOptions[]
-): Promise<promptAnwser> {
-  const enquirer = new Enquirer<promptAnwser>();
-  const anwser = await enquirer.prompt(prompts);
-  return anwser;
+): Promise<T> {
+  const enquirer = new Enquirer<T>();
+  return enquirer.prompt(prompts);
 };
 
 export const createCliPrompt = async function (
   options: PluginOptions
 ): Promise<promptAnwser> {
   const prompts = [...renderProjectPrompt(options)];
-  return await runPrompts(prompts);
+  return runPrompts<promptAnwser>(prompts);
 };

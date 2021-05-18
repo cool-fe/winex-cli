@@ -48,6 +48,8 @@ export default class LintPlugin extends BasePlugin {
     },
   };
 
+  answer: object = {};
+
   hooks = {
     "before:lint:init": async (content: any) => {
       // 安装相关依赖
@@ -63,19 +65,17 @@ export default class LintPlugin extends BasePlugin {
         typescript: _ts,
         pm: _pm,
       })) as PluginOptions;
-      content.answer = anwser;
-      await installDeps(anwser);
+      this.answer = anwser;
+      // await installDeps(anwser);
     },
     "lint:init": async (content: any) => {
-      console.log(8888);
-      process.exit(0);
       // 配置eslint
-      const { env, typescript, pm: _pm } = content?.anwser as PluginOptions;
-      configEslintRC(env === "node" ? "node" : "vue", typescript);
+      const { env, typescript, pm: _pm } = this?.answer as PluginOptions;
+      await configEslintRC(env === "node" ? "node" : "vue", typescript);
       // 配置prettier
-      configPrettierRC();
+      await configPrettierRC();
       // 配置editorconfig
-      configEditorrRC();
+      await configEditorrRC();
     },
     "after:lint:init": async (content: any) => {
       // 修改package.json，结合--hook-engine对eslint、prettier、editorconfig做设置

@@ -1,11 +1,17 @@
 import { runPrompts } from "./prompts";
 import fs from "fs-extra";
+import chalk from "chalk";
 import defaults from "../config/prettier.config";
-import configFile from "./utils/config-file";
+import {
+  getFilenameForDirectory,
+  loadConfigFile,
+  write,
+} from "./utils/config-file";
+import { Logger } from "./logger";
 
 const mainOptions = [
   {
-    type: "list",
+    type: "select",
     name: "run",
     message: "How should Prettier be run?",
     choices: [
@@ -25,19 +31,27 @@ const addPrettierToExtends = (
   eslintObj: { extends: any },
   prettierExtensionStr: string
 ) => {
-  return Array.isArray(eslintObj.extends)
-    ? [...eslintObj.extends, prettierExtensionStr]
-    : eslintObj.extends
-    ? [eslintObj.extends, prettierExtensionStr]
-    : prettierExtensionStr;
+  if (Array.isArray(eslintObj.extends)) {
+    return [...eslintObj.extends, prettierExtensionStr];
+  } else {
+    return eslintObj.extends
+      ? [eslintObj.extends, prettierExtensionStr]
+      : prettierExtensionStr;
+  }
 };
 
-const addPrettierToRules = (prettierObj: any, eslintObj: { rules: any }) => ({
+const addPrettierToRules = (
+  prettierObj: any,
+  eslintObj: { rules: any; extends: any }
+) => ({
   ...eslintObj.rules,
   "prettier/prettier": prettierObj ? ["error", prettierObj] : "error",
 });
 
-const extendESLintConfig = (eslintObj: Object, prettierObj: any) =>
+const extendESLintConfig = (
+  eslintObj: { extends: any; rules: any },
+  prettierObj: object | null
+) =>
   prettierObj
     ? {
         ...eslintObj,
@@ -47,11 +61,11 @@ const extendESLintConfig = (eslintObj: Object, prettierObj: any) =>
     : { ...eslintObj, extends: addPrettierToExtends(eslintObj, "prettier") };
 
 const prettierQuestions = () =>
-  runPrompts(mainOptions)
-    .then(({ type, run }) => ({ defaults, run }))
+  runPrompts<{ run: string }>(mainOptions)
+    .then(({ run }) => ({ run }))
     .catch((error) => console.error(error));
 
-const createPrettierrc = (prettier: any) => {
+const createPrettierrc = (prettier: object) => {
   return fs
     .ensureFile("./.prettierrc")
     .then(() => {
@@ -62,20 +76,27 @@ const createPrettierrc = (prettier: any) => {
     .catch((err: any) => console.log(err));
 };
 
+/**
+ * add prettier config
+ */
 const configPrettierRC = async () => {
-  const { prettier, run } = await prettierQuestions();
-  console.log(`Adding prettier config.`);
+  try {
+    const answer = await prettierQuestions();
+    if (answer) {
+      const { run } = answer;
+      Logger.info(chalk.green("Adding prettier config."));
+      const file = getFilenameForDirectory(process.cwd());
+      const eslint = loadConfigFile({ filePath: file });
+      console.log(eslint);
+      write(
+        extendESLintConfig(eslint, run === "eslint" ? defaults : null),
+        file
+      );
 
-  const file = configFile.getFilenameForDirectory(process.cwd());
-  const eslint = configFile.loadConfigFile({ filePath: file });
-
-  configFile.write(
-    extendESLintConfig(eslint, run === "eslint" ? prettier : null),
-    file
-  );
-
-  if (run === "prettier") {
-    await createPrettierrc(prettier);
-  }
+      if (run === "prettier") {
+        await createPrettierrc(defaults);
+      }
+    }
+  } catch (error) {}
 };
 export default configPrettierRC;
