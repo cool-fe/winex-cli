@@ -1,6 +1,6 @@
 import minimist from "minimist";
 import { CommandHookCore } from "./core";
-import { PluginManager } from "./pluginManager";
+import PluginManager from "./pluginManager";
 
 export class BaseCLI {
   core: any;

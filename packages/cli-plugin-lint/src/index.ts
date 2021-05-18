@@ -1,29 +1,84 @@
-//@ts-ignore
 import { BasePlugin } from "@winfe/cli-core";
+import { createCliPrompt } from "./prompts";
+import { installDeps } from "./deps-install";
+import configEslintRC from "./install-config";
+import configPrettierRC from "./add-prettier-config";
+import configEditorrRC from "./add-editor-config";
 
+export type PluginOptions = {
+  env: "browser" | "node";
+  typescript: boolean;
+  pm: "yarn" | "npm";
+  hookEngine?: string;
+  ci?: boolean;
+};
 
-export class LintPlugin extends BasePlugin {
+export default class LintPlugin extends BasePlugin {
   commands = {
     lint: {
       usage: "init or upgrade eslint prettier editorconfig ",
       lifecycleEvents: ["init"],
       options: {
-          // 参数申明
+        "--env [browser]": {
+          usage: "代码运行环境：node、browser",
+          config: {},
+        },
+        "--typescript": {
+          usage: "是否支持typescript",
+        },
+        "--pm [pm]": {
+          usage: "包管理器",
+          config: {
+            default: "yarn",
+          },
+        },
+        "--hook-engine [husky]": {
+          usage: "注册git hook的引擎，husky、yorkie、git-hooks、winfe 等",
+          config: {
+            default: "husky",
+          },
+        },
+        "--ci": {
+          usage: "是否在ci/cd中",
+        },
+        "--verbose": {
+          usage: "是否显示详细的日志信息",
+        },
       },
     },
   };
 
   hooks = {
-    "before:lint:init":async (content:any) =>{
+    "before:lint:init": async (content: any) => {
       // 安装相关依赖
-      },
+      const {
+        env: _env,
+        typescript: _ts,
+        pm: _pm,
+        ci,
+      } = content?.parsedOptions?.options as PluginOptions;
+      if (ci) return;
+      const anwser = (await createCliPrompt({
+        env: _env,
+        typescript: _ts,
+        pm: _pm,
+      })) as PluginOptions;
+      content.answer = anwser;
+      await installDeps(anwser);
+    },
     "lint:init": async (content: any) => {
+      console.log(8888);
+      process.exit(0);
       // 配置eslint
+      const { env, typescript, pm: _pm } = content?.anwser as PluginOptions;
+      configEslintRC(env === "node" ? "node" : "vue", typescript);
       // 配置prettier
+      configPrettierRC();
       // 配置editorconfig
+      configEditorrRC();
     },
     "after:lint:init": async (content: any) => {
-        // 修改package.json，结合--hook-engine对eslint、prettier、editorconfig做设置
-      },
+      // 修改package.json，结合--hook-engine对eslint、prettier、editorconfig做设置
+    },
   };
 }

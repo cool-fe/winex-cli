@@ -10,11 +10,14 @@
   "license": "MIT",
   "dependencies": {
     "@winfe/cli-core": "^0.0.1",
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "enquirer": "^2.3.6",
+    "readline": "^1.3.0",
+    "cross-spawn": "^7.0.3",
+    "command-exists": "^1.2.9"
   },
   "gitHead": "",
   "devDependencies": {
-    "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0"
+    "@types/fs-extra": "^9.0.11"
   }
 }

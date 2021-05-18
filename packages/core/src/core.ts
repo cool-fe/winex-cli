@@ -210,13 +210,13 @@ export class CommandHookCore implements ICommandHooksCore {
         commandsMap[command] = new Command({
           description: commandInstance.usage,
           type: commandInstance.type || "command",
-          lifecycleEvents: [],
+          lifecycleEvents: commandInstance.lifecycleEvents,
           options: [],
           origin: [],
           commands: {},
           config: commandInstance.config,
           cliArgs: this.options?.options,
-          name:command
+          name: command,
         });
       }
 

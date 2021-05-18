@@ -7,7 +7,7 @@ const getCoreBaseDir = () => {
   return "";
 };
 
-export class PluginManager extends BasePlugin {
+export default class PluginManager extends BasePlugin {
   commands = {
     plugin: {
       usage: "manage plugins",

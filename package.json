@@ -10,7 +10,7 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "rm -f ./packages/.DS* &&  rm -rf ./packages/**/node_modules && lerna bootstrap",
+    "bootstrap": "rimraf -f ./packages/.DS* &&  rimraf -rf ./packages/**/node_modules && lerna bootstrap",
     "build": "father-build",
     "changelog": "lerna-changelog",
     "clean": "lerna clean -y",
@@ -23,7 +23,6 @@
     "codereview": "node ./scripts/codereview.js"
   },
   "dependencies": {
-    "@midwayjs/faas-cli": "^1.2.29",
     "cross-spawn": "^7.0.3"
   },
   "devDependencies": {
@@ -36,9 +35,7 @@
     "father-build": "^1.18.6",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
-    "ora": "^5.1.0",
-    "rimraf": "^3.0.2",
-    "standard-version": "^7.1.0"
+    "rimraf": "^3.0.2"
   },
   "license": "MIT",
   "publishConfig": {
