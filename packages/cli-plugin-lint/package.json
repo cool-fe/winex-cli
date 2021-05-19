@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-lint",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2-alpha.1",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -19,7 +19,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@winfe/cli-core": "^0.0.2-alpha.0",
+    "@winfe/cli-core": "^0.0.2-alpha.1",
     "chalk": "^4.1.0",
     "command-exists": "^1.2.9",
     "cross-spawn": "^7.0.3",
