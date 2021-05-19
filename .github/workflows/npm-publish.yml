@@ -38,7 +38,6 @@ jobs:
       - run: |
           git config --local user.email "18570148691@163.com"
           git config --local user.name "ggwujun"
-          git remote set-url origin https://x-access-token:${NODE_AUTH_TOKEN}@github.com/$GITHUB_REPOSITORY
           git checkout $CI_COMMIT_REF_NAME
           npm config set registry http://registry.npmjs.org/
           npm config set  //registry.npmjs.org/:_authToken=$PUB_NPM_ACCESS_TOKEN
