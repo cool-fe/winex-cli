@@ -1,5 +1,7 @@
 import { runPrompts } from "./prompts";
 import fs from "fs-extra";
+import { resolve } from "path";
+
 import chalk from "chalk";
 import defaults from "../config/prettier.config";
 import {
@@ -16,12 +18,12 @@ const mainOptions = [
     message: "How should Prettier be run?",
     choices: [
       {
-        name: "By the Prettier CLI/plugin",
-        value: "prettier",
+        message: "By the Prettier CLI/plugin",
+        name: "prettier",
       },
       {
-        name: "By ESLint",
-        value: "eslint",
+        message: "By ESLint",
+        name: "eslint",
       },
     ],
   },
@@ -65,13 +67,18 @@ const prettierQuestions = () =>
     .then(({ run }) => ({ run }))
     .catch((error) => console.error(error));
 
-const createPrettierrc = (prettier: object) => {
+const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
+  const prettierDir = resolve(dir, "./.prettierrc.js");
   return fs
-    .ensureFile("./.prettierrc")
+    .ensureFile(prettierDir)
     .then(() => {
-      fs.writeJson("./.prettierrc", prettier, {
-        spaces: 2,
-      }).then(() => console.log("Created .prettierrc."));
+      fs.outputFile(
+        prettierDir,
+        `module.exports = ${JSON.stringify(prettier)}`,
+        {
+          encoding: "utf8",
+        }
+      ).then(() => console.log("Created .prettierrc.js ."));
     })
     .catch((err: any) => console.log(err));
 };
@@ -87,7 +94,7 @@ const configPrettierRC = async () => {
       Logger.info(chalk.green("Adding prettier config."));
       const file = getFilenameForDirectory(process.cwd());
       const eslint = loadConfigFile({ filePath: file });
-      console.log(eslint);
+
       write(
         extendESLintConfig(eslint, run === "eslint" ? defaults : null),
         file

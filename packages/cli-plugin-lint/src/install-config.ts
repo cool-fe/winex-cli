@@ -82,15 +82,14 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   // 旧的配置文件不进行处理，也不进行规则的拷贝处理
   if (exsit) {
     // 存在 eslint 配置文件, 询问是否扩展
-    const answer = await runPrompts([
-      {
-        type: "toggle",
-        message: `eslint配置文件已存在，是否要增加团队标准配置扩展(Y/n),已废弃的配置方式 ${filterJs.join(
-          "\n"
-        )} 将会被迁移(Y/n)?`,
-        name: "eslint",
-      },
-    ]);
+    const answer = await runPrompts<{ eslint: boolean }>({
+      type: "toggle",
+      message: `eslint配置已存在，是否要增加标准配置扩展(Y/n),已废弃的配置方式 ${filterJs.join(
+        "\n"
+      )} 将会被迁移(Y/n)?`,
+      name: "eslint",
+      initial: true,
+    });
 
     if (answer.eslint) {
       Logger.info(chalk.green("更新当前 eslintrc.js 配置文件，增加 extend..."));
