@@ -8,8 +8,7 @@
   "module": "src/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib/",
-    "scr/"
+    "lib/"
   ],
   "keywords": [
     "winfe",
@@ -17,7 +16,8 @@
     "node"
   ],
   "publishConfig": {
-    "registry": "http://nexus.tanzk.com:8081/repository/tzedu-npm-releases/"
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
   },
   "license": "MIT",
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8",

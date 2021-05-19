@@ -9,7 +9,10 @@
     "scr/"
   ],
   "keywords": [
-    "trn"
+    "winfe",
+    "cli",
+    "core",
+    "node"
   ],
   "devDependencies": {
     "@types/mri": "^1.1.0",

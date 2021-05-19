@@ -7,6 +7,15 @@
   "files": [
     "lib/"
   ],
+  "keywords": [
+    "winfe",
+    "cli",
+    "cli-plugin",
+    "lint",
+    "eslint",
+    "prettier",
+    "node"
+  ],
   "license": "MIT",
   "dependencies": {
     "@winfe/cli-core": "^0.0.1",
@@ -17,6 +26,10 @@
     "command-exists": "^1.2.9"
   },
   "gitHead": "",
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@types/fs-extra": "^9.0.11"
   }

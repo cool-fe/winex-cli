@@ -10,7 +10,7 @@
     },
     "publish": {
       "ignoreChanges": ["*.md", ".npmrc"],
-      "registry": "http://nexus.tanzk.com:8081/repository/tzedu-npm-releases/",
+      "registry": "http://registry.npmjs.org/",
       "version": "prerelease"
     },
     "version": {
