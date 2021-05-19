@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "bin": {
     "winex": "bin/winex.js"
   },
