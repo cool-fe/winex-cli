@@ -29,7 +29,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PUB_CI_ACCESS_TOKEN }}
           persist-credentials: false
       - uses: actions/setup-node@v2
         with:
