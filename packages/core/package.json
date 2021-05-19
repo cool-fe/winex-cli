@@ -22,10 +22,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/core",
+    "type": "ts,node"
+  },
   "dependencies": {
     "minimist": "^1.2.5",
     "mri": "^1.1.6"
   },
+  "license": "MIT",
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8"
 }
