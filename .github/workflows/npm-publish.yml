@@ -3,9 +3,6 @@
 
 name: publish release
 
-# on:
-#   release:
-#     types: [created]
 on:
   push:
     branches:
@@ -13,32 +10,29 @@ on:
 
 jobs:
   doc_build:
-  if: "!contains(github.event.head_commit.message, 'skip ci')"
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: 12
-            registry-url: https://registry.npmjs.org/
-        - run: |
-            yarn
-            yarn run docs:build
-
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          yarn
+          yarn run docs:build
 
   doc_deploy:
-      if: "!contains(github.event.head_commit.message, 'skip ci')"
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: 12
-            registry-url: https://registry.npmjs.org/
-        - run: |
-            mv dist/* docs
-      
-
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          mv dist/* docs
 
   publish-npm:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
