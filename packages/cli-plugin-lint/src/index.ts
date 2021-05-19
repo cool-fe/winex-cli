@@ -4,12 +4,20 @@ import { installDeps } from "./deps-install";
 import configEslintRC from "./install-config";
 import configPrettierRC from "./add-prettier-config";
 import configEditorrRC from "./add-editor-config";
+import interEslintToCI from "./ci";
+
+export enum HookEngine {
+  none = "none",
+  husky = "husky",
+  yorkie = "yorkie",
+  winfe = "winfe",
+}
 
 export type PluginOptions = {
   env: "browser" | "node";
   typescript: boolean;
   pm: "yarn" | "npm";
-  hookEngine?: string;
+  hookEngine?: HookEngine;
   ci?: boolean;
 };
 
@@ -60,13 +68,13 @@ export default class LintPlugin extends BasePlugin {
         ci,
       } = content?.parsedOptions?.options as PluginOptions;
       if (ci) return;
-      const anwser = (await createCliPrompt({
+      const anwser = await createCliPrompt<PluginOptions>({
         env: _env,
         typescript: _ts,
         pm: _pm,
-      })) as PluginOptions;
+      });
       this.answer = anwser;
-      // await installDeps(anwser);
+      await installDeps(anwser);
     },
     "lint:init": async (content: any) => {
       // 配置eslint
@@ -79,6 +87,10 @@ export default class LintPlugin extends BasePlugin {
     },
     "after:lint:init": async (content: any) => {
       // 修改package.json，结合--hook-engine对eslint、prettier、editorconfig做设置
+      const { hookEngine = HookEngine["husky"] } = content?.parsedOptions
+        ?.options as PluginOptions;
+      const { env, typescript, pm } = this?.answer as PluginOptions;
+      await interEslintToCI(hookEngine, env, typescript, pm);
     },
   };
 }

@@ -26,16 +26,14 @@ function getEslintExtendsConfig(
 ) {
   let result;
   if (!supportTypeScript) {
-    result = `[
-    '${packageName}/eslintrc.${projectType}.js'
-  ]`;
+    result = ["${packageName}/eslintrc.${projectType}.js"];
   } else {
-    result = `[
-    '${packageName}/eslintrc.${projectType}.js',
-    '${packageName}/eslintrc.typescript${
-      hasSpecialTsConfig(projectType) ? `-${projectType}` : ""
-    }.js'
-  ]`;
+    result = [
+      "${packageName}/eslintrc.${projectType}.js",
+      `${packageName}/eslintrc.typescript${
+        hasSpecialTsConfig(projectType) ? `-${projectType}` : ""
+      }.js'`,
+    ];
   }
   return result;
 }
@@ -63,10 +61,14 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   );
   const eslintConfigContent = `
     //https://eslint.org/docs/user-guide/configuring
-    module.exports = {
-      root: true,
-      extends: ${eslintConfigPath}
-    }`;
+    module.exports = ${JSON.stringify(
+      {
+        root: true,
+        extends: eslintConfigPath,
+      },
+      null,
+      2
+    )}`;
 
   const filterJs = checkResult.filter(
     (file) => file && file !== ".eslintrc.js"
@@ -96,7 +98,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
       const modifyResult = fileUtil.syncModifyFile(
         eslintRcPath,
         /(?<=["']?extends["']?:\s)('[^']+?'|"[^"]+?"|\[[^]+?\])/,
-        eslintConfigPath,
+        `${eslintConfigPath}`,
         "utf-8"
       );
       if (modifyResult === 1) {
@@ -127,7 +129,7 @@ extends: ${eslintConfigPath},`,
   } else {
     if (filterJs.length) {
       // 存在 .eslintrc.js  其他配置文件，该配置方式已被废弃，升级到 .eslintrc.js 的配置方式
-      const choice = await runPrompts({
+      const choice = await runPrompts<{ eslint: boolean }>({
         type: "toggle",
         name: "eslint",
         message: `检查到已废弃的配置方式 ${filterJs.join(
@@ -147,12 +149,14 @@ extends: ${eslintConfigPath},`,
             fileJSON
           );
           if (newFileJSON && newFileJSON.rules) {
-            const choiceToDeleteOldRules = await runPrompts({
+            const choiceToDeleteOldRules = await runPrompts<{
+              eslint: boolean;
+            }>({
               type: "confirm",
               name: "eslint",
               message: "检测到存在已有的 eslint 规则，是否保留Y/n?",
             });
-            if (!choiceToDeleteOldRules) {
+            if (!choiceToDeleteOldRules.eslint) {
               delete newFileJSON.rules;
             }
           }

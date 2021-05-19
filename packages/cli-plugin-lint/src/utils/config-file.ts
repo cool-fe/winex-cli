@@ -1,5 +1,6 @@
 /**
- * @fileoverview Helper to locate and load configuration files. Copied from eslint-project
+ * @author dashixiong
+ * @description Helper to locate and load configuration files.
  */
 
 import { Logger } from "../logger";

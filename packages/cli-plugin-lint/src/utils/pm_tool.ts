@@ -1,6 +1,6 @@
 /**
- * @author gaowujun
- * @desc 获取包管理工具
+ * @description 获取包管理工具
+ * @author dashixiong
  */
 
 import fileUtil from "./file";

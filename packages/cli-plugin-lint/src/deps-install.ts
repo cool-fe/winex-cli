@@ -32,25 +32,25 @@ export const installDeps = async (options: PluginOptions) => {
 
     // 安装weining官方统一eslint配置集
     for (const dep in DeafultSharedEslintConfig) {
-      installOraInstance.start(dep);
+      installOraInstance.start(dep + "@" + DeafultSharedEslintConfig[dep]);
       await installSaveDev(dep, DeafultSharedEslintConfig[dep]);
-      installOraInstance.succeed(dep);
+      installOraInstance.succeed(dep + "@" + DeafultSharedEslintConfig[dep]);
     }
 
     // 安装项目特有的配置集
     const proPlugin = pluginDeps[options.env === "node" ? "node" : "vue"];
     for (const dep in proPlugin) {
-      installOraInstance.start(dep);
+      installOraInstance.start(dep + "@" + proPlugin[dep]);
       await installSaveDev(dep, proPlugin[dep]);
-      installOraInstance.succeed(dep);
+      installOraInstance.succeed(dep + "@" + proPlugin[dep]);
     }
 
     // 安装ts相关的配置集
     if (options.typescript) {
       for (const dep in tsDeps) {
-        installOraInstance.start(dep);
+        installOraInstance.start(dep + "@" + tsDeps[dep]);
         await installSaveDev(dep, tsDeps[dep]);
-        installOraInstance.succeed(dep);
+        installOraInstance.succeed(dep + "@" + tsDeps[dep]);
       }
     }
   } catch (error) {
