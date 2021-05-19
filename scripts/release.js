@@ -23,7 +23,7 @@ const argvs = [
   // "--conventional-commits",
   // "false",
   "--legacy-auth",
-  process.env.NODE_AUTH_TOKEN,
+  process.env.PUB_CI_ACCESS_TOKEN,
   "--registry",
   "http://registry.npmjs.org/",
   "--yes",
