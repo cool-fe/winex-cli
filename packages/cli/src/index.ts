@@ -30,8 +30,9 @@ export class CLI extends BaseCLI {
     needLoad.forEach((pluginInfo) => {
       try {
         let mod = require(pluginInfo.mod)
+        // Compatible with export default and export export
         mod = mod.default || mod
-        if (mod) this.core.addPlugin(mod)
+        if (mod) this.core.addPlugin(mod[pluginInfo.name] || mod)
       } catch (e) {
         console.log(123, e)
         /** ignore */
