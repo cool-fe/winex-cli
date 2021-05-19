@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2-alpha.3",
   "bin": {
     "winex": "bin/winex.js"
   },
@@ -26,10 +26,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@winfe/cli-core": "^0.0.2-alpha.1",
+    "@winfe/cli-core": "^0.0.2-alpha.3",
     "child_process": "^1.0.2"
   },
-  "devDependencies": {},
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8",
   "license": "MIT"
 }
