@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  doc_build:
+  doc_deploy:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
     steps:
@@ -21,17 +21,6 @@ jobs:
       - run: |
           yarn
           yarn run docs:build
-
-  doc_deploy:
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: |
           mv dist/* docs
 
   publish-npm:
@@ -52,6 +41,7 @@ jobs:
           npm config set scope "@winfe"
           yarn
           yarn run bootstrap
+          git checkout .
           yarn run build
           yarn run publish
         env:
