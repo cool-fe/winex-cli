@@ -26,9 +26,18 @@ export interface IScaffolds {
   type: string;
 }
 
+type MaterialKey =
+  | "common"
+  | "clinical"
+  | "execution"
+  | "finance"
+  | "knowledge"
+  | "record"
+  | "person";
+
 export interface IMaterialsInfo {
   name: string;
-  key: string;
+  key: MaterialKey;
   description: string;
   components: any[];
   blocks: any[];
