@@ -154,7 +154,7 @@ export default class InitPlugin extends BasePlugin {
       await this.initProject();
     }
 
-    // await this.installingDependencies();
+    await this.installingDependencies();
 
     this.displayGetStarted();
   }
