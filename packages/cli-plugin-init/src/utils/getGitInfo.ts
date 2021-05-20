@@ -1,7 +1,7 @@
-const os = require("os");
-const path = require("path");
-const ini = require("ini");
-const fs = require("fs-extra");
+import os from "os";
+import path from "path";
+import fs from "fs-extra";
+import ini from "ini";
 
 /**
  * 获取git配置信息

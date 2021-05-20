@@ -1,3 +1,6 @@
+import path from "path";
+import chalk from "chalk";
+
 import { BasePlugin } from "@winfe/cli-core";
 import { IAnswers, ICommandOptions } from "./interface/index";
 
@@ -6,9 +9,6 @@ import { PackageManager } from "./packageManager";
 import { GenerateTemplate } from "./generateTemplate";
 import { runPrompts } from "./prompts/project";
 import { pathExists, clearConsole, checkPakcageName } from "./utils/index";
-
-const chalk = require("chalk");
-const path = require("path");
 
 export default class InitPlugin extends BasePlugin {
   scaffoldNpmName: string = "";

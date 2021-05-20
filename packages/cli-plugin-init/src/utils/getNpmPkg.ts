@@ -1,8 +1,9 @@
+import chalk from "chalk";
+
 import { GotOptions } from "../interface/package";
 
 const got = require("got");
 const semver = require("semver");
-const chalk = require("chalk");
 const registryAuthToken = require("registry-auth-token");
 
 class VersionNotFoundError extends Error {
@@ -30,7 +31,7 @@ class PackageNotFoundError extends Error {
  *
  * 读取package.json文件
  */
-const getNpmPkg = async (packageName: string, options: GotOptions) => {
+export const getNpmPkg = async (packageName: string, options: GotOptions) => {
   const url = require("url");
 
   let { version, registryUrl } = options;
@@ -90,5 +91,3 @@ const getNpmPkg = async (packageName: string, options: GotOptions) => {
 
   return data;
 };
-
-module.exports = getNpmPkg;

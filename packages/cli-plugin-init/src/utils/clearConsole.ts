@@ -1,5 +1,5 @@
-const readline = require("readline");
-const chalk = require("chalk");
+import readline from 'readline';
+import chalk from 'chalk';
 
 const getCLIVersion = () => {
   const localVersion = require(`../../../cli/package.json`).version;

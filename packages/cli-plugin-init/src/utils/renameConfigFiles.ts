@@ -1,5 +1,5 @@
-const path = require("path");
-const fs = require("fs");
+import path from "path";
+import fs from "fs";
 
 const CONFIG_FILES: string[] = [
   "_eslintrc.js",
@@ -29,7 +29,7 @@ export function renameConfigFiles(dir: string, files: string[]): void {
       const newPath = path.join(dir, newName);
       const oldPath = path.join(dir, oldName);
 
-      fs.rename(oldPath, newPath, (err: Error) => {
+      fs.rename(oldPath, newPath, (err: any) => {
         if (err) throw err;
       });
     }

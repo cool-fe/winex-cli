@@ -1,3 +1,7 @@
+import fs from "fs-extra";
+import path from "path";
+import ora from "ora";
+
 import { sync as mkdirp } from "mkdirp";
 import { REGISTRIES } from "../constants/index";
 import { isWinningNpm } from "./package";
@@ -6,12 +10,9 @@ import { readDir } from "./file";
 
 import { IMoveContent } from "../interface/file";
 import { IPackageBaseInfo } from "../interface/package";
+import { getNpmPkg } from "./getNpmPkg";
 
 const download = require("download-package-tarball");
-const fs = require("fs-extra");
-const path = require("path");
-const ora = require("ora");
-const getNpmPkg = require("./getNpmPkg");
 
 /**
  * 获取npm源

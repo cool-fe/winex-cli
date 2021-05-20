@@ -1,5 +1,5 @@
-const fs = require("fs-extra");
-const { join, dirname } = require("path");
+import fs from "fs-extra";
+import { join, dirname } from "path";
 
 /**
  * 判断路径是否存在

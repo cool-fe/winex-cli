@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import {
   writeFileTree,
   loadRemotePreset,
@@ -9,7 +10,6 @@ import { ICommandOptions, IAnswers, IPackageBaseInfo } from "./interface/index";
 
 import { GROUP_NAME_PREFIX } from "./constants/group";
 
-const chalk = require("chalk");
 const execa = require("execa");
 
 export class GenerateTemplate {

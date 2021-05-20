@@ -4,7 +4,8 @@ import {
   IMaterialSource,
 } from "../interface/index";
 
-const validatePkgName = require("validate-npm-package-name");
+import validatePkgName from "validate-npm-package-name";
+
 const { getMaterialListAsync } = require("@winexmaterials/get-materials");
 
 /**
