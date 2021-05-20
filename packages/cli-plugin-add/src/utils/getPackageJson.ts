@@ -1,7 +1,11 @@
 import path from 'path';
+import fs from 'fs-extra';
 
-const fs = require('fs-extra');
-
+/**
+ * @param {String} projectPath -- context path
+ *
+ * check package.json exist
+ */
 async function checkPackageJson(projectPath: string): Promise<any> {
   const packagePath = path.join(projectPath, 'package.json');
 
@@ -16,6 +20,11 @@ async function checkPackageJson(projectPath: string): Promise<any> {
   return packageJson;
 }
 
+/**
+ * @param {String} projectPath -- context path
+ *
+ * get package.json
+ */
 async function getPackageJson(projectPath: string): Promise<any> {
   let packageJson = await checkPackageJson(projectPath);
 
@@ -28,7 +37,7 @@ async function getPackageJson(projectPath: string): Promise<any> {
   return packageJson;
 }
 
-module.exports = {
+export {
   checkPackageJson,
   getPackageJson,
 };

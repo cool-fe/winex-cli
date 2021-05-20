@@ -1,11 +1,10 @@
-import { AddOptions } from '../interface';
 import chalk from 'chalk';
 import { emoji } from '../emoji';
+import fs from 'fs';
+import ora from 'ora';
+import fsExtra from 'fs-extra';
+import path from 'path';
 
-const ora = require('ora');
-const fs = require('fs');
-const fsExtra = require('fs-extra');
-const path = require('path');
 const { prompt, Input } = require('enquirer');
 const downloadPkgTarball = require('download-package-tarball');
 
@@ -16,7 +15,9 @@ class FolderNotFoundError extends Error {
   }
 }
 
-async function checkFile({ pluginName, context }: AddOptions): Promise<string | undefined> {
+async function checkFile(
+  pluginName: string, context: string
+): Promise<string | undefined> {
   const input = new Input({
     name: 'target',
     message: ` Please enter the location directory of the block`,
@@ -44,6 +45,7 @@ async function checkFile({ pluginName, context }: AddOptions): Promise<string | 
     prefix: (state: any) => emoji[state.status],
   });
   if (overwrite) return _filePath;
+
   return;
 }
 
@@ -54,37 +56,37 @@ async function checkFile({ pluginName, context }: AddOptions): Promise<string | 
  *
  * Download package and remove redundant files
  */
-module.exports = async function downloadPackage({ pluginName, tarball, context }: AddOptions): Promise<string | undefined> {
+export async function downloadPackage(
+  pluginName: string, tarball: string, context: string
+): Promise<string | undefined> {
   const [_scope, name] = pluginName.split('/'); // scope
   pluginName = name; // component name
 
-  const _filePath = await checkFile({ pluginName, context });
+  const _filePath = await checkFile(pluginName, context);
 
-  if (_filePath) {
-    const spinner = ora(chalk.bold(` Downloading ${chalk.cyan(pluginName)}...`));
-    const process = spinner.start();
+  if (!_filePath) return;
 
-    return downloadPkgTarball({
-      url: tarball,
-      dir: _filePath,
+  const spinner = ora(chalk.bold(` Downloading ${chalk.cyan(pluginName)}...`));
+  const process = spinner.start();
+
+  return downloadPkgTarball({
+    url: tarball,
+    dir: _filePath,
+  })
+    .then(() => {
+      // installed packages have a lot of files we don't care about, just remove files
+      const _resultPath = path.resolve(_filePath, pluginName);
+      fsExtra.moveSync(
+        path.resolve(_filePath, _scope, pluginName),
+        _resultPath,
+        { overwrite: true }
+      );
+      fsExtra.removeSync(path.resolve(_filePath, _scope));
+
+      process.succeed();
+      return _resultPath;
     })
-      .then(() => {
-        // installed packages have a lot of files we don't care about, just remove files
-        const _resultPath = path.resolve(_filePath, pluginName);
-        fsExtra.moveSync(
-          path.resolve(_filePath, _scope, pluginName),
-          _resultPath,
-          { overwrite: true }
-        );
-        fsExtra.removeSync(path.resolve(_filePath, _scope));
-
-        process.succeed();
-
-        return _resultPath;
-      })
-      .catch((err: Error) => {
-        throw err;
-      });
-  }
-  return;
+    .catch((err: Error) => {
+      throw err;
+    });
 };

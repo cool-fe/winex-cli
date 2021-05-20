@@ -1,5 +1,5 @@
-const fs = require('fs');
 import path from 'path';
+import fs from 'fs';
 
 /**
  * material-demo transform materialDemo
@@ -15,7 +15,7 @@ function toHump(value: string): string {
  *
  * Create and write configuration information
  */
-module.exports = async function configTransform(pluginName: string, context: string): Promise<void> {
+export function configTransform(pluginName: string, context: string): void {
   const [_scope, name] = pluginName.split('/'); // scope
 
   const root = path.resolve(context, `./${name}.js`); // root
@@ -27,9 +27,5 @@ module.exports = async function configTransform(pluginName: string, context: str
     `Vue.use(${humpName});`,
   ];
 
-  fs.writeFileSync(root, imports.join('\n\n'), { encoding: 'utf-8' }, function (err: Error) {
-    if (err) {
-      throw err;
-    }
-  });
+  fs.writeFileSync(root, imports.join('\n\n'), { encoding: 'utf-8' });
 };

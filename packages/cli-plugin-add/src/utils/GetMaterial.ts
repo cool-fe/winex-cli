@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import { GetMaterialOptions } from '../interface';
+import { error } from './logger';
 
 const semver = require('semver');
-const { error } = require('./logger');
 const { getmaterialinfo } = require('@winexmaterials/get-materials');
 
 class PackageNotFoundError extends Error {
@@ -14,12 +14,12 @@ class PackageNotFoundError extends Error {
 
 class RegularNotFoundError extends Error {
   constructor(pluginName: string, version: string) {
-    super(`Version ${chalk.cyan(version)} for package ${chalk.cyan(pluginName)} is irregular`);
+    super(`Couldn't find any versions for ${chalk.cyan(pluginName)} that matches ${chalk.cyan(version)}`);
     this.name = 'RegularNotFoundError';
   }
 }
 
-class GetMaterial {
+export class GetMaterial {
   pluginName: string
   pluginVersion: string
 
@@ -67,5 +67,3 @@ class GetMaterial {
     return Object.assign(params, { dependencies, core: [] });
   }
 }
-
-module.exports = GetMaterial;
