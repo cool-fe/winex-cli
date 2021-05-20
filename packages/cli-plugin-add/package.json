@@ -9,6 +9,15 @@
   "files": [
     "lib/"
   ],
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/cli-plugin-add",
+    "type": "ts,node"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
+  },
   "dependencies": {
     "@types/execa": "^2.0.0",
     "@types/node": "^15.3.0",
