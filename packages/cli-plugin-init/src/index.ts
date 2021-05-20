@@ -2,8 +2,8 @@ import { BasePlugin } from "@winfe/cli-core";
 import { IAnswers, ICommandOptions } from "./interface/index";
 
 import commands from "./commands";
-import { PackageManager } from "./PackageManager";
-import { GenerateTemplate } from "./GenerateTemplate";
+import { PackageManager } from "./packageManager";
+import { GenerateTemplate } from "./generateTemplate";
 import { runPrompts as runProjectPrompts } from "./prompts/project";
 import { pathExists, clearConsole, checkPakcageName } from "./utils/index";
 
@@ -108,6 +108,10 @@ export default class InitPlugin extends BasePlugin {
       );
       process.exit(1);
     }
+
+    // set outdir and options
+    this.outdir = options.name;
+    this.options = options;
   }
 
   /**
@@ -120,22 +124,13 @@ export default class InitPlugin extends BasePlugin {
 
   /**
    * 初始化模板hook回调
-   * @param content 命令行输入的参数信息
    */
-  async init(content: any) {
-    const { options = {} } = content.parsedOptions;
-
-    this.setContext(options);
-
+  async init() {
     clearConsole();
 
-    // set outdir
-    this.outdir = options.name;
-    this.options = options;
-
     // specify template
-    if (options["template"]) {
-      const SPECIFIED_SCAFFOLD = options["template"];
+    if (this.options["template"]) {
+      const SPECIFIED_SCAFFOLD = this.options["template"];
 
       const validPkg = checkPakcageName(SPECIFIED_SCAFFOLD);
 
