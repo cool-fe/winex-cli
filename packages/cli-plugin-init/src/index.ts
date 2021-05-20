@@ -4,7 +4,7 @@ import { IAnswers, ICommandOptions } from "./interface/index";
 import commands from "./commands";
 import { PackageManager } from "./packageManager";
 import { GenerateTemplate } from "./generateTemplate";
-import { runPrompts as runProjectPrompts } from "./prompts/project";
+import { runPrompts } from "./prompts/project";
 import { pathExists, clearConsole, checkPakcageName } from "./utils/index";
 
 const chalk = require("chalk");
@@ -60,7 +60,7 @@ export default class InitPlugin extends BasePlugin {
    * 开始询问初始化问题
    */
   async runProjectPrompts(): Promise<void> {
-    const answers = await runProjectPrompts();
+    const answers = await runPrompts();
 
     if (!answers) return;
 
