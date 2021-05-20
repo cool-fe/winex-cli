@@ -1,38 +1,42 @@
 import chalk from 'chalk';
 import { emoji } from '../emoji';
-import { PkgOptions } from '../interface';
+import { PkgOptions, CommonParams } from '../interface';
+import { getPackageJson } from './getPackageJson';
+import { warn } from './logger';
 
 const semver = require('semver');
 const { prompt } = require('enquirer');
-const { warn } = require('./logger');
-const { getPackageJson } = require('./getPackageJson');
 
 const VERSION_RE = /^\^/;
 
-async function checkUpdateAsync({ local, remote }: PkgOptions): Promise<boolean | undefined> {
-  if (remote !== local) {
-    const localMajor = semver.major(local);
-    const remoteMajor = semver.major(remote);
-    if (localMajor !== remoteMajor) return false; // major version
+function checkUpdateAsync({ local, remote }: PkgOptions): Promise<string> {
+  return new Promise((resolve) => {
+    if (remote !== local) {
+      const localMajor = semver.major(local);
+      const remoteMajor = semver.major(remote);
+      if (localMajor !== remoteMajor) resolve('disabled'); // major version
 
-    const isNewer = semver.gt(remote, local);
-    if (isNewer) return true;
-  }
-
-  return;
+      const isNewer = semver.gt(remote, local);
+      if (isNewer) resolve('update');
+    } else {
+      resolve('none');
+    }
+  })
 }
 
-module.exports = async function syncInstallDeps(remoteDeps: object, context: string): Promise<string[] | undefined> {
+export async function syncInstallDeps(
+  remoteDeps: CommonParams, context: string
+): Promise<string[] | undefined> {
   // remote dependencies
   if (Object.keys(remoteDeps).length <= 0) return;
+
+  let resolvedDeps = []; // to update dependencies
+  let disabledDeps = []; // incompatible API updates
 
   // local package.json
   const pkg = await getPackageJson(context);
 
   const localDeps = !pkg.dependencies ? {} : pkg.dependencies;
-
-  let resolvedDeps = []; // to update dependencies
-  let disabledDeps = []; // incompatible API updates
 
   for (const key in remoteDeps) {
     const remote = remoteDeps[key].replace(VERSION_RE, '');
@@ -40,13 +44,16 @@ module.exports = async function syncInstallDeps(remoteDeps: object, context: str
     if (Object.prototype.hasOwnProperty.call(localDeps, key)) { // compare version
       const local = localDeps[key].replace(VERSION_RE, '');
       const res = await checkUpdateAsync({ local, remote });
-
-      if (res === true) {
-        resolvedDeps.push(`${key}@${remote}`);
-      } else if (res === false) {
-        disabledDeps.push(`${key}: ${local} => ${remote}`);
+      switch (res) {
+        case 'update':
+          resolvedDeps.push(`${key}@${remote}`);
+          break
+        case 'disabled':
+          disabledDeps.push(`${key}: ${local} => ${remote}`);
+          break
+        default:
+          break
       }
-
     } else {
       resolvedDeps.push(`${key}@${remote}`);
     }
