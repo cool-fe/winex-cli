@@ -1,1 +1,5 @@
-export const emoji: object = { pending: '?', cancelled: '✖', submitted: '✔' };
+import { EmojiOptions } from './interface';
+
+export const emoji: EmojiOptions = {
+  pending: '?', cancelled: '✖', submitted: '✔',
+};
