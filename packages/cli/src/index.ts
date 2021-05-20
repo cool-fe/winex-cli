@@ -5,7 +5,8 @@ const plugins: {
   [key: string]: { mod: string; name: string }[] | { mod: string; name: string }
 } = {
   lint: { mod: "@winfe/cli-plugin-lint", name: "LintPlugin" },
-  init: { mod: '@winfe/cli-plugin-init', name: 'InitPlugin' }
+  init: { mod: '@winfe/cli-plugin-init', name: 'InitPlugin' },
+  add: { mod: "@winfe/cli-plugin-add", name: "AddPlugin" },
 };
 
 export class CLI extends BaseCLI {

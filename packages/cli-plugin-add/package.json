@@ -1,0 +1,35 @@
+{
+  "name": "@winfe/cli-plugin-add",
+  "version": "0.0.1",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/"
+  ],
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/cli-plugin-add",
+    "type": "ts,node"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "@types/execa": "^2.0.0",
+    "@types/node": "^15.3.0",
+    "@winexmaterials/get-materials": "^1.0.1",
+    "@winfe/cli-core": "^0.0.1",
+    "download-package-tarball": "^1.0.7",
+    "enquirer": "^2.3.6",
+    "execa": "^5.0.0",
+    "fs-extra": "^10.0.0",
+    "ora": "^5.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
