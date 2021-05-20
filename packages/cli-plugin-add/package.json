@@ -22,7 +22,7 @@
     "@types/execa": "^2.0.0",
     "@types/node": "^15.3.0",
     "@winexmaterials/get-materials": "^1.0.1",
-    "@winfe/cli-core": "^0.0.1",
+    "@winfe/cli-core": "^0.0.2-alpha.2",
     "download-package-tarball": "^1.0.7",
     "enquirer": "^2.3.6",
     "execa": "^5.0.0",
