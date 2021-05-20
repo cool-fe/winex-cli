@@ -8,6 +8,11 @@
     "lib/"
   ],
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/cli-plugin-init",
+    "type": "ts,node"
+  },
   "dependencies": {
     "@types/fs-extra": "^9.0.11",
     "@types/validate-npm-package-name": "^3.0.2",
@@ -26,5 +31,9 @@
     "superb": "^4.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
-  "gitHead": ""
+  "gitHead": "",
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.org/"
+  }
 }
