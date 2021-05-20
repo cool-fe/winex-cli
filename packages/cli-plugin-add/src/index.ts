@@ -1,20 +1,21 @@
-import { AddOptions } from './interface';
-
+import {
+  AddOptions, GetMaterialOptions, CommandsOptions
+} from './interface';
 import chalk from "chalk";
 import { BasePlugin } from "@winfe/cli-core";
-
-const { commands } = require('./commands');
-const { checkPackageJson } = require('./utils/getPackageJson');
-const configTransform = require('./utils/configTransform')
-const PackageManager = require('./utils/PackageManager');
-const downloadPackage = require('./utils/downloadPackage');
-const syncInstallDeps = require('./utils/syncInstallDeps');
-const GetMaterial = require('./utils/GetMaterial');
+import { commands } from './commands';
+import {
+  checkPackageJson,
+  configTransform,
+  PackageManager,
+  downloadPackage,
+  syncInstallDeps,
+  GetMaterial,
+  match,
+} from "./utils/index";
 
 export default class AddPlugin extends BasePlugin {
-  // todo
-  // context = process.cwd();
-  context = 'D:/Winningfor6.0/winex-cli/test';
+  context = process.cwd(); // context path
 
   commands = commands;
 
@@ -28,25 +29,33 @@ export default class AddPlugin extends BasePlugin {
   }
 
   async add(content: any): Promise<void> {
-    const { plugin, pm } = content?.parsedOptions?.options;
+    const { plugin, pm }: CommandsOptions = content?.parsedOptions?.options;
+    if (!plugin) return;
 
-    const pluginRe = /^(@?[^@]+)(?:@(.+))?$/;
-    let [
-      _skip,
-      pluginName,
-      pluginVersion
-    ] = plugin.match(pluginRe);
-    const getNpm = new GetMaterial(pluginName, pluginVersion);
-    const { type, registry, dependencies, tarball, core, npm } = await getNpm.getConfig();
+    const matchResult = match(plugin); // format plugin
+    if (matchResult) {
+      const { pluginName, pluginVersion } = matchResult;
 
-    if (type === 'npm') {
-      await this.installPackages({
-        pluginName: npm, pluginVersion, pm, registry
-      }); // ensure pluginName add scope
-    } else {
-      await this.download({
-        pluginName: npm, tarball, core, pm, remote: dependencies,
-      }); // ensure pluginName add scope
+      const getNpm = new GetMaterial(pluginName, pluginVersion);
+      const {
+        type, registry, dependencies, tarball, core, npm,
+      }: GetMaterialOptions = await getNpm.getConfig();
+
+      const params: AddOptions = {
+        pluginName: npm, // ensure pluginName add scope
+        pluginVersion,
+        pm,
+        registry,
+        tarball,
+        core,
+        remoteDeps: dependencies,
+      };
+
+      if (type === 'npm') {
+        await this.installPackages(params);
+      } else {
+        await this.download(params);
+      }
     }
   }
 
@@ -59,14 +68,17 @@ export default class AddPlugin extends BasePlugin {
    *
    * npm install and create config
    */
-  async installPackages({ pluginName, pluginVersion = "latest", pm, registry }: AddOptions): Promise<void> {
+  async installPackages(
+    { pluginName, pluginVersion = "latest", pm, registry }: AddOptions
+  ): Promise<void> {
     console.log(chalk.bold(`📦 Installing ${chalk.cyan(pluginName)}...`));
 
     const pkm = new PackageManager(
       this.context, pm, registry
     );
     await pkm.add(`${pluginName}@${pluginVersion}`);
-    await configTransform(pluginName, this.context);
+
+    configTransform(pluginName, this.context);
 
     console.log(chalk.bold(`${chalk.green('✔')}  Successfully installed plugin: ${chalk.cyan(pluginName)}`));
   }
@@ -77,17 +89,19 @@ export default class AddPlugin extends BasePlugin {
    * @param {String} tarball -- the url of dist tgz
    * @param {String} core
    * @param {String} pm
-   * @param {String} remote
+   * @param {String} remoteDeps
    *
    * Download tgz and decompression
    */
-  async download({ pluginName, tarball, core, pm, remote }: AddOptions): Promise<void> {
-    const path = await downloadPackage({ pluginName, tarball, core, context: this.context });
-    if (path) {
-      const resolvedDeps = await syncInstallDeps(remote, this.context);
-      if (resolvedDeps) {
+  async download(
+    { pluginName, tarball, pm, remoteDeps, registry }: AddOptions
+  ): Promise<void> {
+    const path = await downloadPackage(pluginName, tarball, this.context);
+    if (!!path) {
+      const resolvedDeps = await syncInstallDeps(remoteDeps, this.context);
+      if (resolvedDeps && resolvedDeps.length > 0) {
         const pkm = new PackageManager(
-          this.context, pm,
+          this.context, pm, registry,
         );
         await pkm.add(resolvedDeps);
       }
