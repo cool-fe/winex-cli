@@ -1,12 +1,12 @@
 import { CommandsOptions } from './interface';
 
 const COMMANDS_CONSTANT: CommandsOptions = {
-  pm: 'npm',
+  pm: 'yarn',
 };
 
-exports.commands = {
+const commands = {
   add: {
-    usage: "install a plugin in an already created project",
+    usage: "install a plugin or block in an already created project",
     lifecycleEvents: ['add'],
     options: {
       "--plugin <plugin>": {
@@ -22,4 +22,8 @@ exports.commands = {
       },
     },
   },
+};
+
+export {
+  commands,
 };
