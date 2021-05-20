@@ -3,42 +3,25 @@
 
 name: publish release
 
-# on:
-#   release:
-#     types: [created]
 on:
   push:
     branches:
       - main
 
 jobs:
-  doc_build:
-  if: "!contains(github.event.head_commit.message, 'skip ci')"
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: 12
-            registry-url: https://registry.npmjs.org/
-        - run: |
-            yarn
-            yarn run docs:build
-
-
   doc_deploy:
-      if: "!contains(github.event.head_commit.message, 'skip ci')"
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
-          with:
-            node-version: 12
-            registry-url: https://registry.npmjs.org/
-        - run: |
-            mv dist/* docs
-      
-
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          yarn
+          yarn run docs:build
+          mv dist/* docs
 
   publish-npm:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
@@ -52,13 +35,16 @@ jobs:
       - run: |
           git config --local user.email "18570148691@163.com"
           git config --local user.name "ggwujun"
+          git remote set-url origin "https://$GITHUB_ACTOR:$NODE_AUTH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git checkout $CI_COMMIT_REF_NAME
           npm config set registry http://registry.npmjs.org/
-          npm config set  //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm config set  //registry.npmjs.org/:_authToken=$PUB_NPM_ACCESS_TOKEN
           npm config set scope "@winfe"
-          yarn
+          yarn install
           yarn run bootstrap
+          git checkout .
           yarn run build
           yarn run publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUB_CI_ACCESS_TOKEN}}
+          PUB_NPM_ACCESS_TOKEN: ${{secrets.PUB_NPM_ACCESS_TOKEN}}

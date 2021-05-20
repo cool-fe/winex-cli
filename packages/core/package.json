@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-core",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.2",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,10 @@
     "scr/"
   ],
   "keywords": [
-    "trn"
+    "winfe",
+    "cli",
+    "core",
+    "node"
   ],
   "devDependencies": {
     "@types/mri": "^1.1.0",
@@ -19,10 +22,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/core",
+    "type": "ts,node"
+  },
   "dependencies": {
     "minimist": "^1.2.5",
     "mri": "^1.1.6"
   },
+  "license": "MIT",
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8"
 }

@@ -1,58 +1,90 @@
+/**
+ * @author dashixiong
+ * @description add .editorconfig
+ */
+
 import fs from "fs-extra";
+import { resolve } from "path";
 import { runPrompts } from "./prompts";
+import { Logger } from "./logger";
+import chalk from "chalk";
 
 const addVSCodeAutoFixOnSave = (vscodeObj: {}) => ({
   ...vscodeObj,
   "eslint.autoFixOnSave": true,
 });
 
-const createVSCodeConfig = () => {
+const createVSCodeConfig = (dir: string = process.cwd()) => {
+  const prettierDir = resolve(dir, "./.vscode/settings.json");
   return fs
-    .readJson("./.vscode/settings.json")
-    .then((vsCodeObj: {}) => {
-      fs.writeJson(
-        "./.vscode/settings.json",
-        addVSCodeAutoFixOnSave(vsCodeObj),
-        {
+    .readJson(prettierDir)
+    .then((vsCodeObj: {}) =>
+      fs
+        .writeJson(prettierDir, addVSCodeAutoFixOnSave(vsCodeObj), {
           spaces: 2,
-        }
-      )
-        .then(() => {
-          console.log(
-            "Added VS Code settings in the current project for eslint to execute Prettier."
-          );
         })
-        .catch((err: any) => {
-          console.error(
-            "Could not write Prettier config to eslintrc.json",
-            err
-          );
-        });
-    })
+        .then(() =>
+          Logger.info(
+            chalk.green(
+              "Added VS Code settings in the current project for eslint to execute Prettier."
+            )
+          )
+        )
+        .catch((err: any) =>
+          Logger.error("Could not write Prettier config to eslintrc.json", err)
+        )
+    )
     .catch(() => {
-      console.log("No VS Code settings found. Creating new settings.");
-      fs.ensureFile("./.vscode/settings.json")
-        .then(() => {
-          fs.writeJson(
-            "./.vscode/settings.json",
+      Logger.info("No VS Code settings found. Creating new settings.");
+      return fs.ensureFile(prettierDir).then(() =>
+        fs
+          .writeJson(
+            prettierDir,
             {
               "eslint.autoFixOnSave": true,
             },
             {
               spaces: 2,
             }
-          ).then(() =>
-            console.log(
-              "Created VS Code settings-file in the current project for eslint to execute Prettier."
+          )
+          .then(() =>
+            Logger.info(
+              chalk.green(
+                "Created VS Code settings-file in the current project for eslint to execute Prettier."
+              )
             )
-          );
-        })
-        .catch((err: any) => console.log(err));
+          )
+          .catch((err) => console.log(err))
+      );
     });
 };
 
+const createEditorConfig = async (dir: string = process.cwd()) => {
+  const defaultEditorConfigPath = resolve(__dirname, "../config/.editorconfig");
+  const editorConfigDir = resolve(dir, "./.editorconfig");
+  const editorConfigContent = await fs.readFile(defaultEditorConfigPath);
+  try {
+    await fs.writeFile(editorConfigDir, editorConfigContent);
+    Logger.info(
+      chalk.green("Created .editorconfig file in the current project .")
+    );
+  } catch (error) {
+    Logger.error("No .editorconfig found. Creating new .editorconfig .");
+    return fs.ensureFile(editorConfigDir).then(() =>
+      fs
+        .writeFile(editorConfigDir, editorConfigContent)
+        .then(() =>
+          Logger.info(
+            chalk.green("Created .editorconfig file in the current project .")
+          )
+        )
+        .catch((err) => Logger.error(err))
+    );
+  }
+};
+
 const configEditorrRC = async () => {
-  const { type } = await runPrompts({
+  const { type } = await runPrompts<{ type: string }>({
     type: "select",
     name: "type",
     message: "For which editors do you want a configuration?",
@@ -74,7 +106,7 @@ const configEditorrRC = async () => {
       break;
 
     case "editorConfig":
-      console.log("EditorConfig is not yet implemented.");
+      await createEditorConfig();
       break;
 
     default:

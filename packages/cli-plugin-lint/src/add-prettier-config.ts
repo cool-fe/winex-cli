@@ -1,3 +1,8 @@
+/**
+ * @author dashixiong
+ * @description add prettier config in .prettier.js
+ */
+
 import { runPrompts } from "./prompts";
 import fs from "fs-extra";
 import { resolve } from "path";
@@ -74,7 +79,11 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
     .then(() => {
       fs.outputFile(
         prettierDir,
-        `module.exports = ${JSON.stringify(prettier)}`,
+        `'use strict';\n\n module.exports = ${JSON.stringify(
+          prettier,
+          null,
+          2
+        )}`,
         {
           encoding: "utf8",
         }

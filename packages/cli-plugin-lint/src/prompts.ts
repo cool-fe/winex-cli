@@ -177,9 +177,9 @@ export const runPrompts = async function <T>(
   return enquirer.prompt(prompts);
 };
 
-export const createCliPrompt = async function (
+export const createCliPrompt = async function <T = promptAnwser>(
   options: PluginOptions
-): Promise<promptAnwser> {
+): Promise<T> {
   const prompts = [...renderProjectPrompt(options)];
-  return runPrompts<promptAnwser>(prompts);
+  return runPrompts<T>(prompts);
 };

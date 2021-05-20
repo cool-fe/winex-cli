@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.2",
   "bin": {
     "winex": "bin/winex.js"
   },
@@ -9,27 +9,27 @@
   "types": "lib/index.d.ts",
   "files": [
     "lib/",
-    "scr/"
+    "bin/"
   ],
   "keywords": [
     "winfe",
     "cli",
     "node"
   ],
-  "publishConfig": {
-    "registry": "http://nexus.tanzk.com:8081/repository/tzedu-npm-releases/"
+  "repository": {
+    "url": "https://github.com/cool-fe/winex-cli.git",
+    "directory": "packages/cli",
+    "type": "ts,node"
   },
-  "license": "MIT",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "@winfe/cli-core": "^0.0.2-alpha.1",
+    "child_process": "^1.0.2"
+  },
+  "devDependencies": {},
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8",
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.13.14",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
-    "@winfe/eslint-config-winex": "^0.0.1",
-    "eslint": "^7.25.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-html": "^6.1.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-vue": "^7.9.0"
-  }
+  "license": "MIT"
 }
