@@ -1,7 +1,7 @@
 import {
-  IScaffolds,
+  IScaffoldInfo,
   IMaterialsInfo,
-  IScaffoldSource,
+  IMaterialSource,
 } from "../interface/index";
 
 const validatePkgName = require("validate-npm-package-name");
@@ -31,14 +31,14 @@ export async function getWinningScaffolds(
   domain?: string,
   type?: string,
   materials?: IMaterialsInfo[]
-): Promise<IScaffolds[]> {
+): Promise<IScaffoldInfo[]> {
   try {
     const allMaterilas = materials || (await getMaterialsInfo());
 
     // 根据项目类型 筛选相应的模板
     const gatherScaffolds = (materilas: IMaterialsInfo[], type?: string) => {
       const list = materilas.reduce(
-        (acc: IScaffolds[], cur: IMaterialsInfo) =>
+        (acc: IScaffoldInfo[], cur: IMaterialsInfo) =>
           acc.concat(...cur.scaffolds),
         []
       );
@@ -47,7 +47,7 @@ export async function getWinningScaffolds(
       if (!type) return list;
 
       // todo: 模板需要有项目类型过滤
-      // return list.filter((item: IScaffolds) => item.type.includes(type));
+      // return list.filter((item: IScaffoldInfo) => item.type.includes(type));
       return list;
     };
 
@@ -68,8 +68,8 @@ export async function getWinningScaffolds(
  */
 export async function isWinningNpm(
   pkgName: string
-): Promise<IScaffoldSource | undefined> {
-  const packages: IScaffolds[] = await getWinningScaffolds();
+): Promise<IMaterialSource | undefined> {
+  const packages: IScaffoldInfo[] = await getWinningScaffolds();
 
   return packages
     .map(({ source }) => source)

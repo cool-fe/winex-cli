@@ -1,7 +1,7 @@
 import { getWinningScaffolds, getMaterialsInfo } from "../utils/package";
 import { PROJECT_TYPE, BUSINESS_TYPE } from "../constants/index";
 
-import { IScaffolds, IMaterialsInfo, IChoice } from "../interface/index";
+import { IScaffoldInfo, IMaterialsInfo, IChoice } from "../interface/index";
 
 const chalk = require("chalk");
 const { Select, AutoComplete, Input, Toggle } = require("enquirer");
@@ -77,7 +77,7 @@ async function scaffoldPrompts(
   qiankunType: string,
   materails: IMaterialsInfo[]
 ) {
-  let choices: IScaffolds[] = [];
+  let choices: IScaffoldInfo[] = [];
 
   choices = await getWinningScaffolds(domain, qiankunType, materails);
 
