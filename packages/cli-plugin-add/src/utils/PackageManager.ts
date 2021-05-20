@@ -1,5 +1,9 @@
 import { executeCommand } from "./executeCommand";
 
+export interface IAddPackageOptions {
+  dev?: boolean;
+}
+
 const PACKAGE_MANAGER_CONFIG = {
   npm: {
     install: ["install", "--loglevel", "error"],
@@ -13,22 +17,16 @@ const PACKAGE_MANAGER_CONFIG = {
   },
 };
 
-export interface IAddPackageOptions {
-  dev?: boolean;
-}
-
-class PackageManager {
-  registry: string
+export class PackageManager {
   context: string;
   command: string;
+  registry: string;
 
   constructor(context: string, pm: string, registry: string) {
     this.context = context;
     this.command = pm;
     this.registry = registry;
   }
-
-  // setRegistry() {}
 
   async runCommand(command: string, args?: string[]) {
     const _args = [
@@ -39,6 +37,7 @@ class PackageManager {
     if (this.registry) {
       _args?.push(...["--registry", this.registry]);
     }
+
     await executeCommand(this.command, _args, this.context);
   }
 
@@ -59,5 +58,3 @@ class PackageManager {
     return await this.runCommand("remove", [...packages]);
   }
 }
-
-module.exports = PackageManager;
