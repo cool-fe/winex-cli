@@ -1,0 +1,70 @@
+Arguments: 
+  /usr/local/bin/node /Users/gaowujun/.yarn/releases/yarn-1.19.0.cjs
+
+PATH: 
+  /usr/local/Cellar/yarn/1.22.10/bin:/usr/local/mysql/bin:/usr/local/Cellar/mongodb@3.4/3.4.18/bin:/Users/gaowujun/work/flutter/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/Cellar/yarn/1.22.10/bin:/usr/local/mysql/bin:/usr/local/Cellar/mongodb@3.4/3.4.18/bin:/Users/gaowujun/work/flutter/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands}}
+
+Yarn version: 
+  1.19.0
+
+Node version: 
+  12.18.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.npmjs.org/typescript/-/typescript-4.2.4.tgz: unexpected end of file
+      at Zlib.zlibOnError [as onerror] (zlib.js:180:17)
+
+npm manifest: 
+  {
+    "private": true,
+    "name": "@winfe/winex",
+    "version": "0.0.1",
+    "description": "Create a Nuxt.js App in seconds.",
+    "files": [
+      "lib"
+    ],
+    "workspaces": [
+      "packages/*"
+    ],
+    "scripts": {
+      "bootstrap": "rimraf -f ./packages/.DS* &&  rimraf -rf ./packages/**/node_modules && lerna bootstrap",
+      "build": "father-build",
+      "changelog": "lerna-changelog",
+      "clean": "lerna clean -y",
+      "debug": "umi-test",
+      "publish": "node ./scripts/release.js",
+      "version": "conventional-changelog -p angular -i CHANGELOG.md -s  && git add CHANGELOG.md",
+      "docs:dev": "dumi dev",
+      "docs:build": "dumi build",
+      "test:cicd": "node ./scripts/test.js",
+      "codereview": "node ./scripts/codereview.js"
+    },
+    "dependencies": {
+      "cross-spawn": "^7.0.3"
+    },
+    "devDependencies": {
+      "@commitlint/cli": "^8.3.5",
+      "@commitlint/config-conventional": "^8.3.4",
+      "chalk": "^4.1.0",
+      "conventional-changelog-cli": "^2.0.31",
+      "dumi": "^1.0.34",
+      "eslint": "^6.8.0",
+      "father-build": "^1.18.6",
+      "husky": "^4.2.5",
+      "lerna": "^3.22.1",
+      "rimraf": "^3.0.2"
+    },
+    "license": "MIT",
+    "publishConfig": {
+      "registry": "http://registry.npmjs.org/"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
