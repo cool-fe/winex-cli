@@ -35,6 +35,7 @@ export const getNpmPkg = async (packageName: string, options: GotOptions) => {
   const url = require("url");
 
   let { version, registryUrl } = options;
+  registryUrl = /\/$/.test(registryUrl) ? registryUrl : `${registryUrl}/`
 
   const packageUrl = url.resolve(registryUrl, packageName);
   const authInfo = registryAuthToken(registryUrl.toString(), {

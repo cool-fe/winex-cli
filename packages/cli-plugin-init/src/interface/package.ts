@@ -34,7 +34,7 @@ interface IMaterialBaseInfo {
   title: string;
   homepage: string;
   descriptions: string;
-  catagory: string;
+  category: string;
   domain: string;
   registry: string;
   source: IMaterialSource;
@@ -47,7 +47,10 @@ interface IMaterialBaseInfo {
 
 export interface IComponentsInfo extends IMaterialBaseInfo {}
 
+type ScaffoldCategory = "app_indep" | "app_main" | "app_sub";
+
 export interface IScaffoldInfo extends IMaterialBaseInfo {
+  category: ScaffoldCategory;
   screenshoot: string;
   screenshoots?: string[];
 }
