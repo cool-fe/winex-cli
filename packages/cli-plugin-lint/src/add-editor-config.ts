@@ -11,7 +11,10 @@ import chalk from "chalk";
 
 const addVSCodeAutoFixOnSave = (vscodeObj: {}) => ({
   ...vscodeObj,
-  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    ...vscodeObj["editor.codeActionsOnSave"],
+    "source.fixAll.eslint": true,
+  },
 });
 
 const createVSCodeConfig = (dir: string = process.cwd()) => {
