@@ -97,22 +97,21 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
  */
 const configPrettierRC = async () => {
   try {
-    const answer = await prettierQuestions();
-    if (answer) {
-      const { run } = answer;
-      Logger.info(chalk.green("Adding prettier config."));
-      const file = getFilenameForDirectory(process.cwd());
-      const eslint = loadConfigFile({ filePath: file });
+    // const answer = await prettierQuestions();
+    // if (answer) {
+    // const { run } = answer;
+    const run = "prettier"; // run prettier  By the Prettier CLI/plugin  default
+    Logger.info(chalk.green("Adding prettier config."));
+    const file = getFilenameForDirectory(process.cwd());
+    const eslint = loadConfigFile({ filePath: file });
 
-      write(
-        extendESLintConfig(eslint, run === "eslint" ? defaults : null),
-        file
-      );
+    // write(extendESLintConfig(eslint, run === "eslint" ? defaults : null), file);
+    write(extendESLintConfig(eslint, null), file);
 
-      if (run === "prettier") {
-        await createPrettierrc(defaults);
-      }
+    if (run === "prettier") {
+      await createPrettierrc(defaults);
     }
+    // }
   } catch (error) {}
 };
 export default configPrettierRC;
