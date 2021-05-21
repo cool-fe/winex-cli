@@ -5,8 +5,9 @@
 
 import { runPrompts } from "./prompts";
 import fs from "fs-extra";
+import ora from "ora";
 import { resolve } from "path";
-
+import { prettierDeps } from "./config";
 import chalk from "chalk";
 import defaults from "../config/prettier.config";
 import {
@@ -15,6 +16,9 @@ import {
   write,
 } from "./utils/config-file";
 import { Logger } from "./logger";
+import { installSaveDev } from "./utils/npm-utils";
+
+const installOraInstance = ora("install-prettier");
 
 const mainOptions = [
   {
@@ -95,8 +99,15 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
 /**
  * add prettier config
  */
-const configPrettierRC = async () => {
+
+const configPrettierRC = async (pmTool?: string) => {
   try {
+    Logger.info(chalk.green("\n 安装prettier相关依赖"));
+    for (const dep in prettierDeps) {
+      installOraInstance.start(dep + "@" + prettierDeps[dep]);
+      await installSaveDev(dep, prettierDeps[dep], pmTool);
+      installOraInstance.succeed(dep + "@" + prettierDeps[dep]);
+    }
     // const answer = await prettierQuestions();
     // if (answer) {
     // const { run } = answer;
