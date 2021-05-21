@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.0.2-alpha.4 (2021-05-21)
 
-**Note:** Version bump only for package @winfe/cli-plugin-init
+**Note:** Version bump only for package @winfe/cli-plugin-add
 
 
 
@@ -13,4 +13,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.0.2-alpha.3 (2021-05-21)
 
-**Note:** Version bump only for package @winfe/cli-plugin-init
+**Note:** Version bump only for package @winfe/cli-plugin-add
