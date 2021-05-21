@@ -36,7 +36,7 @@ export const pluginDeps: ProjectDepConfig = {
 };
 
 export const DeafultSharedEslintConfig: DepConfig = {
-  "@winfe/eslint-config-winex": "0.0.3",
+  "@winfe/eslint-config-winex": "0.0.4",
 };
 
 export const winfeCiDeps: DepConfig = {};
