@@ -29,8 +29,8 @@ function getEslintExtendsConfig(
     result = ["${packageName}/eslintrc.${projectType}.js"];
   } else {
     result = [
-      "${packageName}/eslintrc.${projectType}.js",
-      `${packageName}/eslintrc.typescript${
+      `'${packageName}/eslintrc.${projectType}.js'`,
+      `'${packageName}/eslintrc.typescript${
         hasSpecialTsConfig(projectType) ? `-${projectType}` : ""
       }.js'`,
     ];
@@ -84,11 +84,12 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   // 旧的配置文件不进行处理，也不进行规则的拷贝处理
   if (exsit) {
     // 存在 eslint 配置文件, 询问是否扩展
+    const nestedStr = filterJs.length
+      ? `，如下配置：${filterJs.join(",")}将会被迁移`
+      : "";
     const answer = await runPrompts<{ eslint: boolean }>({
       type: "toggle",
-      message: `eslint配置已存在，是否要增加标准配置扩展(Y/n),已废弃的配置方式 ${filterJs.join(
-        "\n"
-      )} 将会被迁移(Y/n)?`,
+      message: `eslint配置已存在，是否增加标准配置${nestedStr}(Y/n)?`,
       name: "eslint",
       initial: true,
     });
@@ -98,7 +99,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
       const modifyResult = fileUtil.syncModifyFile(
         eslintRcPath,
         /(?<=["']?extends["']?:\s)('[^']+?'|"[^"]+?"|\[[^]+?\])/,
-        `${eslintConfigPath}`,
+        `[${eslintConfigPath}]`,
         "utf-8"
       );
       if (modifyResult === 1) {
@@ -108,7 +109,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
           eslintRcPath,
           /(?<=module.exports[\s]?=[\s]?{)/,
           `
-extends: ${eslintConfigPath},`,
+extends: [${eslintConfigPath}]`,
           "utf-8"
         );
         if (addExtendsResult === 1) {

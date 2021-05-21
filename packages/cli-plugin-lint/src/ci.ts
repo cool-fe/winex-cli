@@ -38,7 +38,7 @@ function configPackage(eslintPath: string) {
     // 写入
     fs.writeFileSync(packagePath, fileNewContent);
     Logger.info(
-      chalk.bgYellow(
+      chalk.yellow(
         `当前lint文件为"${eslintPath}",可根据项目具体情况调整(见package.json)`
       )
     );
