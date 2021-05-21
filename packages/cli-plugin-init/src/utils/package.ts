@@ -6,7 +6,7 @@ import {
 
 import validatePkgName from "validate-npm-package-name";
 
-const { getMaterialListAsync } = require("@winexmaterials/get-materials");
+const { getMaterialListAsync } = require("@winfe/get-materials");
 
 /**
  * 获取物料统计信息数据
