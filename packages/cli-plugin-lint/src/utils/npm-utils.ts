@@ -55,10 +55,11 @@ export async function installSaveDev(
         npmProcess.stderr.on("data", (data) => {
           const isError = `${data}`.trim().slice(0, 5) === "error";
           if (isError) {
+            Logger.error(chalk.red(`\n${data}`));
             const pluralS = packageList.length > 1 ? "s" : "";
             Logger.error(
               chalk.red(
-                `Could not execute npm. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
+                `\n Could not execute ${pmToolName}. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
                   ", "
                 )}`
               )
@@ -71,7 +72,7 @@ export async function installSaveDev(
         resolve(true);
       });
     } catch (error) {
-      Logger.error(error);
+      Logger.error(chalk.red(`\n ${error}`));
       process.exit(0);
     }
   });

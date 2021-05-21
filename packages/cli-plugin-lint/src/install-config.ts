@@ -26,13 +26,13 @@ function getEslintExtendsConfig(
 ) {
   let result;
   if (!supportTypeScript) {
-    result = ["${packageName}/eslintrc.${projectType}.js"];
+    result = [`${packageName}/eslintrc.${projectType}.js`];
   } else {
     result = [
-      `'${packageName}/eslintrc.${projectType}.js'`,
-      `'${packageName}/eslintrc.typescript${
+      `${packageName}/eslintrc.${projectType}.js`,
+      `${packageName}/eslintrc.typescript${
         hasSpecialTsConfig(projectType) ? `-${projectType}` : ""
-      }.js'`,
+      }.js`,
     ];
   }
   return result;
@@ -96,20 +96,23 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
 
     if (answer.eslint) {
       Logger.info(chalk.green("更新当前 eslintrc.js 配置文件，增加 extend..."));
+      // 替换有extends配置的情况
       const modifyResult = fileUtil.syncModifyFile(
         eslintRcPath,
         /(?<=["']?extends["']?:\s)('[^']+?'|"[^"]+?"|\[[^]+?\])/,
-        `[${eslintConfigPath}]`,
+        JSON.stringify(eslintConfigPath),
         "utf-8"
       );
       if (modifyResult === 1) {
         Logger.info(chalk.green("eslintrc.js 配置文件更新完成"));
       } else if (modifyResult === 0) {
+        // 替换无extends配置的情况
         const addExtendsResult = fileUtil.syncModifyFile(
           eslintRcPath,
           /(?<=module.exports[\s]?=[\s]?{)/,
           `
-extends: [${eslintConfigPath}]`,
+          extends: ${JSON.stringify(eslintConfigPath)},
+          `,
           "utf-8"
         );
         if (addExtendsResult === 1) {
@@ -183,7 +186,7 @@ extends: [${eslintConfigPath}]`,
       );
       Logger.info(chalk.green("eslint配置完成"));
       Logger.info(
-        chalk.bgGreen(
+        chalk.yellow(
           "如果该项目中已经存在 eslintrc.js 之外的其他eslint配置文件，可以删除~"
         )
       );

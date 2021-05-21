@@ -9,11 +9,13 @@ interface ProjectDepConfig {
 export const commonDeps: DepConfig = {
   eslint: "7.25.0",
   "@babel/eslint-parser": "7.13.14",
+  "babel-eslint": "10.1.0",
 };
 
 export const tsDeps: DepConfig = {
   "@typescript-eslint/parser": "4.22.1",
   "@typescript-eslint/eslint-plugin": "4.22.1",
+  "eslint-plugin-typescript": "0.14.0",
 };
 
 export const configDeps: ProjectDepConfig = {
@@ -34,7 +36,7 @@ export const pluginDeps: ProjectDepConfig = {
 };
 
 export const DeafultSharedEslintConfig: DepConfig = {
-  "@winfe/eslint-config-winex": "0.0.3",
+  "@winfe/eslint-config-winex": "0.0.4",
 };
 
 export const winfeCiDeps: DepConfig = {};
@@ -42,4 +44,10 @@ export const winfeCiDeps: DepConfig = {};
 export const huskyCiDeps: DepConfig = {
   husky: "6.0.0",
   "lint-staged": "11.0.0",
+};
+
+export const prettierDeps: DepConfig = {
+  prettier: "2.3.0",
+  "eslint-config-prettier": "8.3.0",
+  "eslint-plugin-prettier": "3.4.0",
 };
