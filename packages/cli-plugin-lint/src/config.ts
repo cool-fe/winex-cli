@@ -42,5 +42,4 @@ export const winfeCiDeps: DepConfig = {};
 export const huskyCiDeps: DepConfig = {
   husky: "6.0.0",
   "lint-staged": "11.0.0",
-  yorkie: "2.0.0",
 };
