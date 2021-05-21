@@ -25,19 +25,22 @@ export async function getMaterialsInfo(): Promise<IMaterialsInfo[]> {
 /**
  * 获取全部模板 npm package name或相关域的模板
  * @param {String} domain 项目所属域
- * @param {String} type 项目类型(normal、micro-main、micro-sub)
+ * @param {String} category 项目类型(app_indep, app_main, app_sub)
  * @returns 全部满足条件的模板数据
  */
 export async function getWinningScaffolds(
   domain?: string,
-  type?: string,
+  category?: string,
   materials?: IMaterialsInfo[]
 ): Promise<IScaffoldInfo[]> {
   try {
     const allMaterilas = materials || (await getMaterialsInfo());
 
     // 根据项目类型 筛选相应的模板
-    const gatherScaffolds = (materilas: IMaterialsInfo[], type?: string) => {
+    const gatherScaffolds = (
+      materilas: IMaterialsInfo[],
+      category?: string
+    ) => {
       const list = materilas.reduce(
         (acc: IScaffoldInfo[], cur: IMaterialsInfo) =>
           acc.concat(...cur.scaffolds),
@@ -45,18 +48,18 @@ export async function getWinningScaffolds(
       );
 
       // 无需qiankun类型筛选时
-      if (!type) return list;
+      if (!category) return list;
 
-      // todo: 模板需要有项目类型过滤
-      // return list.filter((item: IScaffoldInfo) => item.type.includes(type));
-      return list;
+      return list.filter((item: IScaffoldInfo) =>
+        item.category.includes(category)
+      );
     };
 
     const filtered = domain
       ? allMaterilas.filter(({ key }) => key.includes(domain))
       : allMaterilas;
 
-    return gatherScaffolds(filtered, type);
+    return gatherScaffolds(filtered, category);
   } catch (e) {
     throw new Error(e);
   }
