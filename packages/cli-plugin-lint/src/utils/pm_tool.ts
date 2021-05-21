@@ -23,7 +23,7 @@ async function getPmTool(packageName?: string): Promise<string> {
       // 如果是有scope的包，用 mnpm
       pmTool = "mnpm";
     } else {
-      pmTool = "npm";
+      pmTool = "yarn";
     }
   } catch (err) {
     pmTool = "npm";

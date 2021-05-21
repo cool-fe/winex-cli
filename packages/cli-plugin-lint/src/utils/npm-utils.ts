@@ -64,8 +64,8 @@ export async function installSaveDev(
                 )}`
               )
             );
+            process.exit(0);
           }
-          reject(data);
         });
 
       npmProcess.on("close", (code) => {

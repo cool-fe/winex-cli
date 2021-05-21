@@ -9,7 +9,7 @@ import interEslintToCI from "./ci";
 export enum HookEngine {
   none = "none",
   husky = "husky",
-  yorkie = "yorkie",
+  // yorkie = "yorkie",
   winfe = "winfe",
 }
 

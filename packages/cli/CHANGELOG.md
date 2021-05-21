@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.2-alpha.6 (2021-05-21)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
 ## 0.0.2-alpha.5 (2021-05-21)
 
 **Note:** Version bump only for package @winfe/winex-cli
