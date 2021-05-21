@@ -182,7 +182,7 @@ extends: ${eslintConfigPath},`,
       );
       Logger.info(chalk.green("eslint配置完成"));
       Logger.info(
-        chalk.bgGreen(
+        chalk.yellow(
           "如果该项目中已经存在 eslintrc.js 之外的其他eslint配置文件，可以删除~"
         )
       );
