@@ -13,6 +13,7 @@ export const commonDeps: DepConfig = {
 };
 
 export const tsDeps: DepConfig = {
+  typescript: "4.2.4",
   "@typescript-eslint/parser": "4.22.1",
   "@typescript-eslint/eslint-plugin": "4.22.1",
   "eslint-plugin-typescript": "0.14.0",
