@@ -9,6 +9,20 @@ import { resolve } from "path";
 import { Logger } from "./logger";
 import chalk from "chalk";
 
+
+const DEFAULT_VSCODE_SETTING = {
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modifications",
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.run": "onType",
+  "prettier.vueIndentScriptAndStyle": false,
+}
+
+
 const addVSCodeAutoFixOnSave = (vscodeObj: {}) => {
   // The setting is deprecated. Use editor.codeActionsOnSave instead with a source.fixAll.eslint member.(2)
   if (vscodeObj["eslint.autoFixOnSave"]) {
@@ -16,9 +30,11 @@ const addVSCodeAutoFixOnSave = (vscodeObj: {}) => {
   }
 
   return {
-    ...vscodeObj,
+    ...(vscodeObj||{}),
+    ...DEFAULT_VSCODE_SETTING,
     "editor.codeActionsOnSave": {
-      ...vscodeObj["editor.codeActionsOnSave"],
+      ...(vscodeObj["editor.codeActionsOnSave"]||{}),
+      "source.fixAll": true,
       "source.fixAll.eslint": true,
     },
   };
@@ -50,11 +66,7 @@ const createVSCodeConfig = (dir: string = process.cwd()) => {
         fs
           .writeJson(
             prettierDir,
-            {
-              "editor.codeActionsOnSave": {
-                "source.fixAll.eslint": true,
-              },
-            },
+            DEFAULT_VSCODE_SETTING,
             {
               spaces: 2,
             }
