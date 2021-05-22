@@ -5,13 +5,16 @@
 
 import fs from "fs-extra";
 import { resolve } from "path";
-import { runPrompts } from "./prompts";
+// import { runPrompts } from "./prompts";
 import { Logger } from "./logger";
 import chalk from "chalk";
 
 const addVSCodeAutoFixOnSave = (vscodeObj: {}) => ({
   ...vscodeObj,
-  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    ...vscodeObj["editor.codeActionsOnSave"],
+    "source.fixAll.eslint": true,
+  },
 });
 
 const createVSCodeConfig = (dir: string = process.cwd()) => {
@@ -84,33 +87,35 @@ const createEditorConfig = async (dir: string = process.cwd()) => {
 };
 
 const configEditorrRC = async () => {
-  const { type } = await runPrompts<{ type: string }>({
-    type: "select",
-    name: "type",
-    message: "For which editors do you want a configuration?",
-    choices: [
-      {
-        message: "VS Code",
-        name: "code",
-      },
-      {
-        message: "EditorConfig",
-        name: "editorConfig",
-      },
-    ],
-  });
-
-  switch (type) {
-    case "code":
-      await createVSCodeConfig();
-      break;
-
-    case "editorConfig":
-      await createEditorConfig();
-      break;
-
-    default:
-      break;
-  }
+  /**
+   * .editorconfig生成规则发生改变，.editorconfig和settings.json同时生成，不提供询问
+   */
+  // const { type } = await runPrompts<{ type: string }>({
+  //   type: "select",
+  //   name: "type",
+  //   message: "For which editors do you want a configuration?",
+  //   choices: [
+  //     {
+  //       message: "VS Code",
+  //       name: "code",
+  //     },
+  //     {
+  //       message: "EditorConfig",
+  //       name: "editorConfig",
+  //     },
+  //   ],
+  // });
+  // switch (type) {
+  //   case "code":
+  //     await createVSCodeConfig();
+  //     break;
+  //   case "editorConfig":
+  //     await createEditorConfig();
+  //     break;
+  //   default:
+  //     break;
+  // }
+  await createVSCodeConfig();
+  await createEditorConfig();
 };
 export default configEditorrRC;

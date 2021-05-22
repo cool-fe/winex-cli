@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-lint",
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2-alpha.7",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -23,7 +23,7 @@
     "type": "ts,node"
   },
   "dependencies": {
-    "@winfe/cli-core": "^0.0.2-alpha.2",
+    "@winfe/cli-core": "^0.0.2-alpha.7",
     "chalk": "^4.1.0",
     "command-exists": "^1.2.9",
     "cross-spawn": "^7.0.3",
@@ -36,7 +36,10 @@
     "registry": "http://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.11"
+    "@types/command-exists": "^1.2.0",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/fs-extra": "^9.0.11",
+    "@types/lodash": "^4.14.169"
   },
   "license": "MIT"
 }

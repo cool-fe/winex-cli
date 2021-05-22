@@ -9,7 +9,7 @@ import interEslintToCI from "./ci";
 export enum HookEngine {
   none = "none",
   husky = "husky",
-  yorkie = "yorkie",
+  // yorkie = "yorkie",
   winfe = "winfe",
 }
 
@@ -81,7 +81,7 @@ export default class LintPlugin extends BasePlugin {
       const { env, typescript, pm: _pm } = this?.answer as PluginOptions;
       await configEslintRC(env === "node" ? "node" : "vue", typescript);
       // 配置prettier
-      await configPrettierRC();
+      await configPrettierRC(_pm);
       // 配置editorconfig
       await configEditorrRC();
     },

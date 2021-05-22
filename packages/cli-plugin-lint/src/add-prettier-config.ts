@@ -5,8 +5,9 @@
 
 import { runPrompts } from "./prompts";
 import fs from "fs-extra";
+import ora from "ora";
 import { resolve } from "path";
-
+import { prettierDeps } from "./config";
 import chalk from "chalk";
 import defaults from "../config/prettier.config";
 import {
@@ -15,6 +16,9 @@ import {
   write,
 } from "./utils/config-file";
 import { Logger } from "./logger";
+import { installSaveDev } from "./utils/npm-utils";
+
+const installOraInstance = ora("install-prettier");
 
 const mainOptions = [
   {
@@ -95,24 +99,30 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
 /**
  * add prettier config
  */
-const configPrettierRC = async () => {
+
+const configPrettierRC = async (pmTool?: string) => {
   try {
-    const answer = await prettierQuestions();
-    if (answer) {
-      const { run } = answer;
-      Logger.info(chalk.green("Adding prettier config."));
-      const file = getFilenameForDirectory(process.cwd());
-      const eslint = loadConfigFile({ filePath: file });
-
-      write(
-        extendESLintConfig(eslint, run === "eslint" ? defaults : null),
-        file
-      );
-
-      if (run === "prettier") {
-        await createPrettierrc(defaults);
-      }
+    Logger.info(chalk.green("\n 安装prettier相关依赖"));
+    for (const dep in prettierDeps) {
+      installOraInstance.start(dep + "@" + prettierDeps[dep]);
+      await installSaveDev(dep, prettierDeps[dep], pmTool);
+      installOraInstance.succeed(dep + "@" + prettierDeps[dep]);
     }
+    // const answer = await prettierQuestions();
+    // if (answer) {
+    // const { run } = answer;
+    const run = "prettier"; // run prettier  By the Prettier CLI/plugin  default
+    Logger.info(chalk.green("Adding prettier config."));
+    const file = getFilenameForDirectory(process.cwd());
+    const eslint = loadConfigFile({ filePath: file });
+
+    // write(extendESLintConfig(eslint, run === "eslint" ? defaults : null), file);
+    write(extendESLintConfig(eslint, null), file);
+
+    if (run === "prettier") {
+      await createPrettierrc(defaults);
+    }
+    // }
   } catch (error) {}
 };
 export default configPrettierRC;

@@ -3,6 +3,7 @@ import spawn from "cross-spawn";
 import path from "path";
 import { Logger } from "../logger";
 import pmTool from "./pm_tool";
+import chalk from "chalk";
 
 /**
  * Find the closest package.json file, starting at process.cwd (by default),
@@ -52,23 +53,27 @@ export async function installSaveDev(
 
       npmProcess.stderr &&
         npmProcess.stderr.on("data", (data) => {
-          if (data && data.code === "ENOENT") {
+          const isError = `${data}`.trim().slice(0, 5) === "error";
+          if (isError) {
+            Logger.error(chalk.red(`\n${data}`));
             const pluralS = packageList.length > 1 ? "s" : "";
             Logger.error(
-              `Could not execute npm. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
-                ", "
-              )}`
+              chalk.red(
+                `\n Could not execute ${pmToolName}. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
+                  ", "
+                )}`
+              )
             );
+            process.exit(0);
           }
-          reject(data);
         });
 
       npmProcess.on("close", (code) => {
         resolve(true);
       });
     } catch (error) {
-      Logger.error(error);
-      reject();
+      Logger.error(chalk.red(`\n ${error}`));
+      process.exit(0);
     }
   });
 }
