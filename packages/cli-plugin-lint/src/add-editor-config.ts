@@ -9,13 +9,23 @@ import { resolve } from "path";
 import { Logger } from "./logger";
 import chalk from "chalk";
 
-const addVSCodeAutoFixOnSave = (vscodeObj: {}) => ({
-  ...vscodeObj,
-  "editor.codeActionsOnSave": {
-    ...vscodeObj["editor.codeActionsOnSave"],
-    "source.fixAll.eslint": true,
-  },
-});
+const addVSCodeAutoFixOnSave = (vscodeObj: {}) => {
+  let oldAutoFixOnSaveConfig;
+  // The setting is deprecated. Use editor.codeActionsOnSave instead with a source.fixAll.eslint member.(2)
+  if (vscodeObj["eslint.autoFixOnSave"]) {
+    oldAutoFixOnSaveConfig = vscodeObj["eslint.autoFixOnSave"];
+    delete vscodeObj["eslint.autoFixOnSave"];
+  }
+
+  return {
+    ...vscodeObj,
+    "editor.codeActionsOnSave": {
+      ...oldAutoFixOnSaveConfig,
+      ...vscodeObj["editor.codeActionsOnSave"],
+      "source.fixAll.eslint": true,
+    },
+  };
+};
 
 const createVSCodeConfig = (dir: string = process.cwd()) => {
   const prettierDir = resolve(dir, "./.vscode/settings.json");
