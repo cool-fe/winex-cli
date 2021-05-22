@@ -5,6 +5,8 @@ import configEslintRC from "./install-config";
 import configPrettierRC from "./add-prettier-config";
 import configEditorrRC from "./add-editor-config";
 import interEslintToCI from "./ci";
+import chalk from "chalk";
+import { Logger } from "../lib/logger";
 
 export enum HookEngine {
   none = "none",
@@ -91,6 +93,13 @@ export default class LintPlugin extends BasePlugin {
         ?.options as PluginOptions;
       const { env, typescript, pm } = this?.answer as PluginOptions;
       await interEslintToCI(hookEngine, env, typescript, pm);
+
+      Logger.info(
+        chalk`\n🎉{bold Successfully configured eslint, prettier, editorconfig in your project}\n`
+      );
+
+      Logger.info(chalk`\t{bold To get started: }`);
+      Logger.info(chalk`\t{bold Reload the  editor & experience}\n`);
     },
   };
 }

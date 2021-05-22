@@ -104,7 +104,9 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
         "utf-8"
       );
       if (modifyResult === 1) {
-        Logger.info(chalk.green("eslintrc.js 配置文件更新完成"));
+        Logger.info(
+          chalk.yellow(`\n👏 eslint配置更新完成，please check for sure. \n`)
+        );
       } else if (modifyResult === 0) {
         // 替换无extends配置的情况
         const addExtendsResult = fileUtil.syncModifyFile(
@@ -116,15 +118,17 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
           "utf-8"
         );
         if (addExtendsResult === 1) {
-          Logger.info(chalk.green("eslintrc.js 配置文件更新完成"));
-        } else {
           Logger.info(
+            chalk.yellow(`\n👏 eslint配置更新完成, please check for sure. \n`)
+          );
+        } else {
+          Logger.error(
             chalk.red("eslintrc.js 配置文件更新失败，请查看具体的错误信息")
           );
           throw new Error("fail to update eslintrc.js");
         }
       } else {
-        Logger.info(
+        Logger.error(
           chalk.red("eslintrc.js 配置文件更新失败，请查看具体的错误信息")
         );
         throw new Error("fail to update eslintrc.js");
@@ -170,7 +174,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
         }
         fs.writeFileSync(eslintRcPath, `module.exports = ${newFileContent}`);
         Logger.info(
-          chalk.green("eslint 配置升级并更新完成，please check for sure")
+          chalk.yellow(`\n👏 eslint配置更新完成, please check for sure. \n`)
         );
       } else {
         Logger.info(chalk.red("放弃升级eslint配置，请手动进行eslint配置"));
@@ -184,7 +188,9 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
         eslintConfigContent,
         "utf-8"
       );
-      Logger.info(chalk.green("eslint配置完成"));
+      Logger.info(
+        chalk.yellow(`\n👏 eslint配置更新完成, please check for sure.\n`)
+      );
       Logger.info(
         chalk.yellow(
           "如果该项目中已经存在 eslintrc.js 之外的其他eslint配置文件，可以删除~"

@@ -38,8 +38,8 @@ const createVSCodeConfig = (dir: string = process.cwd()) => {
         })
         .then(() =>
           Logger.info(
-            chalk.green(
-              "Added VS Code settings in the current project for eslint to execute Prettier."
+            chalk.yellow(
+              `\n👏 Added VS Code settings in the current project for eslint to execute Prettier, please check for sure \n`
             )
           )
         )
@@ -79,7 +79,9 @@ const createEditorConfig = async (dir: string = process.cwd()) => {
   try {
     await fs.writeFile(editorConfigDir, editorConfigContent);
     Logger.info(
-      chalk.green("Created .editorconfig file in the current project .")
+      chalk.yellow(
+        `\n👏 Created .editorconfig file in the current project, please check for sure .`
+      )
     );
   } catch (error) {
     Logger.error("No .editorconfig found. Creating new .editorconfig .");
@@ -88,7 +90,9 @@ const createEditorConfig = async (dir: string = process.cwd()) => {
         .writeFile(editorConfigDir, editorConfigContent)
         .then(() =>
           Logger.info(
-            chalk.green("Created .editorconfig file in the current project .")
+            chalk.yellow(
+              `\n👏 Created .editorconfig file in the current project, please check for sure .`
+            )
           )
         )
         .catch((err) => Logger.error(err))

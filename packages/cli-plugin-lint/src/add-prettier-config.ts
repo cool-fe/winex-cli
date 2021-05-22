@@ -91,7 +91,11 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
         {
           encoding: "utf8",
         }
-      ).then(() => console.log("Created .prettierrc.js ."));
+      ).then(() =>
+        Logger.info(
+          chalk.yellow(`\n👏 Created .prettierrc.js, please check for sure \n`)
+        )
+      );
     })
     .catch((err: any) => console.log(err));
 };
@@ -102,7 +106,7 @@ const createPrettierrc = (prettier: object, dir: string = process.cwd()) => {
 
 const configPrettierRC = async (pmTool?: string) => {
   try {
-    Logger.info(chalk.green("\n 安装prettier相关依赖"));
+    Logger.info(chalk.green("安装prettier相关依赖"));
     for (const dep in prettierDeps) {
       installOraInstance.start(dep + "@" + prettierDeps[dep]);
       await installSaveDev(dep, prettierDeps[dep], pmTool);
@@ -112,7 +116,7 @@ const configPrettierRC = async (pmTool?: string) => {
     // if (answer) {
     // const { run } = answer;
     const run = "prettier"; // run prettier  By the Prettier CLI/plugin  default
-    Logger.info(chalk.green("Adding prettier config."));
+    Logger.info(chalk.green("\n Adding prettier config."));
     const file = getFilenameForDirectory(process.cwd());
     const eslint = loadConfigFile({ filePath: file });
 
