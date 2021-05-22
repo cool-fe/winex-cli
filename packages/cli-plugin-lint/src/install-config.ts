@@ -191,11 +191,11 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
       Logger.info(
         chalk.yellow(`\n👏 eslint配置更新完成, please check for sure.\n`)
       );
-      Logger.info(
-        chalk.yellow(
-          "如果该项目中已经存在 eslintrc.js 之外的其他eslint配置文件，可以删除~"
-        )
-      );
+      // Logger.info(
+      //   chalk.yellow(
+      //     "如果该项目中已经存在 eslintrc.js 之外的其他eslint配置文件，可以删除~"
+      //   )
+      // );
     }
   }
 }
