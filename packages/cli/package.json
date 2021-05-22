@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "0.0.2-alpha.8",
+  "version": "0.0.2-alpha.9",
   "bin": {
     "winex": "bin/winex.js"
   },
@@ -26,10 +26,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@winfe/cli-core": "^0.0.2-alpha.8",
-    "@winfe/cli-plugin-add": "^0.0.2-alpha.8",
-    "@winfe/cli-plugin-init": "^0.0.2-alpha.8",
-    "@winfe/cli-plugin-lint": "^0.0.2-alpha.8",
+    "@winfe/cli-core": "^0.0.2-alpha.9",
+    "@winfe/cli-plugin-add": "^0.0.2-alpha.9",
+    "@winfe/cli-plugin-init": "^0.0.2-alpha.9",
+    "@winfe/cli-plugin-lint": "^0.0.2-alpha.9",
     "child_process": "^1.0.2"
   },
   "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8",
