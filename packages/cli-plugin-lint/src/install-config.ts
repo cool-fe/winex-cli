@@ -125,13 +125,13 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
           Logger.error(
             chalk.red("eslintrc.js 配置文件更新失败，请查看具体的错误信息")
           );
-          throw new Error("fail to update eslintrc.js");
+          process.exit(0)
         }
       } else {
         Logger.error(
           chalk.red("eslintrc.js 配置文件更新失败，请查看具体的错误信息")
         );
-        throw new Error("fail to update eslintrc.js");
+        process.exit(0)
       }
     }
   } else {
@@ -189,7 +189,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
         "utf-8"
       );
       Logger.info(
-        chalk.yellow(`\n👏 eslint配置更新完成, please check for sure.\n`)
+        chalk.yellow(`\n👏 eslint配置更新完成, please check for sure. \n`)
       );
       // Logger.info(
       //   chalk.yellow(

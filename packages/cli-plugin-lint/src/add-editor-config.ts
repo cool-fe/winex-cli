@@ -5,23 +5,20 @@
 
 import fs from "fs-extra";
 import { resolve } from "path";
-// import { runPrompts } from "./prompts";
 import { Logger } from "./logger";
 import chalk from "chalk";
-
 
 const DEFAULT_VSCODE_SETTING = {
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
   },
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modifications",
   "eslint.codeActionsOnSave.mode": "all",
   "eslint.run": "onType",
   "prettier.vueIndentScriptAndStyle": false,
-}
-
+};
 
 const addVSCodeAutoFixOnSave = (vscodeObj: {}) => {
   // The setting is deprecated. Use editor.codeActionsOnSave instead with a source.fixAll.eslint member.(2)
@@ -30,10 +27,10 @@ const addVSCodeAutoFixOnSave = (vscodeObj: {}) => {
   }
 
   return {
-    ...(vscodeObj||{}),
+    ...(vscodeObj || {}),
     ...DEFAULT_VSCODE_SETTING,
     "editor.codeActionsOnSave": {
-      ...(vscodeObj["editor.codeActionsOnSave"]||{}),
+      ...(vscodeObj["editor.codeActionsOnSave"] || {}),
       "source.fixAll": true,
       "source.fixAll.eslint": true,
     },
@@ -52,33 +49,32 @@ const createVSCodeConfig = (dir: string = process.cwd()) => {
         .then(() =>
           Logger.info(
             chalk.yellow(
-              `\n👏 Added VS Code settings in the current project for eslint to execute Prettier, please check for sure \n`
+              `\n👏 Added VS Code settings in the current project for eslint to execute Prettier, please check for sure. `
             )
           )
-        )
-        .catch((err: any) =>
-          Logger.error("Could not write Prettier config to eslintrc.json", err)
         )
     )
     .catch(() => {
       Logger.info("No VS Code settings found. Creating new settings.");
       return fs.ensureFile(prettierDir).then(() =>
         fs
-          .writeJson(
-            prettierDir,
-            DEFAULT_VSCODE_SETTING,
-            {
-              spaces: 2,
-            }
-          )
+          .writeJson(prettierDir, DEFAULT_VSCODE_SETTING, {
+            spaces: 2,
+          })
           .then(() =>
             Logger.info(
-              chalk.green(
-                "Created VS Code settings-file in the current project for eslint to execute Prettier."
+              chalk.yellow(
+                "\n👏 Created VS Code settings-file in the current project for eslint to execute Prettier. "
               )
             )
           )
-          .catch((err) => console.log(err))
+          .catch((err) =>
+            Logger.error(
+              chalk.red(
+                `"Could not write Prettier config to eslintrc.json"\n${err}`
+              )
+            )
+          )
       );
     });
 };
@@ -91,22 +87,22 @@ const createEditorConfig = async (dir: string = process.cwd()) => {
     await fs.writeFile(editorConfigDir, editorConfigContent);
     Logger.info(
       chalk.yellow(
-        `\n👏 Created .editorconfig file in the current project, please check for sure .`
+        `\n👏 Created .editorconfig file in the current project, please check for sure .\n`
       )
     );
   } catch (error) {
-    Logger.error("No .editorconfig found. Creating new .editorconfig .");
+    Logger.error(`No .editorconfig found. Creating new .editorconfig .`);
     return fs.ensureFile(editorConfigDir).then(() =>
       fs
         .writeFile(editorConfigDir, editorConfigContent)
         .then(() =>
           Logger.info(
             chalk.yellow(
-              `\n👏 Created .editorconfig file in the current project, please check for sure .`
+              `\n👏 Created .editorconfig file in the current project, please check for sure .\n`
             )
           )
         )
-        .catch((err) => Logger.error(err))
+        .catch((err) => Logger.error(chalk.red(`Could not Created .editorconfig file.\n${err}`)))
     );
   }
 };
@@ -115,31 +111,6 @@ const configEditorrRC = async () => {
   /**
    * .editorconfig生成规则发生改变，.editorconfig和settings.json同时生成，不提供询问
    */
-  // const { type } = await runPrompts<{ type: string }>({
-  //   type: "select",
-  //   name: "type",
-  //   message: "For which editors do you want a configuration?",
-  //   choices: [
-  //     {
-  //       message: "VS Code",
-  //       name: "code",
-  //     },
-  //     {
-  //       message: "EditorConfig",
-  //       name: "editorConfig",
-  //     },
-  //   ],
-  // });
-  // switch (type) {
-  //   case "code":
-  //     await createVSCodeConfig();
-  //     break;
-  //   case "editorConfig":
-  //     await createEditorConfig();
-  //     break;
-  //   default:
-  //     break;
-  // }
   await createVSCodeConfig();
   await createEditorConfig();
 };

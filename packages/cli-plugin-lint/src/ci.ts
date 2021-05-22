@@ -62,6 +62,7 @@ export default async function interEslintToCI(
   supportTypeScript: boolean,
   pmTool?: string
 ) {
+  Logger.info(chalk.green("开始安装 git hook 配置..."));
   if (hookEngine === HookEngine["winfe"]) {
     for (const dep in winfeCiDeps) {
       installOraInstance.start(dep + "@" + winfeCiDeps[dep]);
