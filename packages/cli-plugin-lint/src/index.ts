@@ -98,7 +98,7 @@ export default class LintPlugin extends BasePlugin {
         chalk`\n🎉{bold Successfully configured eslint, prettier, editorconfig in your project}\n`
       );
 
-      Logger.info(chalk`\t{bold To get started: }`);
+      Logger.info(chalk`\t{bold To get started： }`);
       Logger.info(chalk`\t{bold Reload the  editor & experience}\n`);
     },
   };
