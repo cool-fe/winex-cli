@@ -4,14 +4,18 @@
  */
 
 import { installSaveDev } from "./utils/npm-utils";
-import { winfeCiDeps, huskyCiDeps } from "./config";
-import * as fs from "fs";
+import { winfeCiDeps, huskyCiDeps, lintstagedCiDeps } from "./config";
+import fs from "fs";
+import spawn from "cross-spawn";
+import { resolve } from "path";
 import chalk from "chalk";
 import fileUtil from "./utils/file";
 import * as _ from "lodash";
 import { Logger } from "./logger";
 import { HookEngine } from "./index";
 import ora from "ora";
+
+const LINT_STAGED_CONFIG_PATH = resolve(process.cwd(), "./.lintstagedrc.js");
 
 const installOraInstance = ora("install");
 
@@ -51,6 +55,77 @@ function configPackage(eslintPath: string) {
   }
 }
 
+async function initHusky(pmTool: string) {
+  const HUSKY_CONFIG_PATH = resolve(process.cwd(), "./.husky");
+  const PRE_COMMIT_PATH = `${HUSKY_CONFIG_PATH}/pre-commit`;
+  // install huksy
+  for (const dep in huskyCiDeps) {
+    installOraInstance.start(dep + "@" + huskyCiDeps[dep]);
+    await installSaveDev(dep, huskyCiDeps[dep], pmTool);
+    installOraInstance.succeed(dep + "@" + huskyCiDeps[dep]);
+  }
+
+  fs.rmdirSync(HUSKY_CONFIG_PATH, { recursive: true });
+
+  //install husky & init husky
+  spawn.sync("npx", ["husky", "install"], {
+    stdio: "inherit",
+  });
+
+  // add pre-commit
+  spawn.sync(
+    "npx",
+    [
+      "husky",
+      "add",
+      PRE_COMMIT_PATH,
+      `npx lint-staged --config ./.lintstagedrc.js`,
+    ],
+    {
+      stdio: "inherit",
+    }
+  );
+
+  Logger.info(chalk.yellow(`\n👏 husky 配置完成, please check for sure. \n`));
+}
+
+async function initLintstaged(
+  projectType: string,
+  supportTypeScript: boolean,
+  pmTool: string
+) {
+  // install huksy
+  for (const dep in lintstagedCiDeps) {
+    installOraInstance.start(dep + "@" + huskyCiDeps[dep]);
+    await installSaveDev(dep, huskyCiDeps[dep], pmTool);
+    installOraInstance.succeed(dep + "@" + huskyCiDeps[dep]);
+  }
+
+  const LINT_STAGED_CONFIGJSON = {
+    "**/*.{js,ts,vue}": [
+      "prettier   -c  --write  --config ./.prettierrc.js",
+      "eslint  --config ./.eslintrc.js --fix",
+    ],
+  };
+
+  //init lint-staged config
+  fs.writeFileSync(
+    LINT_STAGED_CONFIG_PATH,
+    `module.exports = ${JSON.stringify(LINT_STAGED_CONFIGJSON, null, 2)}`
+  );
+
+  const suffix = ["js"];
+  projectType === "vue" && suffix.push("vue");
+  supportTypeScript && suffix.push("ts");
+  const lintScript = suffix.length > 1 ? `{${suffix.join(",")}}` : suffix[0];
+  const eslintPath = `*.${lintScript}`;
+  configPackage(eslintPath);
+
+  Logger.info(
+    chalk.yellow(`\n👏 lint-staged 配置完成, please check for sure. \n`)
+  );
+}
+
 /**
  * 集成eslint到工作流中
  * @param solutionType 解决方案类型
@@ -60,26 +135,17 @@ export default async function interEslintToCI(
   hookEngine: HookEngine,
   projectType: string,
   supportTypeScript: boolean,
-  pmTool?: string
+  pmTool: string = "yarn"
 ) {
   Logger.info(chalk.green("开始安装 git hook 配置..."));
   if (hookEngine === HookEngine["winfe"]) {
-    for (const dep in winfeCiDeps) {
-      installOraInstance.start(dep + "@" + winfeCiDeps[dep]);
-      await installSaveDev(dep, winfeCiDeps[dep], pmTool);
-      installOraInstance.succeed(dep + "@" + winfeCiDeps[dep]);
-    }
+    Logger.info(
+      chalk.yellow(
+        `\n winfe hook has not yet been implemented ,please check for sure. \n`
+      )
+    );
   } else {
-    for (const dep in huskyCiDeps) {
-      installOraInstance.start(dep + "@" + huskyCiDeps[dep]);
-      await installSaveDev(dep, huskyCiDeps[dep], pmTool);
-      installOraInstance.succeed(dep + "@" + huskyCiDeps[dep]);
-    }
-    const suffix = ["js"];
-    projectType === "vue" && suffix.push("vue");
-    supportTypeScript && suffix.push("ts");
-    const lintScript = suffix.length > 1 ? `{${suffix.join(",")}}` : suffix[0];
-    const eslintPath = `*.${lintScript}`;
-    configPackage(eslintPath);
+    await initHusky(pmTool);
+    await initLintstaged(projectType, supportTypeScript, pmTool);
   }
 }
