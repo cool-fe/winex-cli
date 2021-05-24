@@ -23,7 +23,7 @@ const installOraInstance = ora("install");
  * 配置 package.json
  * @param eslintPath eslint检查路径
  */
-function mdifyConfigPackage(eslintPath: string) {
+function mdifyConfigPackage() {
   const packagePath = `${process.cwd()}/package.json`;
   const packageExist = fileUtil.checkExist(packagePath, false);
   if (packageExist) {
@@ -52,6 +52,26 @@ function mdifyConfigPackage(eslintPath: string) {
       chalk.red("ERROR: 未找到package.json文件，请使用 npm init 进行初始化")
     );
     throw new Error("package.json not found");
+  }
+}
+
+function getConfigPackage() {
+  const packagePath = `${process.cwd()}/package.json`;
+  const packageExist = fileUtil.checkExist(packagePath, false);
+  if (packageExist) {
+    // 如果package.json存在，进行修改
+    const fileContent = fs.readFileSync(packagePath, "utf-8");
+    const fileJSON = JSON.parse(fileContent);
+
+    if (fileJSON["lint-staged"]) {
+      return fileJSON["lint-staged"];
+    }
+    return {};
+  } else {
+    // 如果 package.json 不存在，初始化失败，提示用户进行 npm 初始化
+    Logger.info(
+      chalk.green("未找到package.json文件，请使用 yarn init 进行初始化")
+    );
   }
 }
 
@@ -108,7 +128,10 @@ async function initLintstaged(
   const lintScript = suffix.length > 1 ? `{${suffix.join(",")}}` : suffix[0];
   const eslintPath = `**/*.${lintScript}`;
 
+  const oldStagedConfig = getConfigPackage();
+
   const LINT_STAGED_CONFIGJSON = {
+    ...oldStagedConfig,
     [eslintPath]: [
       "prettier   -c  --write  --config ./.prettierrc.js",
       "eslint  --config ./.eslintrc.js --fix",
@@ -121,7 +144,7 @@ async function initLintstaged(
   );
 
   // 需要删除旧的lint-staged配置
-  mdifyConfigPackage(eslintPath);
+  mdifyConfigPackage();
 
   Logger.info(
     chalk.green(
