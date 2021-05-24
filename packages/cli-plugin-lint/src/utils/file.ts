@@ -4,11 +4,11 @@
  */
 import { Logger } from "../logger";
 import { runPrompts } from "../prompts";
-import fs from 'fs'
-import chalk from 'chalk'
+import fs from "fs";
+import chalk from "chalk";
 
 /**
- * 
+ *
  * 检测文件是否存在
  * @param {String} filePath 文件路径
  * @return {fs.Stat | Boolean} 文件信息对象 | false 代表文件不存在
@@ -66,7 +66,7 @@ function syncModifyFile(
   filePath: string,
   pattern: RegExp,
   replace: string,
-  encoding:string = "utf8"
+  encoding: string = "utf8"
 ) {
   let fileContent;
   try {

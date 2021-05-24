@@ -12,12 +12,12 @@ import stringify from "json-stable-stringify-without-jsonify";
 import importFresh from "import-fresh";
 
 export type configName =
-  | ".eslintrc.js"
   | ".eslintrc.yaml"
   | ".eslintrc.yml"
   | ".eslintrc.json"
   | ".eslintrc"
-  | "package.json";
+  | "package.json"
+  | ".eslintrc.js";
 
 /**
  * Determines sort order for object keys for json-stable-stringify
@@ -31,12 +31,12 @@ function sortByKey(a: { key: number }, b: { key: number }) {
 }
 
 export const CONFIG_FILES: configName[] = [
-  ".eslintrc.js",
+  ".eslintrc",
   ".eslintrc.yaml",
   ".eslintrc.yml",
   ".eslintrc.json",
-  ".eslintrc",
   "package.json",
+  ".eslintrc.js",
 ];
 
 /**
@@ -248,10 +248,8 @@ function isExistingFile(filename: string) {
 }
 
 export function checkEslintConfig(directory: string = process.cwd()) {
-  return CONFIG_FILES.filter(
-    (filename) =>
-      filename !== "package.json" &&
-      isExistingFile(path.join(directory, filename))
+  return CONFIG_FILES.filter((filename) =>
+    isExistingFile(path.join(directory, filename))
   );
 }
 
