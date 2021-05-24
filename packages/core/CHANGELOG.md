@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.2-alpha.11 (2021-05-24)
+
+
+### Bug Fixes
+
+* **19:** 修复package.json的eslint配置问题 ([5f3b6d3](https://github.com/cool-fe/winex-cli/commit/5f3b6d3ff45e013f1c4ce3444038e976041e74ba))
+
+
+
+
+
 ## 0.0.2-alpha.10 (2021-05-22)
 
 **Note:** Version bump only for package @winfe/cli-core
