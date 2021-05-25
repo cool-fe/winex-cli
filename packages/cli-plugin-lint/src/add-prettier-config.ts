@@ -37,13 +37,13 @@ const mainOptions = [
   },
 ];
 
-const PRETTIER_CONFIG_PATH = resolve(__dirname,"../config/.prettierrc.js")
+const PRETTIER_CONFIG_PATH = resolve(__dirname, "../config/.prettierrc.js");
 
 const addPrettierToExtends = (
   eslintObj: { extends: any },
   prettierExtensionStr: string
 ) => {
-  if (Array.isArray(eslintObj.extends)) {
+  if (eslintObj && eslintObj.extends && Array.isArray(eslintObj.extends)) {
     return [...eslintObj.extends, prettierExtensionStr];
   } else {
     return eslintObj.extends
@@ -61,8 +61,11 @@ const addPrettierToRules = (
 });
 
 const extendESLintConfig = (
-  eslintObj: { extends: any; rules: any },
-) =>({ ...eslintObj, extends: addPrettierToExtends(eslintObj, "prettier") });
+  eslintObj: { extends: any; rules: any } = { extends: [], rules: {} }
+) => ({
+  ...eslintObj,
+  extends: addPrettierToExtends(eslintObj, "prettier"),
+});
 
 const prettierQuestions = () =>
   runPrompts<{ run: string }>(mainOptions)
@@ -74,16 +77,18 @@ const createPrettierrc = (prettier: string, dir: string = process.cwd()) => {
   return fs
     .ensureFile(prettierDir)
     .then(() => {
-      return fs.outputFile(
-        prettierDir,
-        prettier
-      ).then(() =>
-        Logger.info(
-          chalk.yellow(`\n👏 Created .prettierrc.js, please check for sure \n`)
+      return fs
+        .outputFile(prettierDir, prettier)
+        .then(() =>
+          Logger.info(
+            chalk.yellow(
+              `\n👏 Created .prettierrc.js, please check for sure \n`
+            )
+          )
         )
-      ).catch((error)=>{
-        console.log(error)
-      })
+        .catch((error) => {
+          console.log(error);
+        });
     })
     .catch((err: any) => console.log(err));
 };
@@ -106,19 +111,22 @@ const configPrettierRC = async (pmTool?: string) => {
     const run = "prettier"; // run prettier  By the Prettier CLI/plugin  default
     Logger.info(chalk.green("Adding prettier config."));
     const file = getFilenameForDirectory(process.cwd());
-    const eslint = loadConfigFile({ filePath: file });
+    const eslint = loadConfigFile({ filePath: file }) || {
+      extends: [],
+      rules: {},
+    };
 
     write(extendESLintConfig(eslint), file);
 
     if (run === "prettier") {
-      const prettierConfig = await fs.readFile(PRETTIER_CONFIG_PATH,{
-        encoding:'utf-8'
-      })
+      const prettierConfig = await fs.readFile(PRETTIER_CONFIG_PATH, {
+        encoding: "utf-8",
+      });
       await createPrettierrc(prettierConfig);
     }
   } catch (error) {
-    Logger.error(chalk.red(`${error}`))
-    process.exit(0)
+    Logger.error(chalk.red(`${error}`));
+    process.exit(0);
   }
 };
 export default configPrettierRC;

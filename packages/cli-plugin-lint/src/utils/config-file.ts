@@ -35,8 +35,8 @@ export const CONFIG_FILES: configName[] = [
   ".eslintrc.yaml",
   ".eslintrc.yml",
   ".eslintrc.json",
-  "package.json",
   ".eslintrc.js",
+  "package.json",
 ];
 
 /**
