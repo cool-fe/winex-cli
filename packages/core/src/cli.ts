@@ -1,6 +1,6 @@
 import minimist from "minimist";
 import { CommandHookCore } from "./core";
-import PluginManager from "./pluginManager";
+// import PluginManager from "./pluginManager";
 
 export class BaseCLI {
   core: any;
@@ -35,8 +35,8 @@ export class BaseCLI {
   }
 
   loadCorePlugin() {
-    //加载plugin/plugin
-    this.core.addPlugin(PluginManager);
+    //加载plugin/plugin,暂时没用
+    // this.core.addPlugin(PluginManager);
   }
 
   // 加载默认插件
