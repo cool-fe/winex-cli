@@ -69,13 +69,13 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   // 旧的配置文件不进行处理，也不进行规则的拷贝处理
   if (checkResult.length) {
     // 存在 eslint 配置文件, 询问是否扩展
-    const nestedStr = checkResult.length
-      ? `，如下配置：${checkResult.join(",")}将会被迁移`
-      : "";
+    const nestedStr = `${checkResult.join("\n")}`;
+    Logger.info(chalk.green(`已存在如下eslint配置,增加标准配置后将会被迁移: `));
+    Logger.info(`${nestedStr}`);
 
     const answer = await runPrompts<{ eslint: boolean }>({
       type: "toggle",
-      message: `eslint配置已存在，是否增加标准配置${nestedStr}(Y/n)?`,
+      message: `是否增加标准配置(Y/n)?`,
       name: "eslint",
       initial: true,
     });
