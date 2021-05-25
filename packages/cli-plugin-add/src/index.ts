@@ -1,12 +1,11 @@
 import {
-  AddOptions, GetMaterialOptions, CommandsOptions
+  AddOptions, GetMaterialOptions
 } from './interface';
 import chalk from "chalk";
 import { BasePlugin } from "@winfe/cli-core";
 import { commands } from './commands';
 import {
   checkPackageJson,
-  configTransform,
   PackageManager,
   downloadPackage,
   syncInstallDeps,
@@ -15,9 +14,9 @@ import {
 } from "./utils/index";
 
 export default class AddPlugin extends BasePlugin {
-  context = process.cwd(); // context path
+  cwd = process.cwd(); // context path
 
-  commands = commands;
+  commands = commands; // fixme: winex add xxx
 
   hooks = {
     "before:add:add": this.beforeAdd.bind(this),
@@ -25,37 +24,35 @@ export default class AddPlugin extends BasePlugin {
   };
 
   async beforeAdd(): Promise<void> {
-    await checkPackageJson(this.context);
+    await checkPackageJson(this.cwd);
   }
 
   async add(content: any): Promise<void> {
-    const { plugin, pm }: CommandsOptions = content?.parsedOptions?.options;
-    if (!plugin) return;
+    const { plugin, pm } = content?.parsedOptions?.options;
 
-    const matchResult = match(plugin); // format plugin
-    if (matchResult) {
-      const { pluginName, pluginVersion } = matchResult;
+    const matchResult = match(plugin); // format <plugin>
 
-      const getNpm = new GetMaterial(pluginName, pluginVersion);
-      const {
-        type, registry, dependencies, tarball, core, npm,
-      }: GetMaterialOptions = await getNpm.getConfig();
+    const { pluginName, pluginVersion } = matchResult;
 
-      const params: AddOptions = {
-        pluginName: npm, // ensure pluginName add scope
-        pluginVersion,
-        pm,
-        registry,
-        tarball,
-        core,
-        remoteDeps: dependencies,
-      };
+    const getNpm = new GetMaterial(pluginName, pluginVersion);
+    const {
+      type, registry, dependencies, tarball, core, npm,
+    }: GetMaterialOptions = await getNpm.getConfig();
 
-      if (type === 'npm') {
-        await this.installPackages(params);
-      } else {
-        await this.download(params);
-      }
+    const params: AddOptions = {
+      pluginName: npm, // ensure pluginName add scope
+      pluginVersion,
+      pm,
+      registry,
+      tarball,
+      core,
+      remoteDeps: dependencies,
+    };
+
+    if (type === 'npm') {
+      await this.npmInstall(params);
+    } else {
+      await this.download(params);
     }
   }
 
@@ -68,19 +65,23 @@ export default class AddPlugin extends BasePlugin {
    *
    * npm install and create config
    */
-  async installPackages(
+  async npmInstall(
     { pluginName, pluginVersion = "latest", pm, registry }: AddOptions
   ): Promise<void> {
     console.log(chalk.bold(`📦 Installing ${chalk.cyan(pluginName)}...`));
 
     const pkm = new PackageManager(
-      this.context, pm, registry
+      this.cwd, pm, registry
     );
     await pkm.add(`${pluginName}@${pluginVersion}`);
 
-    configTransform(pluginName, this.context);
+    // configTransform(pluginName, this.cwd); // notice: 注释生成配置文件
 
-    console.log(chalk.bold(`${chalk.green('✔')}  Successfully installed plugin: ${chalk.cyan(pluginName)}`));
+    console.log(
+      chalk.bold(
+        `${chalk.green('✔')}  Successfully installed plugin: ${chalk.cyan(pluginName)}`
+      )
+    );
   }
 
   /**
@@ -96,16 +97,23 @@ export default class AddPlugin extends BasePlugin {
   async download(
     { pluginName, tarball, pm, remoteDeps, registry }: AddOptions
   ): Promise<void> {
-    const path = await downloadPackage(pluginName, tarball, this.context);
-    if (!!path) {
-      const resolvedDeps = await syncInstallDeps(remoteDeps, this.context);
-      if (resolvedDeps && resolvedDeps.length > 0) {
+    const path = await downloadPackage(pluginName, tarball, this.cwd);
+
+    if (Object.keys(remoteDeps).length > 0) {
+      const resolvedDeps = await syncInstallDeps(remoteDeps, this.cwd);
+
+      if (resolvedDeps.length > 0) {
         const pkm = new PackageManager(
-          this.context, pm, registry,
+          this.cwd, pm, registry,
         );
         await pkm.add(resolvedDeps);
       }
-      console.log(chalk.bold(`${chalk.green('✔')}  Successfully downloaded in ${chalk.cyan(path)}`));
     }
+
+    console.log(
+      chalk.bold(
+        `${chalk.green('✔')}  Successfully downloaded in ${chalk.cyan(path)}`
+      )
+    );
   }
 }

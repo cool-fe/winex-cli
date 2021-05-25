@@ -1,52 +1,64 @@
 import chalk from 'chalk';
-import { emoji } from '../emoji';
-import fs from 'fs';
+import fs from 'fs-extra';
 import ora from 'ora';
-import fsExtra from 'fs-extra';
 import path from 'path';
+import {
+  inputLocationDirectory,
+  isOverwriteIfblockExisted,
+} from '../prompts';
 
-const { prompt, Input } = require('enquirer');
 const downloadPkgTarball = require('download-package-tarball');
 
 class FolderNotFoundError extends Error {
   constructor(_filePath: string) {
-    super(`Folder ${chalk.cyan(_filePath)} could not be found`);
+    super(
+      `Folder ${chalk.cyan(
+        _filePath
+      )} could not be found`
+    );
     this.name = 'FolderNotFoundError';
   }
 }
 
-async function checkFile(
-  pluginName: string, context: string
-): Promise<string | undefined> {
-  const input = new Input({
-    name: 'target',
-    message: ` Please enter the location directory of the block`,
-    default: './',
-    prefix: (state: any) => emoji[state.status],
-  });
-  const target = await input.run();
+/**
+ * check folder
+ */
+async function checkFolder(
+  context: string
+): Promise<string> {
+  const _target = await inputLocationDirectory(); // enter the directory
 
-  const _filePath = path.join(context, target); // target directory
+  const _filePath = path.join(context, _target); // target directory
 
   if (!fs.existsSync(_filePath)) { // The folder does not exist
     throw new FolderNotFoundError(_filePath);
   }
 
+  return _filePath;
+}
+
+/**
+ * get folder path
+ */
+async function getFilePath(
+  pluginName: string, context: string,
+): Promise<string> {
+  const _filePath = await checkFolder(context);
+
   let _materialPath = path.join(_filePath, pluginName);
-  if (!fs.existsSync(_materialPath)) { // The block does not exist
-    return _filePath;
+
+  // The block existed
+  if (fs.existsSync(_materialPath)) {
+    const overwrite = await isOverwriteIfblockExisted(_materialPath);
+
+    if (overwrite) {
+      fs.removeSync(path.resolve(_filePath, pluginName)); // remove
+    } else {
+      process.exit(1);
+    }
   }
 
-  // block existed
-  const { overwrite } = await prompt({
-    type: "confirm",
-    message: chalk.bold(` Target directory ${chalk.cyan(_materialPath)} already exists, Overwrite the file?`),
-    name: "overwrite",
-    prefix: (state: any) => emoji[state.status],
-  });
-  if (overwrite) return _filePath;
-
-  return;
+  return _filePath;
 }
 
 /**
@@ -58,35 +70,32 @@ async function checkFile(
  */
 export async function downloadPackage(
   pluginName: string, tarball: string, context: string
-): Promise<string | undefined> {
+): Promise<string> {
   const [_scope, name] = pluginName.split('/'); // scope
-  pluginName = name; // component name
 
-  const _filePath = await checkFile(pluginName, context);
-
-  if (!_filePath) return;
+  const _filePath = await getFilePath(name, context);
 
   const spinner = ora(chalk.bold(` Downloading ${chalk.cyan(pluginName)}...`));
   const process = spinner.start();
 
-  return downloadPkgTarball({
-    url: tarball,
-    dir: _filePath,
-  })
-    .then(() => {
-      // installed packages have a lot of files we don't care about, just remove files
-      const _resultPath = path.resolve(_filePath, pluginName);
-      fsExtra.moveSync(
-        path.resolve(_filePath, _scope, pluginName),
-        _resultPath,
-        { overwrite: true }
-      );
-      fsExtra.removeSync(path.resolve(_filePath, _scope));
+  try {
+    await downloadPkgTarball({ url: tarball, dir: _filePath });
+  } catch (error) {
+    throw error;
+  }
 
-      process.succeed();
-      return _resultPath;
-    })
-    .catch((err: Error) => {
-      throw err;
-    });
+  // installed packages have a lot of files we don't care about, just remove files
+  const _resultPath = path.resolve(_filePath, name);
+
+  fs.moveSync(
+    path.resolve(_filePath, _scope, name),
+    _resultPath,
+    { overwrite: true }
+  );
+
+  fs.removeSync(path.resolve(_filePath, _scope));
+
+  process.succeed();
+
+  return _resultPath;
 };
