@@ -25,14 +25,3 @@ export interface PkgOptions {
   local: string;
   remote: string;
 };
-
-export interface CommandsOptions {
-  pm: string;
-  plugin?: string;
-}
-
-export interface EmojiOptions {
-  pending: string;
-  cancelled: string;
-  submitted: string;
-}
