@@ -43,7 +43,7 @@ export default {
         usage: "use specified npm client when installing dependencies",
         shortcut: "pm",
         config: {
-          default: "npm",
+          default: "yarn",
         },
       },
       "--path [path]": {
