@@ -1,49 +1,37 @@
 import chalk from 'chalk';
-import { emoji } from '../emoji';
-import { PkgOptions, CommonParams } from '../interface';
+import { PkgOptions, CommonParams } from '../interface/index';
 import { getPackageJson } from './getPackageJson';
 import { warn } from './logger';
+import { installDeps } from '../prompts';
 
 const semver = require('semver');
-const { prompt } = require('enquirer');
 
 const VERSION_RE = /^\^/;
 
-function checkUpdateAsync({ local, remote }: PkgOptions): Promise<string> {
-  return new Promise((resolve) => {
-    if (remote !== local) {
-      const localMajor = semver.major(local);
-      const remoteMajor = semver.major(remote);
-      if (localMajor !== remoteMajor) resolve('disabled'); // major version
+function checkPkg({ local, remote }: PkgOptions): string {
+  let type = 'none';
+  if (remote !== local) {
+    const localMajor = semver.major(local);
+    const remoteMajor = semver.major(remote);
+    if (localMajor !== remoteMajor) type = 'disabled'; // major version
 
-      const isNewer = semver.gt(remote, local);
-      if (isNewer) resolve('update');
-    } else {
-      resolve('none');
-    }
-  })
+    const isNewer = semver.gt(remote, local);
+    if (isNewer) type = 'update';
+  }
+
+  return type;
 }
 
-export async function syncInstallDeps(
-  remoteDeps: CommonParams, context: string
-): Promise<string[] | undefined> {
-  // remote dependencies
-  if (Object.keys(remoteDeps).length <= 0) return;
-
-  let resolvedDeps = []; // to update dependencies
-  let disabledDeps = []; // incompatible API updates
-
-  // local package.json
-  const pkg = await getPackageJson(context);
-
-  const localDeps = !pkg.dependencies ? {} : pkg.dependencies;
+function getresolvedDeps(remoteDeps: CommonParams, localDeps: string[]) {
+  let resolvedDeps: string[] = []; // to update dependencies
+  let disabledDeps: string[] = []; // incompatible API updates
 
   for (const key in remoteDeps) {
     const remote = remoteDeps[key].replace(VERSION_RE, '');
 
     if (Object.prototype.hasOwnProperty.call(localDeps, key)) { // compare version
       const local = localDeps[key].replace(VERSION_RE, '');
-      const res = await checkUpdateAsync({ local, remote });
+      const res = checkPkg({ local, remote });
       switch (res) {
         case 'update':
           resolvedDeps.push(`${key}@${remote}`);
@@ -59,22 +47,33 @@ export async function syncInstallDeps(
     }
   }
 
+  return {
+    resolvedDeps,
+    disabledDeps,
+  };
+}
+
+export async function syncInstallDeps(
+  remoteDeps: CommonParams, context: string
+): Promise<string[]> {
+  const pkg = await getPackageJson(context); // local package.json
+  const localDeps = pkg.dependencies || {};
+
+  const { resolvedDeps, disabledDeps } = getresolvedDeps(remoteDeps, localDeps);
+
   if (disabledDeps.length > 0) {
     warn(
-      `These dependencies may be incompatible API updates, carefully installed or updated:\n` +
+      `These dependencies may be major version upgrades, carefully installed or updated:\n` +
       `${chalk.cyan(disabledDeps.join('\n'))}`
     );
   }
 
-  if (resolvedDeps.length <= 0) return;
+  if (resolvedDeps.length <= 0) return [];
 
-  const { install } = await prompt({
-    type: "confirm",
-    message: chalk.bold(` Do you install the following other dependencies: ${chalk.cyan(resolvedDeps.join(' '))}`),
-    name: "install",
-    prefix: (state: any) => emoji[state.status],
-  });
-  if (install) return resolvedDeps;
-
-  return;
+  const install = await installDeps(resolvedDeps);
+  if (install) {
+    return resolvedDeps;
+  } else {
+    return [];
+  }
 };

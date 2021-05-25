@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { GetMaterialOptions } from "../interface";
+import { GetMaterialOptions } from "../interface/index";
 import { error } from "./logger";
 
 const semver = require("semver");
@@ -47,17 +47,18 @@ export class GetMaterial {
 
     let { version, type, npm, registry } = source;
 
-    if (type !== "npm" && !!this.pluginVersion) {
+    const isDownLoadWithVersion = type !== "npm" && !!this.pluginVersion;
+
+    if (isDownLoadWithVersion) {
       if (!semver.valid(this.pluginVersion)) {
-        // todo: download：不支持 dist-tags
+        // fixme: download：不支持 dist-tags
         throw new RegularNotFoundError(this.pluginName, this.pluginVersion);
-      } else {
-        version = this.pluginVersion;
       }
+      version = this.pluginVersion;
     }
 
     // scoped packages
-    const name = npm[0] === "@" ? npm.slice(npm.indexOf("/") + 1) : npm;
+    const [_scope, name] = npm.split('/'); // scope
 
     const params = {
       npm,

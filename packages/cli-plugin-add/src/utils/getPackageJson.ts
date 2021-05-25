@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import chalk from 'chalk';
 
 /**
  * @param {String} projectPath -- context path
@@ -14,7 +15,7 @@ async function checkPackageJson(projectPath: string): Promise<any> {
   try {
     packageJson = fs.readFileSync(packagePath, 'utf-8');
   } catch (err) {
-    throw new Error(`The package.json file at '${packagePath}' does not exist`);
+    throw new Error(`The package.json file at '${chalk.cyan(packagePath)}' does not exist`);
   }
 
   return packageJson;
