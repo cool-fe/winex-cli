@@ -1,7 +1,10 @@
-import { CommandsOptions } from './interface';
+export type CommandsType = 'pm' | 'plugin';
 
-const COMMANDS_CONSTANT: CommandsOptions = {
+const COMMANDS_CONSTANT: {
+  [key in CommandsType]: string
+} = {
   pm: 'yarn',
+  plugin: '',
 };
 
 const commands = {
@@ -10,7 +13,7 @@ const commands = {
     lifecycleEvents: ['add'],
     options: {
       "--plugin <plugin>": {
-        usage: "Specify a plugin name",
+        usage: "Specify a plugin or block name",
         shortcut: "n",
       },
       "--pm [pm]": {
