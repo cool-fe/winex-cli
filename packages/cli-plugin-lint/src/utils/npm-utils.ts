@@ -59,7 +59,7 @@ export async function installSaveDev(
             const pluralS = packageList.length > 1 ? "s" : "";
             Logger.error(
               chalk.red(
-                `\n Could not execute ${pmToolName}. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
+                `\nCould not execute ${pmToolName}. Please install the following package${pluralS} with a package manager of your choice: ${packageList.join(
                   ", "
                 )}`
               )

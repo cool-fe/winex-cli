@@ -46,7 +46,7 @@ function getEslintExtendsConfig(
  */
 async function configEslintRC(projectType: string, supportTypeScript: boolean) {
   const eslintRcPath = `${process.cwd()}/.eslintrc.js`;
-  const checkResult = checkEslintConfig(process.cwd());
+  let checkResult = checkEslintConfig(process.cwd());
   const packageName = Object.keys(DeafultSharedEslintConfig)[0];
   const eslintConfigPath = getEslintExtendsConfig(
     packageName,
