@@ -1,4 +1,3 @@
-export * from "./configTransform";
 export * from "./downloadPackage";
 export * from "./executeCommand";
 export * from "./GetMaterial";
