@@ -8,6 +8,13 @@
     "lib/"
   ],
   "license": "MIT",
+  "keywords": [
+    "winfe",
+    "cli",
+    "cli-plugin",
+    "init",
+    "node"
+  ],
   "repository": {
     "url": "https://github.com/cool-fe/winex-cli.git",
     "directory": "packages/cli-plugin-init",
