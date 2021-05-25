@@ -248,9 +248,24 @@ function isExistingFile(filename: string) {
 }
 
 export function checkEslintConfig(directory: string = process.cwd()) {
-  return CONFIG_FILES.filter((filename) =>
+  let checkResult = CONFIG_FILES.filter((filename) =>
     isExistingFile(path.join(directory, filename))
   );
+
+  try {
+    //判断一次package.json里是否真正有eslintConfig
+    const eslintRcPackage = `${process.cwd()}/package.json`;
+    // 对旧的配置做合并处理
+    if (!loadConfigFile({ filePath: eslintRcPackage })) {
+      checkResult = checkResult.filter(
+        (filename) => filename !== "package.json"
+      );
+    }
+  } catch (error) {
+    checkResult = checkResult.filter((filename) => filename !== "package.json");
+  }
+
+  return checkResult;
 }
 
 export function getFilenameForDirectory(directory: string) {
