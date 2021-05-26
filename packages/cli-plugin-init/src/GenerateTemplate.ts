@@ -132,15 +132,22 @@ export class GenerateTemplate {
   /**
    * 根据用户的输入及git信息情况更新package.json配置
    * 目前主要更新字段 author、email、name等信息
+   * ----------------------------------------
+   * 删除模板package.json中不必要的配置字段: scaffoldConfig、gitHead等
    */
   updatePackageConfig(): void {
     const { user = {} } = gitInfo();
     const { name: author, email } = user;
+    const { version, description } = this.answers;
 
     updateFile(this.context, {
       author,
       email,
       name: this.outdir,
+      version,
+      description,
+      scaffoldConfig: null,
+      gitHead: null,
     });
   }
 
