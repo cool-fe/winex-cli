@@ -37,6 +37,7 @@
     "log-update": "^4.0.0",
     "ora": "^5.1.0",
     "registry-auth-token": "^4.2.1",
+    "semver": "^7.3.5",
     "superb": "^4.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
