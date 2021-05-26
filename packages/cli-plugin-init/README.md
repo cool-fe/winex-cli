@@ -1,8 +1,8 @@
-# 创建一个项目
+# 初始化一个项目
 
 ## winex init
 
-运行以下命令来创建初始化一个新项目:
+运行以下命令来初始化一个新项目:
 
 ```bash
 winex init --name <app-name>

@@ -30,14 +30,14 @@ export default {
         usage: "init a project from npm",
         shortcut: "t",
       },
-      "--version, -t [version]": {
+      "--version, -v [version]": {
         usage: "specify a project version",
         shortcut: "v",
         config: {
           default: "0.0.1",
         },
       },
-      "--description, -t [package-name]": {
+      "--description, -desc [description]": {
         usage: "a project description",
         shortcut: "desc",
         config: {
