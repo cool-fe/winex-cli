@@ -1,5 +1,7 @@
+
+
 <p align="center">
-  <img alt="Lerna" src="./logo2.png" width="480">
+  <img alt="Lerna" src="./logo2.png" width="480" marginTop="80">
 </p>
 
 <p align="center">
