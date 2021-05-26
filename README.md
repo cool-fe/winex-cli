@@ -15,9 +15,9 @@
 - [关于](#关于)
 - [起步](#起步)
 - Commands
-  - [`winex init`](./commands/init#readme)
-  - [`winex add`](./commands/add#readme)
-  - [`winex lint`](./commands/lint#readme)
+  - [`winex init`](https://github.com/cool-fe/winex-cli/tree/doc/packages/cli-plugin-lint)
+  - [`winex add`](https://github.com/cool-fe/winex-cli/tree/doc/packages/cli-plugin-lint)
+  - [`winex lint`](https://github.com/cool-fe/winex-cli/tree/doc/packages/cli-plugin-lint)
 
 ## 关于
 
