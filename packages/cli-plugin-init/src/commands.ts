@@ -30,6 +30,20 @@ export default {
         usage: "init a project from npm",
         shortcut: "t",
       },
+      "--version, -t [version]": {
+        usage: "specify a project version",
+        shortcut: "v",
+        config: {
+          default: "0.0.1",
+        },
+      },
+      "--description, -t [package-name]": {
+        usage: "a project description",
+        shortcut: "desc",
+        config: {
+          default: "A project created by winex-cli",
+        },
+      },
       "--repository, -r [url]": {
         usage: "use specified git repository",
         shortcut: "r",

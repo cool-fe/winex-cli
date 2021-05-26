@@ -8,4 +8,6 @@ export interface IAnswers {
   qiankunType: string;
   template: string;
   repository: string;
+  version: string;
+  description: string;
 }
