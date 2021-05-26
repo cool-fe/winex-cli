@@ -1,4 +1,4 @@
-#winex lint
+# winex lint
 
 > 一键式处理项目的各种config，例如eslint、prettier、editorconfig、.vscode、husky、lint-staged。
 
