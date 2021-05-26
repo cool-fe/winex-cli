@@ -38,11 +38,6 @@ $ npm install -g @winfe/winex-cli
 $ yarn global add @winfe/winex-cli
 ```
 
-- 创建一个项目：
-
-```bash
-$ winex init  -d my-project
-```
 
 ## 反馈
 
