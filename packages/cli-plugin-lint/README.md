@@ -1,8 +1,8 @@
-## winex lint
+#winex lint
 
 > 一键式处理项目的各种config，例如eslint、prettier、editorconfig、.vscode、husky、lint-staged。
 
-## 使用
+## Usage
 
 ```bash
 # 在项目根目录执行初始化lint或者升级lint
