@@ -38,10 +38,6 @@
     "rimraf": "^3.0.2"
   },
   "license": "MIT",
-  "repository": {
-    "url": "https://github.com/cool-fe/winex-cli.git",
-    "type": "ts,node"
-  },
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
   }
