@@ -14,11 +14,11 @@ const commands = {
     options: {
       "--plugin <plugin>": {
         usage: "Specify a plugin or block name",
-        shortcut: "n",
+        shortcut: "p",
       },
       "--pm [pm]": {
         usage: "Specify a management tool",
-        shortcut: "p",
+        shortcut: "pm",
         config: {
           default: COMMANDS_CONSTANT['pm'],
         },
