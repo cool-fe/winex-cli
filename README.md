@@ -57,4 +57,4 @@ $ winex init  -d my-project
 
 |                               Gitlab Issue                                |                                                        企业微信                                                         |
 | :-----------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
-| [前端组/tools/trn-cli](http://git.tanzk.cn/frontend/tools/trn-cli/issues) | <img src="https://res.shiguangkey.com/homework/2021/1/14/0c8f16efa0/16106114750744299.jpg" width="216"  height="310" /> |
+| [winex-cli](https://github.com/cool-fe/winex-cli/issues) | <img src="./dingding.jpg" width="216"  height="310" /> |
