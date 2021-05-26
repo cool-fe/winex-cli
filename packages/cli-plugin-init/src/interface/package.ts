@@ -67,6 +67,7 @@ export interface IPageInfo extends IMaterialBaseInfo {
 
 export interface IMaterialsInfo {
   name: string;
+  title: string;
   key: MaterialKey;
   description: string;
   components: IComponentsInfo[];

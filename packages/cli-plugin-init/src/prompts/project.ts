@@ -24,9 +24,9 @@ async function domainPrompts(domains: IMaterialsInfo[]) {
     name: "domain",
     message: "Which domain does the project belong to",
     choices: normalizeChoices(
-      domains.map(({ name, key }) => ({
+      domains.map(({ title, key }) => ({
         name: key,
-        desc: name,
+        desc: title,
       }))
     ),
     result(name: string) {
