@@ -42,7 +42,15 @@ export const updateFile = (context: string, meta: any) => {
       let result = JSON.parse(content);
 
       Object.keys(meta).forEach((key) => {
-        result[key] = meta[key];
+        if (meta[key] !== null) {
+          // edit
+          result[key] = meta[key];
+        } else {
+          // delete
+          if (result.hasOwnProperty(key)) {
+            delete result[key];
+          }
+        }
       });
 
       fs.writeFileSync(fileName, JSON.stringify(result, null, 2));

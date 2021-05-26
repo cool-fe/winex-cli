@@ -1,10 +1,11 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 
 import { getWinningScaffolds, getMaterialsInfo } from "../utils/package";
 import { PROJECT_TYPE, BUSINESS_TYPE } from "../constants/index";
 import { IScaffoldInfo, IMaterialsInfo, IChoice } from "../interface/index";
 
-const { Select, AutoComplete, Input, Toggle } = require("enquirer");
+const { Select, AutoComplete, Input, Toggle, prompt } = require("enquirer");
+const semver = require("semver");
 
 /**
  * 格式化选项(选项后跟中文注解, 辅助选择)
@@ -93,7 +94,7 @@ async function scaffoldPrompts(
     process.exit(1);
   }
 
-  const _prompt = new AutoComplete({
+  const _presetPrompt = new AutoComplete({
     name: "template",
     message: "Pick a preset scaffold",
     limit: 10,
@@ -108,7 +109,32 @@ async function scaffoldPrompts(
     },
   });
 
-  return _prompt.run();
+  // 请输入version / description
+  const _inputPrompt = await prompt([
+    {
+      type: "input",
+      name: "version",
+      message: "Input the project version",
+      initial: "0.0.1",
+      validate(value: string) {
+        if (!semver.valid(value)) {
+          return `${chalk.red("version should be a valid semver value")}`;
+        }
+        return true;
+      },
+    },
+    {
+      type: "input",
+      name: "description",
+      message: "What is description of the project",
+      initial: "A project created by winex-cli",
+    },
+  ]);
+
+  return {
+    template: await _presetPrompt.run(),
+    ..._inputPrompt,
+  };
 }
 
 /**
@@ -154,7 +180,7 @@ async function normalTypeHandler() {
     const qiankunType = await qiankunPrompts();
 
     // 业务项目模板名称
-    const template = await scaffoldPrompts(domain, qiankunType, materials);
+    const scaffold = await scaffoldPrompts(domain, qiankunType, materials);
 
     // 仓库地址(允许为空)
     const repository = await repositoryPrompts();
@@ -162,7 +188,7 @@ async function normalTypeHandler() {
     return {
       domain,
       qiankunType,
-      template,
+      ...scaffold,
       repository,
     };
   } catch (e) {
