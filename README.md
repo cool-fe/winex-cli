@@ -1,6 +1,5 @@
-
-<p align="center" style="font-size:40px;font-weight:700">
-  WINEX CLI 
+<p align="center">
+  <img alt="Lerna" src="./logo2.png" width="480">
 </p>
 
 <p align="center">
