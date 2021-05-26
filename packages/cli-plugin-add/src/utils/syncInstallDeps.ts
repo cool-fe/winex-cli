@@ -13,12 +13,13 @@ function checkPkg({ local, remote }: PkgOptions): string {
   if (remote !== local) {
     const localMajor = semver.major(local);
     const remoteMajor = semver.major(remote);
-    if (localMajor !== remoteMajor) type = 'disabled'; // major version
+    if (localMajor !== remoteMajor) {
+      return 'disabled'; // major version
+    }
 
     const isNewer = semver.gt(remote, local);
-    if (isNewer) type = 'update';
+    if (isNewer) return 'update';
   }
-
   return type;
 }
 
