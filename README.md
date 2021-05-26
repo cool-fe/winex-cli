@@ -1,6 +1,6 @@
 
-<p align="center">
-  Winex CLI 
+<p align="center" style="font-size:40px;font-weight:700">
+  WINEX CLI 
 </p>
 
 <p align="center">
@@ -15,14 +15,14 @@
 
 
 - [关于](#关于)
-- [起步](## 起步)
+- [起步](#起步)
 - Commands
   - [`winex init`](./commands/init#readme)
   - [`winex add`](./commands/add#readme)
   - [`winex lint`](./commands/lint#readme)
 
 
-# 关于
+## 关于
 
 搭建一套自动化的项目创建工具，目标是管控项目整个声明周期
 
