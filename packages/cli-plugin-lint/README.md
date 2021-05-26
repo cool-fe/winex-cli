@@ -11,13 +11,10 @@ $ winex lint
 
 当你运行如上命令的时候,大概做了如下几件事情:
 
-- 会展示标准应用的项目模版供大家选择，您可以选择你想要的模版创建项目
-- 初始化 git，同时创建 gitlab 仓库进行关联
-- 设置项目的负责人权限：Maintainer
+
 
 ## Options
 
-`trn create` 支持 [`trn gitlab`](#/gitlab) 所有参数
 
 - [`--env`](#--env)
 - [`--typescript`](#--typescript)

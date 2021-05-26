@@ -1,7 +1,5 @@
-
-
 <p align="center">
-  <img alt="Lerna" src="./logo2.png" width="480" marginTop="80">
+  <img alt="winex" src="./logo2.png" width="480">
 </p>
 
 <p align="center">
@@ -23,7 +21,9 @@
 
 ## 关于
 
-搭建一套自动化的项目创建工具，目标是管控项目整个声明周期
+winex-cli作为卫宁健康前端开发的自动化工具，目标是管控项目整个生命周期
+
+- 
 
 ### 开箱即用
 
@@ -55,6 +55,6 @@ $ winex init  -d my-project
 
 ## 反馈
 
-|                               Gitlab Issue                                |                                                        企业微信                                                         |
+|                               Github Issue                                |                                                        企业微信                                                         |
 | :-----------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
 | [winex-cli](https://github.com/cool-fe/winex-cli/issues) | <img src="./dingding.jpg" width="216"  height="310" /> |
