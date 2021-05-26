@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.2-alpha.21 (2021-05-26)
+
+
+### Features
+
+* scaffold packagejson ([dfc93b0](https://github.com/cool-fe/winex-cli/commit/dfc93b0e9e1981ac08772b28cdc595f621f62ad3))
+
+
+
+
+
 ## 0.0.2-alpha.20 (2021-05-26)
 
 **Note:** Version bump only for package @winfe/cli-plugin-add
