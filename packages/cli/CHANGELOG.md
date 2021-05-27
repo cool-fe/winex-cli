@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.2-alpha.23 (2021-05-26)
+
+
+### Bug Fixes
+
+* **#43:** 解决安装依赖主版本的差异对比 ([fd1bf59](https://github.com/cool-fe/winex-cli/commit/fd1bf597c5a2564fe88b5ed35b553ff43450648a)), closes [#43](https://github.com/cool-fe/winex-cli/issues/43)
+
+
+
+
+
+## 0.0.2-alpha.22 (2021-05-26)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
 ## 0.0.2-alpha.21 (2021-05-26)
 
 
