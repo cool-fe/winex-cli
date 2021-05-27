@@ -19,6 +19,7 @@ export interface GetMaterialOptions {
   tarball: string;
   core: string[];
   dependencies: CommonParams;
+  version: string;
 };
 
 export interface PkgOptions {

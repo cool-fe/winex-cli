@@ -16,14 +16,12 @@ class PackageNotFoundError extends Error {
   }
 }
 
-class RegularNotFoundError extends Error {
-  constructor(pluginName: string, version: string) {
+class RegularError extends Error {
+  constructor(pluginName: string) {
     super(
-      `Couldn't find any versions for ${chalk.cyan(
-        pluginName
-      )} that matches ${chalk.cyan(version)}`
+      `You must specify the version number for package ${chalk.cyan(pluginName)} `
     );
-    this.name = "RegularNotFoundError";
+    this.name = "RegularError";
   }
 }
 
@@ -45,14 +43,12 @@ export class GetMaterial {
 
     let { dependencies, source } = materialInfo[0];
 
-    let { version, type, npm, registry } = source;
+    let { version, type, npm, registry } = source; // version: latest
 
-    const isDownLoadWithVersion = type !== "npm" && !!this.pluginVersion;
-
-    if (isDownLoadWithVersion) {
-      if (!semver.valid(this.pluginVersion)) {
-        // fixme: download：不支持 dist-tags
-        throw new RegularNotFoundError(this.pluginName, this.pluginVersion);
+    if (!!this.pluginVersion) {
+      const isReg = !semver.valid(this.pluginVersion) && this.pluginVersion !== 'latest';
+      if (isReg) {
+        throw new RegularError(npm);
       }
       version = this.pluginVersion;
     }
@@ -64,13 +60,14 @@ export class GetMaterial {
       npm,
       type,
       registry,
+      version,
       tarball: `${registry}${npm}/-/${name}-${version}.tgz`,
     };
 
     for (const key in params) {
       if (params[key] === "") {
         error(
-          `${chalk.cyan(this.pluginName)}: lack of ${chalk.cyan(
+          `${chalk.cyan(npm)}: lack of ${chalk.cyan(
             key
           )}, please contact the developers`
         );
@@ -78,6 +75,6 @@ export class GetMaterial {
       }
     }
 
-    return Object.assign(params, { dependencies, core: [] });
+    return {dependencies, core: [], ...params};
   }
 }

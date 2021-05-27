@@ -6,8 +6,6 @@ import { installDeps } from '../prompts';
 
 const semver = require('semver');
 
-const VERSION_RE = /^\^/;
-
 function checkPkg({ local, remote }: PkgOptions): string {
   let type = 'none';
   if (remote !== local) {
@@ -28,23 +26,23 @@ function getresolvedDeps(remoteDeps: CommonParams, localDeps: string[]) {
   let disabledDeps: string[] = []; // incompatible API updates
 
   for (const key in remoteDeps) {
-    const remote = remoteDeps[key].replace(VERSION_RE, '');
+    const remote = semver.clean(remoteDeps[key]); // 提取版本号
 
     if (Object.prototype.hasOwnProperty.call(localDeps, key)) { // compare version
-      const local = localDeps[key].replace(VERSION_RE, '');
+      const local = semver.clean(localDeps[key]);
       const res = checkPkg({ local, remote });
       switch (res) {
         case 'update':
-          resolvedDeps.push(`${key}@${remote}`);
+          resolvedDeps.push(`${key}@${remoteDeps[key]}`);
           break
         case 'disabled':
-          disabledDeps.push(`${key}: ${local} => ${remote}`);
+          disabledDeps.push(`${key}: ${localDeps[key]} => ${remoteDeps[key]}`);
           break
         default:
           break
       }
     } else {
-      resolvedDeps.push(`${key}@${remote}`);
+      resolvedDeps.push(`${key}@${remoteDeps[key]}`);
     }
   }
 
