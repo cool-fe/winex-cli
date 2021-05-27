@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import {
   IScaffoldInfo,
   IMaterialsInfo,
@@ -5,7 +6,9 @@ import {
   IPackageBaseInfo,
 } from "../interface/index";
 
-import { GROUP_NAME_PREFIX } from "../constants/group";
+import { getNpmPkg } from "./getNpmPkg";
+
+import { GROUP_NAME_PREFIX, REGISTRIES } from "../constants/index";
 
 import validatePkgName from "validate-npm-package-name";
 
@@ -89,11 +92,20 @@ export async function isWinningNpm(
  * @returns 包名是否合法
  */
 export async function checkPakcageName(pkgName: string): Promise<Boolean> {
-  const { name } = genNpmInfo(pkgName);
-  const isWinning = await isWinningNpm(name);
+  const isWinningPkg = async () => {
+    const { name, version } = genNpmInfo(pkgName);
+    const validPkg = await isWinningNpm(name);
+
+    if (validPkg) {
+      return getNpmTarballUrl({
+        name,
+        version,
+      });
+    }
+  };
   const validName = validatePkgName(pkgName);
 
-  return Boolean(validName && isWinning);
+  return Boolean(validName && (await isWinningPkg()));
 }
 
 /**
@@ -120,4 +132,49 @@ export function genNpmInfo(pkgName: string): IPackageBaseInfo {
     name: pkgName.slice(0, versionIndex),
     version: pkgName.slice(versionIndex + 1) || "latest",
   };
+}
+
+/**
+ * 获取npm包的压缩包地址
+ * @param options 包的信息内容
+ * @returns 压缩包地址
+ */
+export async function getNpmTarballUrl(options: IPackageBaseInfo) {
+  try {
+    let { name, version, registry } = options;
+
+    registry = registry || (await getNpmRegistry(name));
+
+    return await getNpmPkg(name, {
+      registryUrl: registry,
+      version: version || "latest",
+    });
+  } catch (e) {
+    const { version, name } = options;
+
+    console.error(
+      `${chalk.red(
+        `✖  Package ${name}${version ? `@${version}` : ""} could not be found.`
+      )}`
+    );
+    process.exit(1);
+  }
+}
+
+/**
+ * 获取npm源
+ * 1. 配置了环境参数, 则返回环境参数registry
+ * 2. 为卫宁的npm包则返回包内容的source.registry, 否则返回固定卫宁仓库域名
+ * 3. 否则返回淘宝npm镜像
+ * @param pkgName
+ * @returns 镜像地址
+ */
+async function getNpmRegistry(pkgName: string): Promise<string> {
+  if (process.env.REGISTRY) return process.env.REGISTRY;
+
+  const WINNING_PKG = await isWinningNpm(pkgName);
+
+  if (WINNING_PKG) return WINNING_PKG.registry || REGISTRIES.winning;
+
+  return REGISTRIES.taobao;
 }

@@ -1,37 +1,17 @@
 import fs from "fs-extra";
 import path from "path";
 import ora from "ora";
-import chalk from "chalk";
 
 import { sync as mkdirp } from "mkdirp";
-import { REGISTRIES } from "../constants/index";
-import { isWinningNpm } from "./package";
 import { renameConfigFiles } from "./renameConfigFiles";
 import { readDir } from "./file";
 
 import { IMoveContent } from "../interface/file";
 import { IPackageBaseInfo } from "../interface/package";
-import { getNpmPkg } from "./getNpmPkg";
+import { getNpmTarballUrl } from "./package";
 
 const download = require("download-package-tarball");
 
-/**
- * 获取npm源
- * 1. 配置了环境参数, 则返回环境参数registry
- * 2. 为卫宁的npm包则返回包内容的source.registry, 否则返回固定卫宁仓库域名
- * 3. 否则返回淘宝npm镜像
- * @param pkgName
- * @returns 镜像地址
- */
-async function getNpmRegistry(pkgName: string): Promise<string> {
-  if (process.env.REGISTRY) return process.env.REGISTRY;
-
-  const WINNING_PKG = await isWinningNpm(pkgName);
-
-  if (WINNING_PKG) return WINNING_PKG.registry || REGISTRIES.winning;
-
-  return REGISTRIES.taobao;
-}
 
 /**
  * 整理npm包原始结构, 将包内容拷贝到目标路径
@@ -69,32 +49,7 @@ async function formatRemotePreset(moveConfig: IMoveContent): Promise<void> {
   }
 }
 
-/**
- * 获取npm包的压缩包地址
- * @param options 包的信息内容
- * @returns 压缩包地址
- */
-async function getNpmTarballUrl(options: IPackageBaseInfo) {
-  try {
-    let { name, version, registry } = options;
 
-    registry = registry || (await getNpmRegistry(name));
-
-    return await getNpmPkg(name, {
-      registryUrl: registry,
-      version: version || "latest",
-    });
-  } catch (e) {
-    const { version, name } = options;
-
-    console.error(
-      `${chalk.red(
-        `✖  Package ${name}${version ? `@${version}` : ""} could not be found.`
-      )}`
-    );
-    process.exit(1);
-  }
-}
 
 /**
  * 下载远程模板
