@@ -1,8 +1,8 @@
-# 创建一个项目
+# 初始化一个项目
 
 ## winex init
 
-运行以下命令来创建初始化一个新项目:
+运行以下命令来初始化一个新项目:
 
 ```bash
 winex init --name <app-name>
@@ -20,6 +20,8 @@ winex init --name <app-name>
 
 ### normal
 
+#### 一般初始化流程
+
 一般业务项目模板资源包, 通常需要对以下类别选择后完成定位:
 
 - domain 项目所属域(详见Domains)
@@ -30,6 +32,18 @@ winex init --name <app-name>
 ![CLI preview](./assets/scaffold.png)
 
 模板选择完毕时, winex还会问询开发者是否需要对远程仓库进行初始化, 如需要, 则winex-cli会要求填写`repository url`, 用于关联远程仓库地址.
+
+#### 固定项目模板
+当开发者已经有明确的模板下载目标时, 可以直接指定`template`选项进行项目初始化. 以物料资源测试模板为例, 运行以下命令:
+
+```
+winex init --name hello-world --template @winexmaterial-scaffolds/wn-vue2.x-template
+```
+![CLI preview](./assets/template.png)
+
+指定项目模板时, 会对模板名称进行合法性检测, 需满足以下条件:
+- 有效的npm命名规则
+- 有效的winning项目模板资源(包括name、version)
 
 ## Options
 

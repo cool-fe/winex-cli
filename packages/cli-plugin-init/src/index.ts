@@ -7,7 +7,7 @@ import { IAnswers, ICommandOptions } from "./interface/index";
 import commands from "./commands";
 import { PackageManager } from "./packageManager";
 import { GenerateTemplate } from "./generateTemplate";
-import { runPrompts } from "./prompts/project";
+import { runPrompts, commonPrompts } from "./prompts/project";
 import { pathExists, clearConsole, checkPakcageName } from "./utils/index";
 
 export default class InitPlugin extends BasePlugin {
@@ -59,7 +59,7 @@ export default class InitPlugin extends BasePlugin {
   /**
    * 开始询问初始化问题
    */
-  async runProjectPrompts(): Promise<void> {
+  async runIntegralPrompts(): Promise<void> {
     const answers = await runPrompts();
 
     if (!answers) return;
@@ -68,6 +68,17 @@ export default class InitPlugin extends BasePlugin {
 
     this.answers = answers;
     this.scaffoldNpmName = template;
+  }
+
+  /**
+   * 完成模板选择后公共的问询
+   * @param scaffold 指定的模板npm name
+   */
+  async runCommonPrompts(scaffold: string): Promise<void> {
+    const answers = await commonPrompts();
+
+    this.answers = answers;
+    this.scaffoldNpmName = scaffold;
   }
 
   checkTargetDir(context: string): boolean {
@@ -132,7 +143,7 @@ export default class InitPlugin extends BasePlugin {
     if (this.options["template"]) {
       const SPECIFIED_SCAFFOLD = this.options["template"];
 
-      const validPkg = checkPakcageName(SPECIFIED_SCAFFOLD);
+      const validPkg = await checkPakcageName(SPECIFIED_SCAFFOLD);
 
       if (!validPkg) {
         this.core.cli.log(
@@ -141,11 +152,16 @@ export default class InitPlugin extends BasePlugin {
         return;
       }
 
-      this.scaffoldNpmName = SPECIFIED_SCAFFOLD;
+      this.core.cli.log(
+        `${chalk.green("✔")} Specified scaffold · ${chalk.cyan(
+          SPECIFIED_SCAFFOLD
+        )}`
+      );
 
+      await this.runCommonPrompts(SPECIFIED_SCAFFOLD);
       await this.initProject();
     } else {
-      await this.runProjectPrompts();
+      await this.runIntegralPrompts();
       await this.initProject();
     }
 

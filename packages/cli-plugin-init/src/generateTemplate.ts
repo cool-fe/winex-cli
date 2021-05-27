@@ -5,10 +5,9 @@ import {
   updateFile,
   gitInfo,
   pathExists,
+  genNpmInfo,
 } from "./utils/index";
-import { ICommandOptions, IAnswers, IPackageBaseInfo } from "./interface/index";
-
-import { GROUP_NAME_PREFIX } from "./constants/group";
+import { ICommandOptions, IAnswers } from "./interface/index";
 
 const execa = require("execa");
 
@@ -37,33 +36,10 @@ export class GenerateTemplate {
   }
 
   /**
-   * 获取npm包的基本信息, 包括name、version等
-   * @param pkgName 包名称
-   * @returns npm包的基本信息
-   */
-  genNpmInfo(pkgName: string): IPackageBaseInfo {
-    const versionIndex = pkgName
-      .replace(GROUP_NAME_PREFIX, "")
-      .lastIndexOf("@");
-
-    if (versionIndex === -1) {
-      return {
-        name: pkgName,
-        version: "latest",
-      };
-    }
-
-    return {
-      name: pkgName.slice(0, versionIndex),
-      version: pkgName.slice(versionIndex + 1) || "latest",
-    };
-  }
-
-  /**
    * 下载预设项目模板
    */
   async downloadScaffold(): Promise<void> {
-    const { name, version } = this.genNpmInfo(this.scaffoldNpmName);
+    const { name, version } = genNpmInfo(this.scaffoldNpmName);
     const { registry } = this.options;
 
     const result = await loadRemotePreset(
@@ -138,7 +114,10 @@ export class GenerateTemplate {
   updatePackageConfig(): void {
     const { user = {} } = gitInfo();
     const { name: author, email } = user;
-    const { version, description } = this.answers;
+    const {
+      version = "0.0.1",
+      description = "A project created by winex-cli",
+    } = this.answers;
 
     updateFile(this.context, {
       author,

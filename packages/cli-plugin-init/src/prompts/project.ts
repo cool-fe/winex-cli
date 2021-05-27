@@ -94,7 +94,7 @@ async function scaffoldPrompts(
     process.exit(1);
   }
 
-  const _presetPrompt = new AutoComplete({
+  const _prompt = new AutoComplete({
     name: "template",
     message: "Pick a preset scaffold",
     limit: 10,
@@ -109,8 +109,14 @@ async function scaffoldPrompts(
     },
   });
 
+  const template = await _prompt.run();
+
+  return template;
+}
+
+async function packagePrompts() {
   // 请输入version / description
-  const _inputPrompt = await prompt([
+  const _prompt = await prompt([
     {
       type: "input",
       name: "version",
@@ -131,9 +137,18 @@ async function scaffoldPrompts(
     },
   ]);
 
+  return _prompt;
+}
+
+export async function commonPrompts() {
+  // pacakgejson文件中部分字段
+  const pacakgeInfo = await packagePrompts();
+  // 仓库地址(允许为空)
+  const repository = await repositoryPrompts();
+
   return {
-    template: await _presetPrompt.run(),
-    ..._inputPrompt,
+    ...pacakgeInfo,
+    repository,
   };
 }
 
@@ -180,16 +195,16 @@ async function normalTypeHandler() {
     const qiankunType = await qiankunPrompts();
 
     // 业务项目模板名称
-    const scaffold = await scaffoldPrompts(domain, qiankunType, materials);
+    const template = await scaffoldPrompts(domain, qiankunType, materials);
 
-    // 仓库地址(允许为空)
-    const repository = await repositoryPrompts();
+    // 公共的一些问询包括pacakgejson中的覆盖字段问询, 是否初始化仓库问询等
+    const common = await commonPrompts();
 
     return {
       domain,
       qiankunType,
-      ...scaffold,
-      repository,
+      template,
+      ...common,
     };
   } catch (e) {
     throw new Error(e);
