@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import ora from "ora";
+import chalk from "chalk";
 
 import { sync as mkdirp } from "mkdirp";
 import { REGISTRIES } from "../constants/index";
@@ -84,7 +85,14 @@ async function getNpmTarballUrl(options: IPackageBaseInfo) {
       version: version || "latest",
     });
   } catch (e) {
-    throw new Error(e);
+    const { version, name } = options;
+
+    console.error(
+      `${chalk.red(
+        `✖  Package ${name}${version ? `@${version}` : ""} could not be found.`
+      )}`
+    );
+    process.exit(1);
   }
 }
 
