@@ -2,7 +2,10 @@ import {
   IScaffoldInfo,
   IMaterialsInfo,
   IMaterialSource,
+  IPackageBaseInfo,
 } from "../interface/index";
+
+import { GROUP_NAME_PREFIX } from "../constants/group";
 
 import validatePkgName from "validate-npm-package-name";
 
@@ -67,17 +70,15 @@ export async function getWinningScaffolds(
 
 /**
  * 是否为winning仓库的模板包
- * @param pkgName
+ * @param name npm包的name
  * @returns 目标模板包信息 | undefined
  */
 export async function isWinningNpm(
-  pkgName: string
+  name: string
 ): Promise<IMaterialSource | undefined> {
   const packages: IScaffoldInfo[] = await getWinningScaffolds();
 
-  return packages
-    .map(({ source }) => source)
-    .find((item) => item.npm.includes(pkgName));
+  return packages.map(({ source }) => source).find((item) => item.npm === name);
 }
 
 /**
@@ -88,8 +89,35 @@ export async function isWinningNpm(
  * @returns 包名是否合法
  */
 export async function checkPakcageName(pkgName: string): Promise<Boolean> {
-  const isWinning = await isWinningNpm(pkgName);
+  const { name } = genNpmInfo(pkgName);
+  const isWinning = await isWinningNpm(name);
   const validName = validatePkgName(pkgName);
 
   return Boolean(validName && isWinning);
+}
+
+/**
+ * 获取npm包的基本信息, 包括name、version等
+ * @param pkgName 包名称
+ * @returns npm包的基本信息
+ */
+export function genNpmInfo(pkgName: string): IPackageBaseInfo {
+  let versionIndex = pkgName.replace(GROUP_NAME_PREFIX, "").lastIndexOf("@");
+
+  if (versionIndex < 1) {
+    return {
+      name: pkgName,
+      version: "latest",
+    };
+  }
+
+  if (pkgName.includes(GROUP_NAME_PREFIX)) {
+    const prefixLen = GROUP_NAME_PREFIX.length;
+    versionIndex += prefixLen;
+  }
+
+  return {
+    name: pkgName.slice(0, versionIndex),
+    version: pkgName.slice(versionIndex + 1) || "latest",
+  };
 }
