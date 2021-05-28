@@ -100,6 +100,7 @@ export async function checkPakcageName(pkgName: string): Promise<Boolean> {
       return getNpmTarballUrl({
         name,
         version,
+        registry: validPkg.registry,
       });
     }
   };

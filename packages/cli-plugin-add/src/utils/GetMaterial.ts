@@ -37,7 +37,7 @@ export class GetMaterial {
   }
 
   async getConfig(): Promise<GetMaterialOptions> {
-    const materialInfo = getmaterialinfo(this.pluginName);
+    const materialInfo = await getmaterialinfo(this.pluginName);
 
     if (materialInfo.length <= 0) {
       throw new PackageNotFoundError(this.pluginName);
@@ -58,7 +58,7 @@ export class GetMaterial {
     }
 
     // scoped packages
-    const [_scope, name] = npm.split('/'); // scope
+    const [_scope, name] = npm.split("/"); // scope
 
     const params = {
       npm,
