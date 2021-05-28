@@ -81,7 +81,7 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
     });
 
     if (answer.eslint) {
-      Logger.info(chalk.green("合并配置，更新 .eslintrc.js 配置文件..."));
+      Logger.info(chalk.green("合并配置，更新 .eslintrc.js 配置"));
 
       let newFileJSON = {};
       for (const oldFile of checkResult) {
@@ -144,19 +144,18 @@ async function configEslintRC(projectType: string, supportTypeScript: boolean) {
       //   process.exit(0);
       // }
     } else {
-      Logger.info(chalk.red("放弃升级eslint配置，请手动进行eslint配置"));
+      Logger.info(chalk.red("放弃升级eslint配置，请手动进行eslint配置."));
     }
   } else {
     // 不存在 eslint 配置文件, copy 模板到新建 eslintrc.js 文件
-    Logger.info(chalk.green("检测到该项目尚无 eslintrc.js 配置文件"));
-    Logger.info(chalk.green("复制标准 eslintrc.js 配置模板到项目空间..."));
+    Logger.info(chalk.green("项目尚无 eslintrc.js 配置文件,执行标准 eslintrc.js 配置."));
     fs.writeFileSync(
       `${process.cwd()}/.eslintrc.js`,
       eslintConfigContent,
       "utf-8"
     );
     Logger.info(
-      chalk.yellow(`\n👏 eslint配置更新完成, please check for sure. \n`)
+      chalk.yellow(`\n👏 eslint配置更新完成, please check for sure.\n`)
     );
   }
 }
