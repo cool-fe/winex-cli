@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-lint",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-beta.0",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -23,7 +23,7 @@
     "type": "ts,node"
   },
   "dependencies": {
-    "@winfe/cli-core": "^1.0.0-alpha.0",
+    "@winfe/cli-core": "^1.0.0-beta.0",
     "chalk": "^4.1.0",
     "command-exists": "^1.2.9",
     "cross-spawn": "^7.0.3",

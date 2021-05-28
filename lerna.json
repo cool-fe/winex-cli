@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-beta.0",
   "packages": [
     "packages/*"
   ],
@@ -16,7 +16,11 @@
         ".npmrc"
       ],
       "registry": "http://registry.npmjs.org/",
-      "version": ["--conventional-prerelease","--preid","beta"]
+      "version": [
+        "--conventional-prerelease",
+        "--preid",
+        "beta"
+      ]
     },
     "version": {
       "conventionalCommits": true,
