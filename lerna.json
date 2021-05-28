@@ -11,29 +11,16 @@
       "ignorePrepublish": true
     },
     "publish": {
-      "ignoreChanges": [
-        "*.md",
-        ".npmrc"
-      ],
+      "ignoreChanges": ["*.md", ".npmrc"],
       "registry": "http://registry.npmjs.org/",
-      "version": "prerelease"
+      "version": "premajor"
     },
     "version": {
       "conventionalCommits": true,
       "includeMergedTags": true,
-      "ignoreChanges": [
-        "*.md",
-        ".npmrc"
-      ]
+      "ignoreChanges": ["*.md", ".npmrc"]
     }
   },
-  "npmClientArgs": [
-    "--no-optional"
-  ],
-  "ignoreChanges": [
-    "**/*.md",
-    "**/*.test.ts",
-    "**/test/**",
-    "**/*.npmrc"
-  ]
+  "npmClientArgs": ["--no-optional"],
+  "ignoreChanges": ["**/*.md", "**/*.test.ts", "**/test/**", "**/*.npmrc"]
 }
