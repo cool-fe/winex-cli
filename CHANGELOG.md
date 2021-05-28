@@ -1,9 +1,9 @@
 ## 0.0.1 (2021-05-28)
 
 
-### Features
+### Bug Fixes
 
-* **#47:** 规范物料的指定版本，完善使用文档 ([840d062](https://github.com/cool-fe/winex-cli/commit/840d062877ed2f761dcf6df2a44d7ad5c2393a34)), closes [#47](https://github.com/cool-fe/winex-cli/issues/47)
+* **#49:** 缩减日志 & 安装husky进行错误拦截 ([fea92a2](https://github.com/cool-fe/winex-cli/commit/fea92a2c459118e246973f3df3ca7905bde4d979)), closes [#49](https://github.com/cool-fe/winex-cli/issues/49)
 
 
 
@@ -11,6 +11,17 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 0.0.2-alpha.26 (2021-05-28)
+
+
+### Bug Fixes
+
+* **#49:** 缩减日志 & 安装husky进行错误拦截 ([fea92a2](https://github.com/cool-fe/winex-cli/commit/fea92a2c459118e246973f3df3ca7905bde4d979)), closes [#49](https://github.com/cool-fe/winex-cli/issues/49)
+
+
+
+
 
 ## 0.0.2-alpha.25 (2021-05-28)
 
