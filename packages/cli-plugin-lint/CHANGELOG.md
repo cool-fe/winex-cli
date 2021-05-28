@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.2-alpha.25 (2021-05-28)
+
+
+### Features
+
+* **#47:** 规范物料的指定版本，完善使用文档 ([840d062](https://github.com/cool-fe/winex-cli/commit/840d062877ed2f761dcf6df2a44d7ad5c2393a34)), closes [#47](https://github.com/cool-fe/winex-cli/issues/47)
+
+
+
+
+
 ## 0.0.2-alpha.24 (2021-05-27)
 
 **Note:** Version bump only for package @winfe/cli-plugin-lint

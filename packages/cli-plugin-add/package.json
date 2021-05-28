@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-add",
-  "version": "0.0.2-alpha.24",
+  "version": "0.0.2-alpha.25",
   "homepage": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -21,9 +21,8 @@
   "dependencies": {
     "@types/execa": "^2.0.0",
     "@types/node": "^15.3.0",
-    "@winfe/cli-core": "^0.0.2-alpha.24",
+    "@winfe/cli-core": "^0.0.2-alpha.25",
     "@winfe/get-materials": "^1.0.8",
-
     "download-package-tarball": "^1.0.7",
     "enquirer": "^2.3.6",
     "execa": "^5.0.0",
