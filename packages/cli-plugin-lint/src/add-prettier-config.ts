@@ -99,17 +99,19 @@ const createPrettierrc = (prettier: string, dir: string = process.cwd()) => {
 
 const configPrettierRC = async (pmTool?: string) => {
   try {
-    Logger.info(chalk.green("安装prettier相关依赖"));
     for (const dep in prettierDeps) {
-      installOraInstance.start(dep + "@" + prettierDeps[dep]);
+      installOraInstance.start("安装 prettier 依赖\n" + dep + "@" + prettierDeps[dep]);
       await installSaveDev(dep, prettierDeps[dep], pmTool);
-      installOraInstance.succeed(dep + "@" + prettierDeps[dep]);
+      installOraInstance.clear();
     }
+
+    installOraInstance.succeed("安装 prettier 依赖");
+
     // const answer = await prettierQuestions();
     // if (answer) {
     // const { run } = answer;
     const run = "prettier"; // run prettier  By the Prettier CLI/plugin  default
-    Logger.info(chalk.green("Adding prettier config."));
+    // Logger.debug(chalk.green("Adding prettier config."));
     const file = getFilenameForDirectory(process.cwd());
     const eslint = loadConfigFile({ filePath: file }) || {
       extends: [],

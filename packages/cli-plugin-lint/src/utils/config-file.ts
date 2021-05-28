@@ -3,13 +3,16 @@
  * @description Helper to locate and load configuration files.
  */
 
-import { Logger } from "../logger";
+// import { Logger } from "../logger";
 import fs from "fs";
 import path from "path";
 import stripComments from "strip-json-comments";
 //@ts-ignore
 import stringify from "json-stable-stringify-without-jsonify";
 import importFresh from "import-fresh";
+
+
+// todo Logger.debug目前没实现通过参数控制，后续实现
 
 export type configName =
   | ".eslintrc.yaml"
@@ -50,7 +53,7 @@ function readFile(filePath: string) {
  * Loads a YAML configuration from a file.
  */
 function loadYAMLConfigFile(filePath: string) {
-  Logger.debug(`Loading YAML config file: ${filePath}`);
+  // Logger.debug(`Loading YAML config file: ${filePath}`);
   // lazy load YAML to improve performance when not used
   const yaml = require("js-yaml");
 
@@ -58,7 +61,7 @@ function loadYAMLConfigFile(filePath: string) {
     // empty YAML file can be null, so always use
     return yaml.safeLoad(readFile(filePath)) || {};
   } catch (e) {
-    Logger.debug(`Error reading YAML file: ${filePath}`);
+    // Logger.debug(`Error reading YAML file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     throw e;
   }
@@ -68,12 +71,12 @@ function loadYAMLConfigFile(filePath: string) {
  * Loads a JSON configuration from a file.
  */
 function loadJSONConfigFile(filePath: string) {
-  Logger.debug(`Loading JSON config file: ${filePath}`);
+  // Logger.debug(`Loading JSON config file: ${filePath}`);
 
   try {
     return JSON.parse(stripComments(readFile(filePath)));
   } catch (e) {
-    Logger.debug(`Error reading JSON file: ${filePath}`);
+    // Logger.debug(`Error reading JSON file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     e.messageTemplate = "failed-to-read-json";
     e.messageData = {
@@ -88,7 +91,7 @@ function loadJSONConfigFile(filePath: string) {
  * Loads a legacy (.eslintrc) configuration from a file.
  */
 function loadLegacyConfigFile(filePath: string) {
-  Logger.debug(`Loading config file: ${filePath}`);
+  // Logger.debug(`Loading config file: ${filePath}`);
 
   // lazy load YAML to improve performance when not used
   const yaml = require("js-yaml");
@@ -99,7 +102,7 @@ function loadLegacyConfigFile(filePath: string) {
       /* istanbul ignore next */ {}
     );
   } catch (e) {
-    Logger.debug(`Error reading YAML file: ${filePath}`);
+    // Logger.debug(`Error reading YAML file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     throw e;
   }
@@ -109,11 +112,11 @@ function loadLegacyConfigFile(filePath: string) {
  * Loads a JavaScript configuration from a file.
  */
 function loadJSConfigFile(filePath: string) {
-  Logger.debug(`Loading JS config file: ${filePath}`);
+  // Logger.debug(`Loading JS config file: ${filePath}`);
   try {
     return importFresh(filePath);
   } catch (e) {
-    Logger.debug(`Error reading JavaScript file: ${filePath}`);
+    // Logger.debug(`Error reading JavaScript file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     throw e;
   }
@@ -123,11 +126,11 @@ function loadJSConfigFile(filePath: string) {
  * Loads a configuration from a package.json file.
  */
 function loadPackageJSONConfigFile(filePath: any) {
-  Logger.debug(`Loading package.json config file: ${filePath}`);
+  // Logger.debug(`Loading package.json config file: ${filePath}`);
   try {
     return loadJSONConfigFile(filePath).eslintConfig || null;
   } catch (e) {
-    Logger.debug(`Error reading package.json file: ${filePath}`);
+    // Logger.debug(`Error reading package.json file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     throw e;
   }
@@ -200,7 +203,7 @@ export function loadConfigFile(file: {
  * Writes a configuration file in JavaScript format.
  */
 function writeJSConfigFile(config: object, filePath: any) {
-  Logger.debug(`Writing JS config file: ${filePath}`);
+  // Logger.debug(`Writing JS config file: ${filePath}`);
 
   const stringifiedContent = `module.exports = ${stringify(config, {
     cmp: sortByKey,
