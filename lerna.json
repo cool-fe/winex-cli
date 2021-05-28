@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2-alpha.26",
+  "version": "1.0.0-alpha.0",
   "packages": [
     "packages/*"
   ],
@@ -11,16 +11,29 @@
       "ignorePrepublish": true
     },
     "publish": {
-      "ignoreChanges": ["*.md", ".npmrc"],
+      "ignoreChanges": [
+        "*.md",
+        ".npmrc"
+      ],
       "registry": "http://registry.npmjs.org/",
       "version": "premajor"
     },
     "version": {
       "conventionalCommits": true,
       "includeMergedTags": true,
-      "ignoreChanges": ["*.md", ".npmrc"]
+      "ignoreChanges": [
+        "*.md",
+        ".npmrc"
+      ]
     }
   },
-  "npmClientArgs": ["--no-optional"],
-  "ignoreChanges": ["**/*.md", "**/*.test.ts", "**/test/**", "**/*.npmrc"]
+  "npmClientArgs": [
+    "--no-optional"
+  ],
+  "ignoreChanges": [
+    "**/*.md",
+    "**/*.test.ts",
+    "**/test/**",
+    "**/*.npmrc"
+  ]
 }

@@ -1,16 +1,19 @@
 ## 0.0.1 (2021-05-28)
 
 
-### Bug Fixes
-
-* **#49:** 缩减日志 & 安装husky进行错误拦截 ([fea92a2](https://github.com/cool-fe/winex-cli/commit/fea92a2c459118e246973f3df3ca7905bde4d979)), closes [#49](https://github.com/cool-fe/winex-cli/issues/49)
-
-
 
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-alpha.0 (2021-05-28)
+
+**Note:** Version bump only for package @winfe/winex
+
+
+
+
 
 ## 0.0.2-alpha.26 (2021-05-28)
 
