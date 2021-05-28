@@ -16,7 +16,7 @@
         ".npmrc"
       ],
       "registry": "http://registry.npmjs.org/",
-      "version": "premajor"
+      "version": ["--conventional-prerelease","--preid","beta"]
     },
     "version": {
       "conventionalCommits": true,
