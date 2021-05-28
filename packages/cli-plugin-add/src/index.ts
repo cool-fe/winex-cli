@@ -36,12 +36,12 @@ export default class AddPlugin extends BasePlugin {
 
     const getNpm = new GetMaterial(pluginName, pluginVersion);
     const {
-      type, registry, dependencies, tarball, core, npm,
+      type, registry, dependencies, tarball, core, npm, version,
     }: GetMaterialOptions = await getNpm.getConfig();
 
     const params: AddOptions = {
       pluginName: npm, // ensure pluginName add scope
-      pluginVersion,
+      pluginVersion: version,
       pm,
       registry,
       tarball,
@@ -66,7 +66,7 @@ export default class AddPlugin extends BasePlugin {
    * npm install and create config
    */
   async npmInstall(
-    { pluginName, pluginVersion = "latest", pm, registry }: AddOptions
+    { pluginName, pluginVersion, pm, registry }: AddOptions
   ): Promise<void> {
     console.log(chalk.bold(`📦 Installing ${chalk.cyan(pluginName)}...`));
 
