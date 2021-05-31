@@ -1,4 +1,9 @@
-## 0.0.1 (2021-05-28)
+## 0.0.1 (2021-05-31)
+
+
+### Bug Fixes
+
+* 在workspaces仓库中启用-W参数 ([eed1331](https://github.com/cool-fe/winex-cli/commit/eed1331eabdfdb9f244ecda6ba046f2bac3dfc91))
 
 
 
@@ -6,6 +11,17 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-beta.1 (2021-05-31)
+
+
+### Bug Fixes
+
+* 在workspaces仓库中启用-W参数 ([eed1331](https://github.com/cool-fe/winex-cli/commit/eed1331eabdfdb9f244ecda6ba046f2bac3dfc91))
+
+
+
+
 
 # 1.0.0-beta.0 (2021-05-28)
 
