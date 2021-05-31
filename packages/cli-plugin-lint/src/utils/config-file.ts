@@ -222,15 +222,6 @@ export function write(config: any, filePath: any) {
       writeJSConfigFile(config, filePath);
       break;
 
-    case ".json":
-      writeJSONConfigFile(config, filePath);
-      break;
-
-    case ".yaml":
-    case ".yml":
-      writeYAMLConfigFile(config, filePath);
-      break;
-
     default:
       throw new Error("Can't write to unknown file type.");
   }

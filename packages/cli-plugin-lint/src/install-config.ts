@@ -20,7 +20,7 @@ function hasSpecialTsConfig(projectType: string): boolean {
 /**
  * get winex shared eslint config by packageName,projectType,supportTypeScript
  */
-function getEslintExtendsConfig(
+export function getEslintExtendsConfig(
   packageName: string,
   projectType: string,
   supportTypeScript: boolean
