@@ -1,9 +1,9 @@
 ## 0.0.1 (2021-05-31)
 
 
-### Bug Fixes
+### Features
 
-* update deps & fix yaml.load ([0501ac8](https://github.com/cool-fe/winex-cli/commit/0501ac8537cf977b60e7ca3911487abed50626bd))
+* add lint config ([d84b71c](https://github.com/cool-fe/winex-cli/commit/d84b71c1896734cb0d323405af7006fd4d04f12a))
 
 
 
@@ -11,6 +11,17 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-beta.6 (2021-05-31)
+
+
+### Features
+
+* add lint config ([d84b71c](https://github.com/cool-fe/winex-cli/commit/d84b71c1896734cb0d323405af7006fd4d04f12a))
+
+
+
+
 
 # 1.0.0-beta.5 (2021-05-31)
 
