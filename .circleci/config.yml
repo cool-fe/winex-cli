@@ -1,14 +1,13 @@
-version: 2
+version: 2.1
 
 defaults: &defaults
   docker:
-    - image: circleci/node:lts-browsers
+    - image: cimg/node:15.1
 
 step_restore_cache: &restore_cache
   restore_cache:
     keys:
-      - v1-dependencies-{{ checksum "yarn.lock" }}-1
-      - v1-dependencies-
+      - node-deps-v1-{{ .Branch }}-{{checksum "yarn.lock"}}
 
 step_install_deps: &install_deps
   run:
@@ -25,9 +24,10 @@ step_save_cache: &save_cache
       - packages/cli-plugin-add/node_modules
       - packages/cli-plugin-lint/node_modules
       - ~/.cache/yarn
-    key: v1-dependencies-{{ checksum "yarn.lock" }}-1
+    key: node-deps-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
 jobs:
+
   test:
     <<: *defaults
     steps:
@@ -35,11 +35,10 @@ jobs:
       - *restore_cache
       - *install_deps
       - *save_cache
-      - run: yarn test --ci
+      - run: yarn run test --ci
 
 
 workflows:
-  version: 2
-  ci:
+  orb-free-workflow:
     jobs:
       - test
