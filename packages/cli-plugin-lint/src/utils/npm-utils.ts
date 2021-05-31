@@ -22,12 +22,6 @@ function findPackageJson(startDir: string = process.cwd()) {
   return null;
 }
 
-const sleep = (time: number) => {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => resolve(), time * 1000);
-  });
-};
-
 /**
  * Install  modules synchronously and save to devDependencies in package.json
  */
@@ -45,11 +39,11 @@ export async function installSaveDev(
     const cliArgus =
       pmToolName === "yarn" ? ["add", "--dev"] : ["install", "--save-dev"];
     try {
-      const npmProcess = spawn(pmToolName, cliArgus.concat(packageList), {
+      const npmProcess = spawn(pmToolName, cliArgus.concat(packageList).concat(['-W']), {
         stdio: "pipe",
       });
 
-      npmProcess.stdout && npmProcess.stdout.on("data", (data) => {});
+      npmProcess.stdout && npmProcess.stdout.on("data", () => {});
 
       npmProcess.stderr &&
         npmProcess.stderr.on("data", (data) => {
