@@ -8,7 +8,8 @@
   "command": {
     "bootstrap": {
       "noCi": true,
-      "ignorePrepublish": true
+      "ignorePrepublish": true,
+      "message": "chore(release): publish %s [skip ci]"
     },
     "publish": {
       "ignoreChanges": [
