@@ -2,7 +2,7 @@
   "private": true,
   "name": "@winfe/winex",
   "version": "0.0.1",
-  "description": "Create a Nuxt.js App in seconds.",
+  "description": "Create a  App in seconds.",
   "files": [
     "lib"
   ],
@@ -14,13 +14,8 @@
     "build": "father-build",
     "changelog": "lerna-changelog",
     "clean": "lerna clean -y",
-    "debug": "umi-test",
     "publish": "node ./scripts/release.js",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s  && git add CHANGELOG.md",
-    "docs:dev": "dumi dev",
-    "docs:build": "dumi build",
-    "test:cicd": "node ./scripts/test.js",
-    "codereview": "node ./scripts/codereview.js",
     "test": "jest"
   },
   "dependencies": {
@@ -37,7 +32,6 @@
     "babel-eslint": "10.1.0",
     "chalk": "^4.1.0",
     "conventional-changelog-cli": "^2.0.31",
-    "dumi": "^1.0.34",
     "eslint": "7.25.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "8.3.0",

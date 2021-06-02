@@ -1,16 +1,8 @@
-<p align="center">
-  <img alt="winex" src="./logo2.png" width="480">
-</p>
+# WINEX CLI ![NPM Status](https://img.shields.io/npm/v/@winfe/winex-cli.svg?style=flat)![CI Status](https://circleci.com/gh/cool-fe/winex-cli/tree/dev.svg?style=shield) ![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)
 
-<p align="center">
-  a tool is the Standard Tooling for winfe.
-</p>
+a tool is the Standard Tooling. Get started with the [documentation](https://cool-fe.github.io/docs-winex-cli/).
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@winfe/winex-cli"><img alt="NPM Status" src="https://img.shields.io/npm/v/@winfe/winex-cli.svg?style=flat"/></a>
-  <a href="https://circleci.com/gh/cool-fe/winex-cli/tree/main"><img alt="CI Status" src="https://circleci.com/gh/cool-fe/winex-cli/tree/dev.svg?style=shield"/></a>
-  <a href="https://lerna.js.org/"><img alt="CI Status" src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" /></a>
-</p>
+## Quickstart
 
 - [关于](#关于)
 - [起步](#起步)
@@ -21,12 +13,11 @@
 
 ## 关于
 
-winex cli是专注于前端开发自动化工具，目标是贯穿前端项目研发全链路。提高前端开发效率，降低维护成本。磨平前端开发的能力差异，让开发者专注于业务逻辑开发。
+`WINEX CLI`是专注于前端开发的自动化工具，目标是贯穿前端研发全链路，提高开发效率，降低维护成本。磨平前端开发者的能力差异，让开发聚焦于业务逻辑。
 
-- 通过`winex init`快速初始化项目，基于物料体系中的模版物料，快速初始化项目。帮助开发者零成本创建项目，让所有注意力都放在业务开发上
-- 通过`winex add`快速选择和使用物料库的区块、组件等物料，一键触达
-- 通过`winex lint`一键解决项目的各种配置，eslint、prettier、editorconfig、.vscode配置、husky、lint-staged等，永无各种配置烦恼
-
+- 通过`winex init`快速初始化项目，基于模版物料，帮助开发者零成本初始化项目。
+- 通过`winex add`使用页面、区块、业务组件等物料，万千物料一键触达，选择物料更加便捷。
+- 通过`winex lint`一键解决项目的各种配置，eslint、prettier、editorconfig、.vscode       配置、husky、lint-staged       等，消除一切配置烦恼。
 
 ## 起步
 
@@ -38,9 +29,25 @@ $ npm install -g @winfe/winex-cli
 $ yarn global add @winfe/winex-cli
 ```
 
+- 升级
 
-## 反馈
+如需升级全局的 Winex CLI 包，请运行：
 
-|                               Github Issue                                |                                                        企业微信                                                         |
-| :-----------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
-| [winex-cli](https://github.com/cool-fe/winex-cli/issues) | <img src="./dingding.jpg" width="216"  height="310" /> |
+``` bash
+npm update -g @winfe/winex-cli
+# OR
+yarn global upgrade --latest @winfe/winex-cli
+```
+
+- 使用
+
+```bash
+# 初始化一个项目
+$ winex init --name my-project
+
+# 添加一个物料
+$ winex add --plugin my-plugin
+
+# 初始化/升级：eslint、prettier、.vscode/setting.json、.editorconfig、husky、lint-staged...
+$ winex lint
+```

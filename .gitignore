@@ -8,9 +8,6 @@ npm-debug.log
 coverage
 .nyc_output
 
-# Editors
-.vscode
-.idea
 
 # Misc
 .DS_Store
