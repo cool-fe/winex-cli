@@ -1,9 +1,9 @@
-## 0.0.1 (2021-05-31)
+## 0.0.1 (2021-06-03)
 
 
-### Features
+### Bug Fixes
 
-* add lint config ([d84b71c](https://github.com/cool-fe/winex-cli/commit/d84b71c1896734cb0d323405af7006fd4d04f12a))
+* 升级@winfe/plugin-winfe ([578b46f](https://github.com/cool-fe/winex-cli/commit/578b46f02e8b892034eb71278200f5b7d936faf4))
 
 
 
@@ -11,6 +11,17 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-beta.7 (2021-06-03)
+
+
+### Bug Fixes
+
+* 升级@winfe/plugin-winfe ([578b46f](https://github.com/cool-fe/winex-cli/commit/578b46f02e8b892034eb71278200f5b7d936faf4))
+
+
+
+
 
 # 1.0.0-beta.6 (2021-05-31)
 
