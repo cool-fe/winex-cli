@@ -6,7 +6,7 @@ module.exports = {
   // tab 用两个空格代替
   tabWidth: 2,
   // 仅在语法可能出现错误的时候才会添加分号
-  semi: false,
+  semi: true,
   // 使用单引号
   singleQuote: true,
   // 在Vue文件中缩进脚本和样式标签。
@@ -36,4 +36,4 @@ module.exports = {
   htmlWhitespaceSensitivity: 'css',
   // 换行符使用 lf
   endOfLine: 'lf'
-}
+};
