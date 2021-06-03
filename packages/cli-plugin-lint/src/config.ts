@@ -1,9 +1,9 @@
 export interface DepConfig {
-  [key: string]: string
+  [key: string]: string;
 }
 
 interface ProjectDepConfig {
-  [index: string]: DepConfig
+  [index: string]: DepConfig;
 }
 
 export const commonDeps: DepConfig = {
@@ -37,7 +37,7 @@ export const pluginDeps: ProjectDepConfig = {
 }
 
 export const DeafultSharedEslintConfig: DepConfig = {
-  '@winfe/eslint-config-winex': '0.0.8'
+  '@winfe/eslint-config-winex': '0.0.9'
 }
 
 export const winfeCiDeps: DepConfig = {}
