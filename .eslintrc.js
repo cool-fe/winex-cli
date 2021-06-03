@@ -2,11 +2,7 @@ module.exports = {
   env: {
     es6: true
   },
-  extends: [
-    '@winfe/eslint-config-winex/eslintrc.node.js',
-    '@winfe/eslint-config-winex/eslintrc.typescript-node.js',
-    'prettier'
-  ],
+  extends: ['@winfe/eslint-config-winex/eslintrc.typescript-node.js', 'prettier'],
   globals: {
     use: true
   },
