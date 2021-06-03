@@ -16,11 +16,11 @@ export enum HookEngine {
 }
 
 export type PluginOptions = {
-  env: 'browser' | 'node';
-  typescript: boolean;
-  pm: 'yarn' | 'npm';
-  hookEngine?: HookEngine;
-  ci?: boolean;
+  env: 'browser' | 'node'
+  typescript: boolean
+  pm: 'yarn' | 'npm'
+  hookEngine?: HookEngine
+  ci?: boolean
 }
 
 export default class LintPlugin extends BasePlugin {
@@ -93,11 +93,9 @@ export default class LintPlugin extends BasePlugin {
       const { env, typescript, pm } = this?.answer as PluginOptions
       await interEslintToCI(hookEngine, env, typescript, pm)
 
-      Logger.info(
-        chalk`\n🎉{bold Successfully configured eslint, prettier, editorconfig in your project. happy coding~}\n`
-      )
+      Logger.info(chalk`\n🎉{bold Successfully linted. happy coding~}\n`)
 
-      Logger.info(chalk`\t{bold To get started： }`)
+      Logger.info(chalk`\t{bold To get started：}`)
       Logger.info(chalk`\t{bold Reload the  editor & experience}\n`)
     }
   }
