@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* resolve conflict ([cdca663](https://github.com/cool-fe/winex-cli/commit/cdca663971ebf8028b273ea4ac08041b52004522))
+* upgrade @winfe/plugin ([d0eb3c1](https://github.com/cool-fe/winex-cli/commit/d0eb3c109ac8cc64338d1f020d63051836935cf3))
 
 
 
@@ -11,6 +11,17 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-beta.9 (2021-06-03)
+
+
+### Bug Fixes
+
+* upgrade @winfe/plugin ([d0eb3c1](https://github.com/cool-fe/winex-cli/commit/d0eb3c109ac8cc64338d1f020d63051836935cf3))
+
+
+
+
 
 # 1.0.0-beta.8 (2021-06-03)
 
