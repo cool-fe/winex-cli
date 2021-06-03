@@ -1,16 +1,15 @@
-## 0.0.1 (2021-06-03)
-
-
-### Bug Fixes
-
-* upgrade @winfe/plugin ([d0eb3c1](https://github.com/cool-fe/winex-cli/commit/d0eb3c109ac8cc64338d1f020d63051836935cf3))
-
-
-
 # Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-beta.10 (2021-06-03)
+
+**Note:** Version bump only for package @winfe/winex
+
+
+
+
 
 # 1.0.0-beta.9 (2021-06-03)
 
