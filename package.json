@@ -12,10 +12,8 @@
   "scripts": {
     "bootstrap": "rimraf -f ./packages/.DS* &&  rimraf -rf ./packages/**/node_modules && lerna bootstrap",
     "build": "father-build",
-    "changelog": "lerna-changelog",
     "clean": "lerna clean -y",
     "publish": "node ./scripts/release.js",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s  && git add CHANGELOG.md",
     "test": "jest"
   },
   "dependencies": {
