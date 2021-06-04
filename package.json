@@ -9,6 +9,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "scripts": {
     "bootstrap": "rimraf -f ./packages/.DS* &&  rimraf -rf ./packages/**/node_modules && lerna bootstrap",
     "build": "father-build",

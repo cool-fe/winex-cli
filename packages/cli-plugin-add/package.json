@@ -9,6 +9,9 @@
   "files": [
     "lib/"
   ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "repository": {
     "url": "https://github.com/cool-fe/winex-cli.git",
     "directory": "packages/cli-plugin-add",
