@@ -5840,9 +5840,9 @@ fastq@^1.6.0:
     reusify "^1.0.4"
 
 father-build@^1.18.6:
-  version "1.19.5"
-  resolved "https://registry.npmjs.org/father-build/-/father-build-1.19.5.tgz#83a86004773b23cfc52e0abc5d0978ac16392dc0"
-  integrity sha512-QIZAt2KbXAC14Fny5jkmVErmmunFrpJ895i7eM5GXIj7S1QHOXf5S3onxaS0V4E0COfd1lohCiJc1lb35lsgBQ==
+  version "1.19.6"
+  resolved "https://registry.npmjs.org/father-build/-/father-build-1.19.6.tgz#d84b5f8d17e719ffab6b378e8100657fea22a9d3"
+  integrity sha512-InxKSw8hQi1BAiKUyK/bgDuY3O8CoRqN2k4u3Aa16sDrk05iCHwyLSk/aVN/MkuS4fEPPwECwgisVDhUpXxJvA==
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/plugin-proposal-class-properties" "7.12.1"
