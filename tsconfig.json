@@ -13,7 +13,7 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
-    "types": ["node"],
+    "types": ["node","jest"],
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts",  "examples"],
   "include": ["**/*/src/**/*.ts"]
