@@ -2887,7 +2887,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/json-schema@^7.0.3":
+"@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.6":
   version "7.0.7"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
@@ -3258,10 +3258,10 @@
     "@webassemblyjs/ast" "1.11.0"
     "@xtuc/long" "4.2.2"
 
-"@winfe/eslint-config-winex@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.npmjs.org/@winfe/eslint-config-winex/-/eslint-config-winex-0.0.9.tgz#d1a73f87709b9bba788f7fdcecfd171a2302fcd5"
-  integrity sha512-Gnw6THYEyTPvoFKJdN5+V3nXMxIp18elLUOjyAFmoaiTstb0NPa+bENQw+b7UHB4ux+7VIp9ZP8tPkOrQDMJzg==
+"@winfe/eslint-config-winex@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/@winfe/eslint-config-winex/-/eslint-config-winex-0.0.11.tgz#9c830a3ec6338250206ed243c4b2764d2eb58baf"
+  integrity sha512-fNx1tqc1FLEtlUUdt280LfSd878dlpHP5+1xZiaSEgcD8IGltir93F/w7Ksu+6D1wsJT5sFb6S8/KofKoM5WlQ==
 
 "@winfe/get-materials@^1.0.8":
   version "1.0.8"
@@ -10705,6 +10705,11 @@ prettier@2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/prettier/-/prettier-2.3.0.tgz#b6a5bf1284026ae640f17f7ff5658a7567fc0d18"
   integrity sha512-kXtO4s0Lz/DW/IJ9QdWhAf7/NmPWQXkFr/r/WkR3vyI+0v8amTDxiaQSLzs8NBlytfLWX/7uQUMIW677yLKl4w==
+
+prettier@^1.18.2:
+  version "1.19.1"
+  resolved "https://registry.npmjs.org/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
+  integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
 
 pretty-format@^27.0.2:
   version "27.0.2"

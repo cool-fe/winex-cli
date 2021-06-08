@@ -5,7 +5,6 @@ module.exports = {
   useTabs: false,
   // tab 用两个空格代替
   tabWidth: 2,
-  // 仅在语法可能出现错误的时候才会添加分号
   semi: true,
   // 使用单引号
   singleQuote: true,
