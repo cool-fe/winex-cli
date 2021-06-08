@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-add",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "homepage": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -9,6 +9,9 @@
   "files": [
     "lib/"
   ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "repository": {
     "url": "https://github.com/cool-fe/winex-cli.git",
     "directory": "packages/cli-plugin-add",
@@ -21,7 +24,7 @@
   "dependencies": {
     "@types/execa": "^2.0.0",
     "@types/node": "^15.3.0",
-    "@winfe/cli-core": "^1.0.0-beta.10",
+    "@winfe/cli-core": "^1.0.0-beta.11",
     "@winfe/get-materials": "^1.0.8",
     "download-package-tarball": "^1.0.7",
     "enquirer": "^2.3.6",

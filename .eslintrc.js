@@ -6,7 +6,6 @@ module.exports = {
   globals: {
     use: true
   },
-  ignorePatterns: ['node_modules', 'dist', 'fixtures', '**/*/*.md'],
   parserOptions: {
     ecmaVersion: 2017
   },
@@ -18,4 +17,4 @@ module.exports = {
       }
     ]
   }
-}
+};

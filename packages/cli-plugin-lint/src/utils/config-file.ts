@@ -4,23 +4,28 @@
  */
 
 // import { Logger } from "../logger";
-import fs from "fs";
-import path from "path";
-import stripComments from "strip-json-comments";
-//@ts-ignore
-import stringify from "json-stable-stringify-without-jsonify";
-import importFresh from "import-fresh";
+import fs from 'fs';
+import path from 'path';
+import stripComments from 'strip-json-comments';
+import importFresh from 'import-fresh';
 
+// eslint-disable-next-line typescript/no-namespace
+declare global {
+  interface Error {
+    messageTemplate: string;
+    messageData: { configName: string };
+  }
+}
 
-// todo Logger.debug目前没实现通过参数控制，后续实现
+// TODO Logger.debug目前没实现通过参数控制，后续实现
 
 export type configName =
-  | ".eslintrc.yaml"
-  | ".eslintrc.yml"
-  | ".eslintrc.json"
-  | ".eslintrc"
-  | "package.json"
-  | ".eslintrc.js";
+  | '.eslintrc.yaml'
+  | '.eslintrc.yml'
+  | '.eslintrc.json'
+  | '.eslintrc'
+  | 'package.json'
+  | '.eslintrc.js';
 
 /**
  * Determines sort order for object keys for json-stable-stringify
@@ -34,19 +39,19 @@ function sortByKey(a: { key: number }, b: { key: number }) {
 }
 
 export const CONFIG_FILES: configName[] = [
-  ".eslintrc",
-  ".eslintrc.yaml",
-  ".eslintrc.yml",
-  ".eslintrc.json",
-  ".eslintrc.js",
-  "package.json",
+  '.eslintrc',
+  '.eslintrc.yaml',
+  '.eslintrc.yml',
+  '.eslintrc.json',
+  '.eslintrc.js',
+  'package.json'
 ];
 
 /**
  * Convenience wrapper for synchronously reading file contents.
  */
 function readFile(filePath: string) {
-  return fs.readFileSync(filePath, "utf8").replace(/^\ufeff/u, "");
+  return fs.readFileSync(filePath, 'utf8').replace(/^\ufeff/u, '');
 }
 
 /**
@@ -55,7 +60,8 @@ function readFile(filePath: string) {
 function loadYAMLConfigFile(filePath: string) {
   // Logger.debug(`Loading YAML config file: ${filePath}`);
   // lazy load YAML to improve performance when not used
-  const yaml = require("js-yaml");
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const yaml = require('js-yaml');
 
   try {
     // empty YAML file can be null, so always use
@@ -78,10 +84,10 @@ function loadJSONConfigFile(filePath: string) {
   } catch (e) {
     // Logger.debug(`Error reading JSON file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-    e.messageTemplate = "failed-to-read-json";
+    e.messageTemplate = 'failed-to-read-json';
     e.messageData = {
       path: filePath,
-      message: e.message,
+      message: e.message
     };
     throw e;
   }
@@ -94,13 +100,11 @@ function loadLegacyConfigFile(filePath: string) {
   // Logger.debug(`Loading config file: ${filePath}`);
 
   // lazy load YAML to improve performance when not used
-  const yaml = require("js-yaml");
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const yaml = require('js-yaml');
 
   try {
-    return (
-      yaml.load(stripComments(readFile(filePath))) ||
-      /* istanbul ignore next */ {}
-    );
+    return yaml.load(stripComments(readFile(filePath))) || /* istanbul ignore next */ {};
   } catch (e) {
     // Logger.debug(`Error reading YAML file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
@@ -140,14 +144,10 @@ function loadPackageJSONConfigFile(filePath: any) {
  * Creates an error to notify about a missing config to extend from.
  */
 function configMissingError(configName: any) {
-  const error = new Error(
-    `Failed to load config "${configName}" to extend from.`
-  );
-  //@ts-ignore
-  error.messageTemplate = "extend-config-missing";
-  //@ts-ignore
+  const error = new Error(`Failed to load config "${configName}" to extend from.`);
+  error.messageTemplate = 'extend-config-missing';
   error.messageData = {
-    configName,
+    configName
   };
   return error;
 }
@@ -157,18 +157,17 @@ function configMissingError(configName: any) {
  * to determine the correctly way to load the config file.
  */
 export function loadConfigFile(file: {
-  configName?: any;
-  configFullName?: any;
-  filePath?: any;
-}) {
-  const { filePath } = file;
-  let config;
+  configName?: string;
+  configFullName?: string;
+  filePath?: string;
+}): any {
+  const { filePath = '' } = file;
+  let config: any;
 
   switch (path.extname(filePath)) {
-    case ".js":
+    case '.js':
       config = loadJSConfigFile(filePath);
       if (file.configName) {
-        //@ts-ignore
         config = config.configs[file.configName];
         if (!config) {
           throw configMissingError(file.configFullName);
@@ -176,8 +175,8 @@ export function loadConfigFile(file: {
       }
       break;
 
-    case ".json":
-      if (path.basename(filePath) === "package.json") {
+    case '.json':
+      if (path.basename(filePath) === 'package.json') {
         config = loadPackageJSONConfigFile(filePath);
         if (config === null) {
           return null;
@@ -187,8 +186,8 @@ export function loadConfigFile(file: {
       }
       break;
 
-    case ".yaml":
-    case ".yml":
+    case '.yaml':
+    case '.yml':
       config = loadYAMLConfigFile(filePath);
       break;
 
@@ -202,23 +201,18 @@ export function loadConfigFile(file: {
 /**
  * Writes a configuration file in JavaScript format.
  */
-function writeJSConfigFile(config: object, filePath: any) {
+function writeJSConfigFile(config: Partial<any>, filePath: string) {
   // Logger.debug(`Writing JS config file: ${filePath}`);
-
-  const stringifiedContent = `module.exports = ${stringify(config, {
-    cmp: sortByKey,
-    space: 4,
-  })};`;
-
-  fs.writeFileSync(filePath, stringifiedContent, "utf8");
+  const stringifiedContent = `module.exports = ${JSON.stringify(config, null, 2)};`;
+  fs.writeFileSync(filePath, stringifiedContent, 'utf8');
 }
 
 /**
  * Writes a configuration file.
  */
-export function write(config: any, filePath: any) {
+export function write(config: Partial<any>, filePath: string): void {
   switch (path.extname(filePath)) {
-    case ".js":
+    case '.js':
       writeJSConfigFile(config, filePath);
       break;
 
@@ -234,7 +228,7 @@ function isExistingFile(filename: string) {
   try {
     return fs.statSync(filename).isFile();
   } catch (err) {
-    if (err.code === "ENOENT") {
+    if (err.code === 'ENOENT') {
       return false;
     }
     throw err;
@@ -251,19 +245,15 @@ export function checkEslintConfig(directory: string = process.cwd()) {
     const eslintRcPackage = `${process.cwd()}/package.json`;
     // 对旧的配置做合并处理
     if (!loadConfigFile({ filePath: eslintRcPackage })) {
-      checkResult = checkResult.filter(
-        (filename) => filename !== "package.json"
-      );
+      checkResult = checkResult.filter((filename) => filename !== 'package.json');
     }
   } catch (error) {
-    checkResult = checkResult.filter((filename) => filename !== "package.json");
+    checkResult = checkResult.filter((filename) => filename !== 'package.json');
   }
 
   return checkResult;
 }
 
 export function getFilenameForDirectory(directory: string) {
-  return CONFIG_FILES.map((filename) => path.join(directory, filename)).find(
-    isExistingFile
-  );
+  return CONFIG_FILES.map((filename) => path.join(directory, filename)).find(isExistingFile);
 }
