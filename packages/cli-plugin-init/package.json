@@ -44,7 +44,6 @@
     "superb": "^4.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
-  "gitHead": "",
   "publishConfig": {
     "access": "public",
     "registry": "http://registry.npmjs.org/"
