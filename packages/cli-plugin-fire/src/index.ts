@@ -6,6 +6,7 @@ import Logger from './logger';
 import { collectMatiralUpdates } from './package';
 import build from './build';
 import { runPrompts } from './prompts';
+import publish from './publish';
 
 function output(...args: string[]) {
   log.clearProgress();
@@ -21,7 +22,7 @@ export type PluginOptions = {
 
 export default class LintPlugin extends BasePlugin {
   commands = {
-    lint: {
+    build: {
       publish: 'publish a material package',
       lifecycleEvents: ['build', 'file', 'publish', 'upload'],
       options: {
@@ -45,7 +46,7 @@ export default class LintPlugin extends BasePlugin {
   answer = {};
 
   hooks = {
-    'before:lint:publish': async (content: any) => {
+    'before:build:publish': async (): Promise<void> => {
       const [changes, updatePacksges] = await collectMatiralUpdates();
       if (changes && changes.length) {
         output('');
@@ -58,22 +59,15 @@ export default class LintPlugin extends BasePlugin {
       }
       console.log('updatePacksges', updatePacksges);
       // use this opportunity to confirm publishing
-      const { publish } = await runPrompts({
+      const { pub } = await runPrompts({
         type: 'confirm',
-        name: 'publish',
+        name: 'pub',
         message: 'Are you sure you want to publish these packages?'
       });
       const buildResolved = updatePacksges.map((pack) => pack.resolved);
-      if (!publish) return;
+      if (!pub) return;
       await build(buildResolved.map((res) => res.fetchSpec));
     },
-    'lint:init': async (content: any) => {
-      console.log('init');
-    },
-    'after:lint:init': async (content: any) => {
-      Logger.info(chalk`\n🎉{bold Successfully linted. happy coding~}\n`);
-      Logger.info(chalk`\t{bold To get started：}`);
-      Logger.info(chalk`\t{bold Reload the  editor & experience}\n`);
-    }
+    'build:publish': publish
   };
 }
