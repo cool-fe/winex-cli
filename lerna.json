@@ -1,8 +1,6 @@
 {
   "version": "1.0.0-beta.11",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
@@ -12,33 +10,16 @@
       "message": "chore(release): publish %s [skip ci]"
     },
     "publish": {
-      "ignoreChanges": [
-        "*.md",
-        ".npmrc"
-      ],
+      "ignoreChanges": ["*.md", ".npmrc"],
       "registry": "http://registry.npmjs.org/",
-      "version": [
-        "--conventional-prerelease",
-        "--preid",
-        "beta"
-      ]
+      "version": ["--conventional-graduate"]
     },
     "version": {
       "conventionalCommits": true,
       "includeMergedTags": true,
-      "ignoreChanges": [
-        "*.md",
-        ".npmrc"
-      ]
+      "ignoreChanges": ["*.md", ".npmrc"]
     }
   },
-  "npmClientArgs": [
-    "--no-optional"
-  ],
-  "ignoreChanges": [
-    "**/*.md",
-    "**/*.test.ts",
-    "**/test/**",
-    "**/*.npmrc"
-  ]
+  "npmClientArgs": ["--no-optional"],
+  "ignoreChanges": ["**/*.md", "**/*.test.ts", "**/test/**", "**/*.npmrc"]
 }
