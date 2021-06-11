@@ -116,7 +116,7 @@ async function initHusky(pmTool: string) {
     throw new Error(`husky add pre-commit hook failed \n ${spawnHadd.stderr}`);
   }
 
-  Logger.info(chalk.yellow(`\n👏 husky 配置完成, please check for sure. `));
+  Logger.info(chalk.yellow(`👏 husky 配置完成, please check for sure. \n`));
 }
 
 async function initLintstaged(projectType: string, supportTypeScript: boolean, pmTool: string) {
@@ -153,7 +153,7 @@ async function initLintstaged(projectType: string, supportTypeScript: boolean, p
   // 需要删除旧的lint-staged配置
   mdifyConfigPackage();
   Logger.info(chalk.green(`当前lint文件为"${LINT_STAGED_CONFIG_NAME}",可根据项目具体情况调整`));
-  Logger.info(chalk.yellow(`\n👏 lint-staged 配置完成, please check for sure. `));
+  Logger.info(chalk.yellow(`👏 lint-staged 配置完成, please check for sure. `));
 }
 
 /**

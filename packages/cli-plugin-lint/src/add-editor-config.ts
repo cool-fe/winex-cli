@@ -48,7 +48,7 @@ const createVSCodeConfig = (dir: string = process.cwd()) => {
         .then(() =>
           Logger.info(
             chalk.yellow(
-              `\n👏 Added VS Code settings in the current project for eslint to execute Prettier, please check for sure. `
+              `👏 Added VS Code settings in the current project for eslint to execute Prettier, please check for sure. `
             )
           )
         )
