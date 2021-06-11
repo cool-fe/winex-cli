@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/cool-fe/winex-cli/compare/v1.0.3...v1.0.4) (2021-06-11)
+
+
+### Bug Fixes
+
+* perform text ([bc63d04](https://github.com/cool-fe/winex-cli/commit/bc63d04629a2b39a099e9ba2c69512869c072438))
+
+
+
+
+
+
 ## 1.0.3 (2021-06-11)
 
 **Note:** Version bump only for package @winfe/cli-plugin-lint
