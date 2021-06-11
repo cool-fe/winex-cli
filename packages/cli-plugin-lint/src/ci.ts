@@ -79,7 +79,7 @@ async function initHusky(pmTool: string) {
 
   // install huksy
   Object.keys(huskyCiDeps).forEach(async (dep) => {
-    installOraInstance.start(`安装 husky 依赖\n${dep}@${huskyCiDeps[dep]}`);
+    installOraInstance.start(`安装 husky\n${dep}@${huskyCiDeps[dep]}`);
     await installSaveDev(dep, huskyCiDeps[dep], pmTool);
     installOraInstance.clear();
   });
@@ -116,17 +116,18 @@ async function initHusky(pmTool: string) {
     throw new Error(`husky add pre-commit hook failed \n ${spawnHadd.stderr}`);
   }
 
-  Logger.info(chalk.yellow(`\n👏 husky 配置完成, please check for sure. \n`));
+  Logger.info(chalk.yellow(`\n👏 husky 配置完成, please check for sure. `));
 }
 
 async function initLintstaged(projectType: string, supportTypeScript: boolean, pmTool: string) {
   // install huksy
   Object.keys(lintstagedCiDeps).forEach(async (dep) => {
-    installOraInstance.start(`${dep}@${lintstagedCiDeps[dep]}`);
+    installOraInstance.start(`安装 lint-staged\n${dep}@${lintstagedCiDeps[dep]}`);
     await installSaveDev(dep, lintstagedCiDeps[dep], pmTool);
     installOraInstance.clear();
   });
 
+  installOraInstance.succeed('安装 lint-staged');
   //init lint-staged config
   const suffix = ['js'];
   if (projectType === 'browser') suffix.push('vue');
@@ -151,10 +152,8 @@ async function initLintstaged(projectType: string, supportTypeScript: boolean, p
 
   // 需要删除旧的lint-staged配置
   mdifyConfigPackage();
-
   Logger.info(chalk.green(`当前lint文件为"${LINT_STAGED_CONFIG_NAME}",可根据项目具体情况调整`));
-
-  Logger.info(chalk.yellow(`\n👏 lint-staged 配置完成, please check for sure. \n`));
+  Logger.info(chalk.yellow(`\n👏 lint-staged 配置完成, please check for sure. `));
 }
 
 /**
