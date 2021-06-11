@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/cool-fe/winex-cli/compare/v1.0.6...v1.0.7) (2021-06-11)
+
+
+### Bug Fixes
+
+* 优化日志样式和处理eslint error ([1d5082a](https://github.com/cool-fe/winex-cli/commit/1d5082a2d3cb95c7a0b7698698f9301b2405b275))
+
+
+
+
+
 ## [1.0.6](https://github.com/cool-fe/winex-cli/compare/v1.0.4...v1.0.6) (2021-06-11)
 
 
