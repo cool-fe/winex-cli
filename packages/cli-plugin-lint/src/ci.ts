@@ -78,12 +78,13 @@ async function initHusky(pmTool: string) {
   const PRE_COMMIT_PATH = `${HUSKY_CONFIG_PATH}/pre-commit`;
 
   // install huksy
-  Object.keys(huskyCiDeps).forEach(async (dep) => {
+  const huskyDenps = Object.keys(huskyCiDeps);
+  for (let index = 0; index < huskyDenps.length; index++) {
+    const dep = huskyDenps[index];
     installOraInstance.start(`安装 husky\n${dep}@${huskyCiDeps[dep]}`);
     await installSaveDev(dep, huskyCiDeps[dep], pmTool);
     installOraInstance.clear();
-  });
-
+  }
   installOraInstance.succeed('安装 husky');
 
   fs.rmdirSync(HUSKY_CONFIG_PATH, { recursive: true });
@@ -121,13 +122,15 @@ async function initHusky(pmTool: string) {
 
 async function initLintstaged(projectType: string, supportTypeScript: boolean, pmTool: string) {
   // install huksy
-  Object.keys(lintstagedCiDeps).forEach(async (dep) => {
+  const lintstagedDenps = Object.keys(lintstagedCiDeps);
+  for (let index = 0; index < lintstagedDenps.length; index++) {
+    const dep = lintstagedDenps[index];
     installOraInstance.start(`安装 lint-staged\n${dep}@${lintstagedCiDeps[dep]}`);
     await installSaveDev(dep, lintstagedCiDeps[dep], pmTool);
     installOraInstance.clear();
-  });
-
+  }
   installOraInstance.succeed('安装 lint-staged');
+
   //init lint-staged config
   const suffix = ['js'];
   if (projectType === 'browser') suffix.push('vue');

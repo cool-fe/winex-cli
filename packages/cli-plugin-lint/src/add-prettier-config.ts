@@ -53,12 +53,15 @@ const createPrettierrc = (prettier: string, dir: string = process.cwd()) => {
 
 const configPrettierRC = async (pmTool?: string): Promise<void> => {
   try {
-    Object.keys(prettierDeps).forEach(async (dep) => {
+    const preDenps = Object.keys(prettierDeps);
+    for (let index = 0; index < preDenps.length; index++) {
+      const dep = preDenps[index];
       installOraInstance.start(`安装 prettier\n${dep}@${prettierDeps[dep]}`);
       await installSaveDev(dep, prettierDeps[dep], pmTool);
       installOraInstance.clear();
-    });
+    }
     installOraInstance.succeed('安装 prettier');
+
     const file = getFilenameForDirectory(process.cwd());
     const eslint = loadConfigFile({ filePath: file }) || {
       extends: [],
