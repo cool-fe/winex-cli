@@ -1,7 +1,7 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
 import { createCliPrompt } from './prompts';
-import { installDeps } from './deps-install';
+import installDeps from './deps-install';
 import configEslintRC from './install-config';
 import configPrettierRC from './add-prettier-config';
 import configEditorrRC from './add-editor-config';
