@@ -99,7 +99,7 @@ async function initHusky(pmTool: string) {
     encoding: 'utf-8'
   });
 
-  if (spawnHinstall.stderr) {
+  if (spawnHinstall.status !== 0) {
     throw new Error(`husky 初始化失败 \n ${spawnHinstall.stderr}`);
   }
 
@@ -112,7 +112,7 @@ async function initHusky(pmTool: string) {
       encoding: 'utf-8'
     }
   );
-  if (spawnHadd.stderr) {
+  if (spawnHadd.status !== 0) {
     throw new Error(`husky add pre-commit hook failed \n ${spawnHadd.stderr}`);
   }
 
