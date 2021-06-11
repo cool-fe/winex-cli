@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/cool-fe/winex-cli/compare/v1.0.0...v1.0.1) (2021-06-11)
+
+
+### Bug Fixes
+
+* fix process.stderr ([0c655b2](https://github.com/cool-fe/winex-cli/commit/0c655b2f85efd5ae3535b5aa6119af65a9fa6eb0))
+* perform log style ([63b1411](https://github.com/cool-fe/winex-cli/commit/63b1411d9d712cfa222b616f13a42af5690f8e7c))
+
+
+
+
+
+
 # 1.0.0 (2021-06-10)
 
 **Note:** Version bump only for package @winfe/winex
