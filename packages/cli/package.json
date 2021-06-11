@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "bin": {
     "winex": "bin/winex.js"
   },
@@ -32,7 +32,7 @@
     "@winfe/cli-core": "^1.0.3",
     "@winfe/cli-plugin-add": "^1.0.3",
     "@winfe/cli-plugin-init": "^1.0.3",
-    "@winfe/cli-plugin-lint": "^1.0.7",
+    "@winfe/cli-plugin-lint": "^1.0.8",
     "child_process": "^1.0.2"
   },
   "license": "MIT",
