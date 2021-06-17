@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.10 (2021-06-17)
+
+
+### Bug Fixes
+
+* fix cli eslint ([4089c4f](https://github.com/cool-fe/winex-cli/commit/4089c4f01228572a8e019f897a1d90b156908eea))
+
+
+
+
+
 ## 1.0.3 (2021-06-11)
 
 **Note:** Version bump only for package @winfe/cli-core
