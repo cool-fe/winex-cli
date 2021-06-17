@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-"use strict";
+/* eslint-disable node/shebang */
 
 const cliFun = async (argv) => {
-  const { CLI } = require("../lib");
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { CLI } = require('../lib');
   const cli = new CLI(argv);
   cli
     .start()
