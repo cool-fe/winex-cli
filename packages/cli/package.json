@@ -4,6 +4,9 @@
   "bin": {
     "winex": "bin/winex.js"
   },
+  "scripts": {
+    "install": "node scripts/sentry.js"
+  },
   "engines": {
     "node": ">=12.0.0"
   },
@@ -29,11 +32,14 @@
     "access": "public"
   },
   "dependencies": {
+    "@sentry/node": "^6.7.2",
+    "@sentry/tracing": "^6.7.2",
     "@winfe/cli-core": "^1.0.10",
     "@winfe/cli-plugin-add": "^1.0.10",
     "@winfe/cli-plugin-init": "^1.0.10",
     "@winfe/cli-plugin-lint": "^1.0.10",
-    "child_process": "^1.0.2"
+    "child_process": "^1.0.2",
+    "ini": "^2.0.0"
   },
   "license": "MIT",
   "gitHead": "22645c440d0293f1db5fe107bd1f5561986f1734"
