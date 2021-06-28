@@ -8,6 +8,8 @@ import build from './build';
 import { runPrompts } from './prompts';
 import publish from './publish';
 
+import App from './core/node/App';
+
 function output(...args: string[]) {
   log.clearProgress();
   console.log(...args);
@@ -20,24 +22,40 @@ export type PluginOptions = {
   ci?: boolean;
 };
 
+function createApp(
+  options: { plugins?: any; theme?: any; temp?: string; sourceDir: string } | undefined
+) {
+  Logger.info('Extracting site metadata...');
+  // @ts-ignore
+  return new App(options);
+}
+
 export default class LintPlugin extends BasePlugin {
   commands = {
-    build: {
-      publish: 'publish a material package',
-      lifecycleEvents: ['build', 'file', 'publish', 'upload'],
-      options: {
-        '--package [package]': {
-          usage: '需要发布的包目录',
-          config: {}
+    fire: {
+      commands: {
+        build: {
+          publish: 'publish a material package',
+          lifecycleEvents: ['build', 'file', 'publish', 'upload'],
+          options: {
+            '--package [package]': {
+              usage: '需要发布的包目录',
+              config: {}
+            },
+            '--registry': {
+              usage: '发布的源地址'
+            },
+            '--ci': {
+              usage: '是否在ci/cd中'
+            },
+            '--verbose': {
+              usage: '是否显示详细的日志信息'
+            }
+          }
         },
-        '--registry': {
-          usage: '发布的源地址'
-        },
-        '--ci': {
-          usage: '是否在ci/cd中'
-        },
-        '--verbose': {
-          usage: '是否显示详细的日志信息'
+        start: {
+          publish: 'start a material package',
+          lifecycleEvents: ['dev']
         }
       }
     }
@@ -68,6 +86,14 @@ export default class LintPlugin extends BasePlugin {
       if (!pub) return;
       await build(buildResolved.map((res) => res.fetchSpec));
     },
-    'build:publish': publish
+    'build:publish': publish,
+    'fire:start:dev': async (): Promise<void> => {
+      console.log('fire start');
+      const app = createApp({
+        sourceDir: process.cwd()
+      });
+      await app.process();
+      return app.dev();
+    }
   };
 }

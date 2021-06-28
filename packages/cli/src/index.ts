@@ -38,7 +38,8 @@ const plugins: {
 } = {
   lint: { mod: '@winfe/cli-plugin-lint', name: 'LintPlugin' },
   init: { mod: '@winfe/cli-plugin-init', name: 'InitPlugin' },
-  add: { mod: '@winfe/cli-plugin-add', name: 'AddPlugin' }
+  add: { mod: '@winfe/cli-plugin-add', name: 'AddPlugin' },
+  fire: { mod: '@winfe/cli-plugin-fire', name: 'FirePlugin' }
 };
 
 // eslint-disable-next-line import/prefer-default-export

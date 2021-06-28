@@ -24,8 +24,6 @@ export async function collectMatiralUpdates(options = {}): Promise<[update, upda
   const project = new Project();
   const packageGraph = new PackageGraph(await project.getPackages());
 
-  console.log('project.manifest', project.manifest);
-
   const execOpts = {
     cwd: project.rootPath
   };
