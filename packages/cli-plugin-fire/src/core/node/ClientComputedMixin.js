@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Get page data via path (permalink).
@@ -8,17 +8,17 @@
  * @returns {object}
  */
 
-function findPageForPath (pages, path) {
+function findPageForPath(pages, path) {
   for (let i = 0; i < pages.length; i++) {
-    const page = pages[i]
+    const page = pages[i];
     if (page.path.toLowerCase() === path.toLowerCase()) {
-      return page
+      return page;
     }
   }
   return {
     path: '',
     frontmatter: {}
-  }
+  };
 }
 
 /**
@@ -29,107 +29,109 @@ function findPageForPath (pages, path) {
  * @returns {ClientComputedMixin}
  */
 
-module.exports = siteData => {
+module.exports = (siteData) => {
   return class ClientComputedMixin {
-    setPage (page) {
-      this.__page = page
+    setPage(page) {
+      this.__page = page;
     }
 
-    get $site () {
-      return siteData
+    get $site() {
+      return siteData;
     }
 
-    get $themeConfig () {
-      return this.$site.themeConfig
+    get $themeConfig() {
+      return this.$site.themeConfig;
     }
 
-    get $frontmatter () {
-      return this.$page.frontmatter
+    get $frontmatter() {
+      return this.$page.frontmatter;
     }
 
-    get $localeConfig () {
-      const { locales = {}} = this.$site
-      let targetLang
-      let defaultLang
+    get $localeConfig() {
+      const { locales = {} } = this.$site;
+      let targetLang;
+      let defaultLang;
       for (const path in locales) {
         if (path === '/') {
-          defaultLang = locales[path]
+          defaultLang = locales[path];
         } else if (this.$page.path.indexOf(path) === 0) {
-          targetLang = locales[path]
+          targetLang = locales[path];
         }
       }
-      return targetLang || defaultLang || {}
+      return targetLang || defaultLang || {};
     }
 
-    get $siteTitle () {
-      return this.$localeConfig.title || this.$site.title || ''
+    get $siteTitle() {
+      return this.$localeConfig.title || this.$site.title || '';
     }
 
-    get $canonicalUrl () {
-      const { canonicalUrl } = this.$page.frontmatter
+    get $canonicalUrl() {
+      const { canonicalUrl } = this.$page.frontmatter;
 
       if (typeof canonicalUrl === 'string') {
-        return canonicalUrl
+        return canonicalUrl;
       }
 
-      return false
+      return false;
     }
 
-    get $title () {
-      const page = this.$page
-      const { metaTitle } = this.$page.frontmatter
+    get $title() {
+      const page = this.$page;
+      const { metaTitle } = this.$page.frontmatter;
       if (typeof metaTitle === 'string') {
-        return metaTitle
+        return metaTitle;
       }
 
-      const siteTitle = this.$siteTitle
-      const selfTitle = page.frontmatter.home ? null : (
-        page.frontmatter.title // explicit title
-        || page.title // inferred title
-      )
+      const siteTitle = this.$siteTitle;
+      const selfTitle = page.frontmatter.home
+        ? null
+        : page.frontmatter.title || // explicit title
+          page.title; // inferred title
       return siteTitle
         ? selfTitle
-          ? (selfTitle + ' | ' + siteTitle)
+          ? selfTitle + ' | ' + siteTitle
           : siteTitle
-        : selfTitle || 'VuePress'
+        : selfTitle || 'VuePress';
     }
 
-    get $description () {
+    get $description() {
       // #565 hoist description from meta
-      const description = getMetaDescription(this.$page.frontmatter.meta)
+      const description = getMetaDescription(this.$page.frontmatter.meta);
       if (description) {
-        return description
+        return description;
       }
-      return this.$page.frontmatter.description || this.$localeConfig.description || this.$site.description || ''
+      return (
+        this.$page.frontmatter.description ||
+        this.$localeConfig.description ||
+        this.$site.description ||
+        ''
+      );
     }
 
-    get $lang () {
-      return this.$page.frontmatter.lang || this.$localeConfig.lang || 'en-US'
+    get $lang() {
+      return this.$page.frontmatter.lang || this.$localeConfig.lang || 'en-US';
     }
 
-    get $localePath () {
-      return this.$localeConfig.path || '/'
+    get $localePath() {
+      return this.$localeConfig.path || '/';
     }
 
-    get $themeLocaleConfig () {
-      return (this.$site.themeConfig.locales || {})[this.$localePath] || {}
+    get $themeLocaleConfig() {
+      return (this.$site.themeConfig.locales || {})[this.$localePath] || {};
     }
 
-    get $page () {
+    get $page() {
       if (this.__page) {
-        return this.__page
+        return this.__page;
       }
-      return findPageForPath(
-        this.$site.pages,
-        this.$route.path
-      )
+      return findPageForPath(this.$site.pages, this.$route.path);
     }
-  }
-}
+  };
+};
 
-function getMetaDescription (meta) {
+function getMetaDescription(meta) {
   if (meta) {
-    const descriptionMeta = meta.filter(item => item.name === 'description')[0]
-    if (descriptionMeta) return descriptionMeta.content
+    const descriptionMeta = meta.filter((item) => item.name === 'description')[0];
+    if (descriptionMeta) return descriptionMeta.content;
   }
 }

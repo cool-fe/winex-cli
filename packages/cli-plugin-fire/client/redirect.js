@@ -20,36 +20,36 @@
 //
 // If all the above redirect rules don't exist, you'll get a 404
 
-export function handleRedirectForCleanUrls (router) {
+export function handleRedirectForCleanUrls(router) {
   router.beforeEach((to, from, next) => {
     if (isRouteExists(router, to.path)) {
-      next()
+      next();
     } else {
       if (!/(\/|\.html)$/.test(to.path)) {
-        const endingSlashUrl = to.path + '/'
-        const endingHtmlUrl = to.path + '.html'
+        const endingSlashUrl = to.path + '/';
+        const endingHtmlUrl = to.path + '.html';
         if (isRouteExists(router, endingHtmlUrl)) {
-          next(endingHtmlUrl)
+          next(endingHtmlUrl);
         } else if (isRouteExists(router, endingSlashUrl)) {
-          next(endingSlashUrl)
+          next(endingSlashUrl);
         } else {
-          next()
+          next();
         }
       } else if (/\/$/.test(to.path)) {
-        const endingHtmlUrl = to.path.replace(/\/$/, '') + '.html'
+        const endingHtmlUrl = to.path.replace(/\/$/, '') + '.html';
         if (isRouteExists(router, endingHtmlUrl)) {
-          next(endingHtmlUrl)
+          next(endingHtmlUrl);
         } else {
-          next()
+          next();
         }
       } else {
-        next()
+        next();
       }
     }
-  })
+  });
 }
 
-function isRouteExists (router, path) {
-  const pathLower = path.toLowerCase()
-  return router.options.routes.some(route => route.path.toLowerCase() === pathLower)
+function isRouteExists(router, path) {
+  const pathLower = path.toLowerCase();
+  return router.options.routes.some((route) => route.path.toLowerCase() === pathLower);
 }

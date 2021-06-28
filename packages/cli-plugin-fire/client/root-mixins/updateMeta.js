@@ -1,86 +1,90 @@
-import unionBy from 'lodash/unionBy'
-import escape from 'escape-html'
+import unionBy from 'lodash/unionBy';
+import escape from 'escape-html';
 
 export default {
   // created will be called on both client and ssr
-  created () {
+  created() {
     this.siteMeta = this.$site.headTags
       .filter(([headerType]) => headerType === 'meta')
-      .map(([_, headerValue]) => headerValue)
+      .map(([_, headerValue]) => headerValue);
 
     if (this.$ssrContext) {
-      const mergedMetaItems = this.getMergedMetaTags()
+      const mergedMetaItems = this.getMergedMetaTags();
 
-      this.$ssrContext.title = this.$title
-      this.$ssrContext.lang = this.$lang
-      this.$ssrContext.pageMeta = renderPageMeta(mergedMetaItems)
-      this.$ssrContext.canonicalLink = renderCanonicalLink(this.$canonicalUrl)
+      this.$ssrContext.title = this.$title;
+      this.$ssrContext.lang = this.$lang;
+      this.$ssrContext.pageMeta = renderPageMeta(mergedMetaItems);
+      this.$ssrContext.canonicalLink = renderCanonicalLink(this.$canonicalUrl);
     }
   },
   // Other life cycles will only be called at client
-  mounted () {
+  mounted() {
     // init currentMetaTags from DOM
-    this.currentMetaTags = [...document.querySelectorAll('meta')]
+    this.currentMetaTags = [...document.querySelectorAll('meta')];
 
     // update title / meta tags
-    this.updateMeta()
-    this.updateCanonicalLink()
+    this.updateMeta();
+    this.updateCanonicalLink();
   },
 
   methods: {
-    updateMeta () {
-      document.title = this.$title
-      document.documentElement.lang = this.$lang
+    updateMeta() {
+      document.title = this.$title;
+      document.documentElement.lang = this.$lang;
 
-      const newMetaTags = this.getMergedMetaTags()
-      this.currentMetaTags = updateMetaTags(newMetaTags, this.currentMetaTags)
+      const newMetaTags = this.getMergedMetaTags();
+      this.currentMetaTags = updateMetaTags(newMetaTags, this.currentMetaTags);
     },
 
-    getMergedMetaTags () {
-      const pageMeta = this.$page.frontmatter.meta || []
+    getMergedMetaTags() {
+      const pageMeta = this.$page.frontmatter.meta || [];
       // pageMetaTags have higher priority than siteMetaTags
       // description needs special attention as it has too many entries
-      return unionBy([{ name: 'description', content: this.$description }],
-        pageMeta, this.siteMeta, metaIdentifier)
+      return unionBy(
+        [{ name: 'description', content: this.$description }],
+        pageMeta,
+        this.siteMeta,
+        metaIdentifier
+      );
     },
 
-    updateCanonicalLink () {
-      removeCanonicalLink()
+    updateCanonicalLink() {
+      removeCanonicalLink();
 
       if (!this.$canonicalUrl) {
-        return
+        return;
       }
 
-      document.head.insertAdjacentHTML('beforeend', renderCanonicalLink(this.$canonicalUrl))
+      document.head.insertAdjacentHTML('beforeend', renderCanonicalLink(this.$canonicalUrl));
     }
   },
 
   watch: {
-    $page () {
-      this.updateMeta()
-      this.updateCanonicalLink()
+    $page() {
+      this.updateMeta();
+      this.updateCanonicalLink();
     }
   },
 
-  beforeDestroy () {
-    updateMetaTags(null, this.currentMetaTags)
-    removeCanonicalLink()
+  beforeDestroy() {
+    updateMetaTags(null, this.currentMetaTags);
+    removeCanonicalLink();
   }
-}
+};
 
-function removeCanonicalLink () {
-  const canonicalEl = document.querySelector("link[rel='canonical']")
+function removeCanonicalLink() {
+  const canonicalEl = document.querySelector("link[rel='canonical']");
 
   if (canonicalEl) {
-    canonicalEl.remove()
+    canonicalEl.remove();
   }
 }
 
-function renderCanonicalLink (link = '') {
+function renderCanonicalLink(link = '') {
   if (!link) {
-    return ''
+    return '';
   }
-  return `<link href="${link}" rel="canonical" />`
+  return `<link href="${link}" rel="canonical" />`;
 }
 
 /**
@@ -89,21 +93,21 @@ function renderCanonicalLink (link = '') {
  * @param {Array<HTMLElement>} currentMetaTags
  * @returns {Array<HTMLElement>}
  */
-function updateMetaTags (newMetaTags, currentMetaTags) {
+function updateMetaTags(newMetaTags, currentMetaTags) {
   if (currentMetaTags) {
     [...currentMetaTags]
-          .filter(c => c.parentNode === document.head)
-          .forEach(c => document.head.removeChild(c))
+      .filter((c) => c.parentNode === document.head)
+      .forEach((c) => document.head.removeChild(c));
   }
   if (newMetaTags) {
-    return newMetaTags.map(m => {
-      const tag = document.createElement('meta')
-      Object.keys(m).forEach(key => {
-        tag.setAttribute(key, m[key])
-      })
-      document.head.appendChild(tag)
-      return tag
-    })
+    return newMetaTags.map((m) => {
+      const tag = document.createElement('meta');
+      Object.keys(m).forEach((key) => {
+        tag.setAttribute(key, m[key]);
+      });
+      document.head.appendChild(tag);
+      return tag;
+    });
   }
 }
 
@@ -114,11 +118,11 @@ function updateMetaTags (newMetaTags, currentMetaTags) {
  * @param {Object} tag from frontmatter or siteMetaTags
  * @returns {String}
  */
-function metaIdentifier (tag) {
+function metaIdentifier(tag) {
   for (const item of ['name', 'property', 'itemprop']) {
-    if (tag.hasOwnProperty(item)) return tag[item] + item
+    if (tag.hasOwnProperty(item)) return tag[item] + item;
   }
-  return JSON.stringify(tag)
+  return JSON.stringify(tag);
 }
 
 /**
@@ -128,13 +132,15 @@ function metaIdentifier (tag) {
  * @returns {String}
  */
 
-function renderPageMeta (meta) {
-  if (!meta) return ''
-  return meta.map(m => {
-    let res = `<meta`
-    Object.keys(m).forEach(key => {
-      res += ` ${key}="${escape(m[key])}"`
+function renderPageMeta(meta) {
+  if (!meta) return '';
+  return meta
+    .map((m) => {
+      let res = `<meta`;
+      Object.keys(m).forEach((key) => {
+        res += ` ${key}="${escape(m[key])}"`;
+      });
+      return res + `>`;
     })
-    return res + `>`
-  }).join('\n    ')
+    .join('\n    ');
 }

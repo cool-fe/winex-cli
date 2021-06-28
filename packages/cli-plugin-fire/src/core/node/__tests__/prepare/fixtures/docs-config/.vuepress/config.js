@@ -3,7 +3,5 @@ module.exports = {
   description: '# Hello, VuePress!',
   dest: 'vuepress',
   base: 'vuepress',
-  head: [
-    ['link', { rel: 'icon', href: '/logo.png' }]
-  ]
-}
+  head: [['link', { rel: 'icon', href: '/logo.png' }]]
+};
