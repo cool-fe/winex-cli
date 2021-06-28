@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.12 (2021-06-28)
+
+
+### Bug Fixes
+
+* fix sentry registry ([b33e5ef](https://github.com/cool-fe/winex-cli/commit/b33e5ef75f388f8883b912897c67ce28d0794a75))
+
+
+
+
+
 ## 1.0.11 (2021-06-24)
 
 
