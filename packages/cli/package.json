@@ -15,7 +15,8 @@
   "types": "lib/index.d.ts",
   "files": [
     "lib/",
-    "bin/"
+    "bin/",
+    "scripts/"
   ],
   "keywords": [
     "winfe",
