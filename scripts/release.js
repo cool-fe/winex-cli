@@ -1,6 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const chalk = require('chalk');
@@ -75,8 +72,7 @@ try {
   ps.on('close', () => {
     error(`Installed ${packageName}`);
   });
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-} catch (error) {
-  error(`Failed to install ${error}`);
+} catch (err) {
+  error(`Failed to install ${err}`);
   process.exit(1);
 }

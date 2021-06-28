@@ -1,8 +1,11 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.12",
   "bin": {
     "winex": "bin/winex.js"
+  },
+  "scripts": {
+    "install": "node scripts/sentry.js"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -12,7 +15,8 @@
   "types": "lib/index.d.ts",
   "files": [
     "lib/",
-    "bin/"
+    "bin/",
+    "scripts/"
   ],
   "keywords": [
     "winfe",
@@ -29,12 +33,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@winfe/cli-core": "^1.0.0-beta.11",
-    "@winfe/cli-plugin-add": "^1.0.0-beta.11",
-    "@winfe/cli-plugin-init": "^1.0.0-beta.11",
-    "@winfe/cli-plugin-lint": "^1.0.0-beta.11",
-    "child_process": "^1.0.2"
+    "@sentry/node": "^6.7.2",
+    "@sentry/tracing": "^6.7.2",
+    "@winfe/cli-core": "^1.0.12",
+    "@winfe/cli-plugin-add": "^1.0.12",
+    "@winfe/cli-plugin-init": "^1.0.12",
+    "@winfe/cli-plugin-lint": "^1.0.12",
+    "child_process": "^1.0.2",
+    "ini": "^2.0.0"
   },
-  "gitHead": "9cd98ccc0cf427933fb863bac882228a6992a9f8",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "22645c440d0293f1db5fe107bd1f5561986f1734"
 }

@@ -3,6 +3,122 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.12 (2021-06-28)
+
+
+### Bug Fixes
+
+* fix sentry registry ([b33e5ef](https://github.com/cool-fe/winex-cli/commit/b33e5ef75f388f8883b912897c67ce28d0794a75))
+
+
+
+
+
+## 1.0.11 (2021-06-24)
+
+
+### Features
+
+* add log sentry ([4d8d56f](https://github.com/cool-fe/winex-cli/commit/4d8d56fd1e79b6e8dade1e8d61e25801fc255c86))
+
+
+
+
+
+## 1.0.10 (2021-06-17)
+
+
+### Bug Fixes
+
+* fix cli eslint ([4089c4f](https://github.com/cool-fe/winex-cli/commit/4089c4f01228572a8e019f897a1d90b156908eea))
+
+
+
+
+
+## [1.0.9](https://github.com/cool-fe/winex-cli/compare/v1.0.8...v1.0.9) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## [1.0.8](https://github.com/cool-fe/winex-cli/compare/v1.0.7...v1.0.8) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+
+## [1.0.7](https://github.com/cool-fe/winex-cli/compare/v1.0.6...v1.0.7) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## [1.0.6](https://github.com/cool-fe/winex-cli/compare/v1.0.4...v1.0.6) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## [1.0.5](https://github.com/cool-fe/winex-cli/compare/v1.0.4...v1.0.5) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## [1.0.4](https://github.com/cool-fe/winex-cli/compare/v1.0.3...v1.0.4) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+
+## 1.0.3 (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## 1.0.2 (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+## [1.0.1](https://github.com/cool-fe/winex-cli/compare/v1.0.0...v1.0.1) (2021-06-11)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
+
+# 1.0.0 (2021-06-10)
+
+**Note:** Version bump only for package @winfe/winex-cli
+
+
+
+
+
 # 1.0.0-beta.11 (2021-06-07)
 
 **Note:** Version bump only for package @winfe/winex-cli

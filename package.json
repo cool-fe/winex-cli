@@ -20,6 +20,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "cross-spawn": "^7.0.3"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
     "@typescript-eslint/parser": "4.22.1",
     "@winfe/eslint-config-winex": "0.0.11",
     "babel-eslint": "10.1.0",
-    "chalk": "^4.1.0",
     "conventional-changelog-cli": "^2.0.31",
     "eslint": "7.25.0",
     "eslint-config-airbnb-base": "14.2.1",

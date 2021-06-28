@@ -1,7 +1,7 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
 import { createCliPrompt } from './prompts';
-import { installDeps } from './deps-install';
+import installDeps from './deps-install';
 import configEslintRC from './install-config';
 import configPrettierRC from './add-prettier-config';
 import configEditorrRC from './add-editor-config';
@@ -93,10 +93,7 @@ export default class LintPlugin extends BasePlugin {
       const { env, typescript, pm } = this?.answer as PluginOptions;
       await interEslintToCI(hookEngine, env, typescript, pm);
 
-      Logger.info(chalk`\n🎉{bold Successfully linted. happy coding~}\n`);
-
-      Logger.info(chalk`\t{bold To get started：}`);
-      Logger.info(chalk`\t{bold Reload the  editor & experience}\n`);
+      Logger.info(chalk`\n🎉 {bold Successfully linted, happy coding~}\n`);
     }
   };
 }

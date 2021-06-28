@@ -1,4 +1,4 @@
-# WINEX CLI ![NPM Status](https://img.shields.io/npm/v/@winfe/winex-cli.svg?style=flat)![CI Status](https://circleci.com/gh/cool-fe/winex-cli/tree/dev.svg?style=shield) ![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)
+# WINEX CLI ![NPM Status](https://img.shields.io/npm/v/@winfe/winex-cli.svg?style=flat)![CI Status](https://circleci.com/gh/cool-fe/winex-cli/tree/main.svg?style=shield) ![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)
 
 a tool is the Standard Tooling. Get started with the [documentation](https://cool-fe.github.io/docs-winex-cli/).
 
@@ -17,7 +17,7 @@ a tool is the Standard Tooling. Get started with the [documentation](https://coo
 
 - 通过`winex init`快速初始化项目，基于模版物料，帮助开发者零成本初始化项目。
 - 通过`winex add`使用页面、区块、业务组件等物料，万千物料一键触达，选择物料更加便捷。
-- 通过`winex lint`一键解决项目的各种配置，eslint、prettier、editorconfig、.vscode       配置、husky、lint-staged       等，消除一切配置烦恼。
+- 通过`winex lint`一键解决项目的各种配置，eslint、prettier、editorconfig、.vscode 配置、husky、lint-staged 等，消除一切配置烦恼。
 
 ## 起步
 
@@ -33,7 +33,7 @@ $ yarn global add @winfe/winex-cli
 
 如需升级全局的 Winex CLI 包，请运行：
 
-``` bash
+```bash
 npm update -g @winfe/winex-cli
 # OR
 yarn global upgrade --latest @winfe/winex-cli

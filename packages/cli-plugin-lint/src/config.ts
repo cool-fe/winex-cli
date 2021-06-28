@@ -19,11 +19,9 @@ export const tsDeps: DepConfig = {
   'eslint-plugin-typescript': '0.14.0'
 };
 
-export const configDeps: ProjectDepConfig = {
-  default: {
-    'eslint-config-airbnb-base': '14.2.1',
-    'eslint-plugin-import': '2.22.1'
-  }
+export const configDeps: DepConfig = {
+  'eslint-config-airbnb-base': '14.2.1',
+  'eslint-plugin-import': '2.22.1'
 };
 
 export const pluginDeps: ProjectDepConfig = {
@@ -37,7 +35,7 @@ export const pluginDeps: ProjectDepConfig = {
 };
 
 export const DeafultSharedEslintConfig: DepConfig = {
-  '@winfe/eslint-config-winex': '0.0.11'
+  '@winfe/eslint-config-winex': '0.0.12'
 };
 
 export const winfeCiDeps: DepConfig = {};
