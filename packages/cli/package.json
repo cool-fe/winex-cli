@@ -39,6 +39,7 @@
     "@winfe/cli-plugin-add": "^1.0.13",
     "@winfe/cli-plugin-init": "^1.0.13",
     "@winfe/cli-plugin-lint": "^1.0.13",
+    "@winfe/cli-plugin-fire":"^1.0.13",
     "child_process": "^1.0.2",
     "ini": "^2.0.0"
   },
