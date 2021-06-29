@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-fire",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -33,7 +33,7 @@
     "@vuepress/plugin-last-updated": "1.8.2",
     "@vuepress/plugin-register-components": "1.8.2",
     "@vuepress/shared-utils": "1.8.2",
-    "@winfe/cli-core": "^1.0.13",
+    "@winfe/cli-core": "^1.0.14",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.4",
     "cache-loader": "^3.0.0",
