@@ -2,7 +2,7 @@ export default (options: any, ctx: any) => {
   const { pages } = ctx;
 
   return {
-    name: '@vuepress/internal-page-components',
+    name: '@fire/internal-page-components',
 
     async clientDynamicModules() {
       //@ts-ignore

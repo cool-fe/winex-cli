@@ -40,21 +40,7 @@ export async function createApp(isServer) {
     base: routerBase,
     mode: 'history',
     fallback: false,
-    routes,
-    scrollBehavior(to, from, savedPosition) {
-      if (savedPosition) {
-        return savedPosition;
-      } else if (to.hash) {
-        if (Vue.$vuepress.$get('disableScrollBehavior')) {
-          return false;
-        }
-        return {
-          selector: decodeURIComponent(to.hash)
-        };
-      } else {
-        return { x: 0, y: 0 };
-      }
-    }
+    routes
   });
 
   handleRedirectForCleanUrls(router);

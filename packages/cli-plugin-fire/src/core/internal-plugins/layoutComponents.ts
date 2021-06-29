@@ -1,5 +1,5 @@
 export default (options, ctx) => ({
-  name: '@vuepress/internal-layout-components',
+  name: '@fire/internal-layout-components',
 
   async clientDynamicModules() {
     const componentNames = Object.keys({});

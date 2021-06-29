@@ -236,7 +236,7 @@ export default class PluginAPI {
     [key: string]: any;
   }): void {
     if (!this._loggedPlugins.includes(pluginName)) {
-      const isInternalPlugin = pluginName.startsWith('@vuepress/internal-');
+      const isInternalPlugin = pluginName.startsWith('@fire/internal-');
       // eslint-disable-next-line no-use-before-define
       logger[isInternalPlugin ? 'debug' : 'tip'](pluginLog(pluginName, shortcut));
       this._loggedPlugins.push(pluginName);

@@ -27,16 +27,7 @@ module.exports = function createBaseConfig(
   },
   isServer: any
 ) {
-  const {
-    sourceDir,
-    outDir,
-    base: publicPath,
-    tempPath,
-    cacheDirectory,
-    cacheIdentifier,
-    options: { cache },
-    pluginAPI
-  } = context;
+  const { sourceDir, outDir, base: publicPath, tempPath, pluginAPI } = context;
 
   const Config = require('webpack-chain');
   const { VueLoaderPlugin } = require('vue-loader');
@@ -117,13 +108,7 @@ module.exports = function createBaseConfig(
         return false;
       }
 
-      // transpile all core packages and vuepress related packages.
-      // i.e.
-      // @vuepress/*
-      // vuepress-*
-      if (
-        /(@vuepress[\/\\][^\/\\]*|vuepress-[^\/\\]*)[\/\\](?!node_modules).*\.js$/.test(filePath)
-      ) {
+      if (/(@fire[\/\\][^\/\\]*|fire-[^\/\\]*)[\/\\](?!node_modules).*\.js$/.test(filePath)) {
         return false;
       }
 
@@ -135,10 +120,6 @@ module.exports = function createBaseConfig(
       // don't transpile node_modules
       return /node_modules/.test(filePath);
     })
-    .end()
-    .use('cache-loader')
-    .loader('cache-loader')
-    .options({})
     .end()
     .use('babel-loader')
     .loader('babel-loader')
@@ -286,8 +267,7 @@ module.exports = function createBaseConfig(
   config.plugin('injections').use(require('webpack/lib/DefinePlugin'), [
     {
       VUEPRESS_VERSION: JSON.stringify(require('../../../package.json').version),
-      VUEPRESS_TEMP_PATH: JSON.stringify(tempPath),
-      LAST_COMMIT_HASH: JSON.stringify(getLastCommitHash())
+      VUEPRESS_TEMP_PATH: JSON.stringify(tempPath)
     }
   ]);
 
@@ -296,16 +276,6 @@ module.exports = function createBaseConfig(
 
   return config;
 };
-
-function getLastCommitHash() {
-  const spawn = require('cross-spawn');
-  let hash;
-  try {
-    hash = spawn.sync('git', ['log', '-1', '--format=%h']).stdout.toString('utf-8').trim();
-    // eslint-disable-next-line no-empty
-  } catch (error) {}
-  return hash;
-}
 
 function getModulePaths() {
   return module.paths.concat([path.resolve(process.cwd(), 'node_modules')]);
