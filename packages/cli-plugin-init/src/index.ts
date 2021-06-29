@@ -162,6 +162,5 @@ export default class InitPlugin extends BasePlugin {
     await this.installingDependencies();
 
     this.displayGetStarted();
-    process.exit(1);
   }
 }

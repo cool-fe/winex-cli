@@ -51,7 +51,6 @@ export default class AddPlugin extends BasePlugin {
     } else {
       await this.download(params);
     }
-    process.exit(1);
   }
 
   /**
