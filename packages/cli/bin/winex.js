@@ -8,9 +8,9 @@ const cliFun = async (argv) => {
   cli
     .start()
     .then(() => {
-      process.exit();
+      // process.exit();
     })
-    .catch((e) => {
+    .catch(() => {
       process.exit();
     });
 };

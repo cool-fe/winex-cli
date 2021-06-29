@@ -1,8 +1,6 @@
-import {
-  AddOptions, GetMaterialOptions
-} from './interface';
-import chalk from "chalk";
-import { BasePlugin } from "@winfe/cli-core";
+import chalk from 'chalk';
+import { BasePlugin } from '@winfe/cli-core';
+import { AddOptions, GetMaterialOptions } from './interface';
 import { commands } from './commands';
 import {
   checkPackageJson,
@@ -10,8 +8,8 @@ import {
   downloadPackage,
   syncInstallDeps,
   GetMaterial,
-  match,
-} from "./utils/index";
+  match
+} from './utils/index';
 
 export default class AddPlugin extends BasePlugin {
   cwd = process.cwd(); // context path
@@ -19,8 +17,8 @@ export default class AddPlugin extends BasePlugin {
   commands = commands; // fixme: winex add xxx
 
   hooks = {
-    "before:add:add": this.beforeAdd.bind(this),
-    "add:add": this.add.bind(this),
+    'before:add:add': this.beforeAdd.bind(this),
+    'add:add': this.add.bind(this)
   };
 
   async beforeAdd(): Promise<void> {
@@ -35,9 +33,8 @@ export default class AddPlugin extends BasePlugin {
     const { pluginName, pluginVersion } = matchResult;
 
     const getNpm = new GetMaterial(pluginName, pluginVersion);
-    const {
-      type, registry, dependencies, tarball, core, npm, version,
-    }: GetMaterialOptions = await getNpm.getConfig();
+    const { type, registry, dependencies, tarball, core, npm, version }: GetMaterialOptions =
+      await getNpm.getConfig();
 
     const params: AddOptions = {
       pluginName: npm, // ensure pluginName add scope
@@ -46,7 +43,7 @@ export default class AddPlugin extends BasePlugin {
       registry,
       tarball,
       core,
-      remoteDeps: dependencies,
+      remoteDeps: dependencies
     };
 
     if (type === 'npm') {
@@ -54,6 +51,7 @@ export default class AddPlugin extends BasePlugin {
     } else {
       await this.download(params);
     }
+    process.exit(1);
   }
 
   /**
@@ -65,22 +63,16 @@ export default class AddPlugin extends BasePlugin {
    *
    * npm install and create config
    */
-  async npmInstall(
-    { pluginName, pluginVersion, pm, registry }: AddOptions
-  ): Promise<void> {
+  async npmInstall({ pluginName, pluginVersion, pm, registry }: AddOptions): Promise<void> {
     console.log(chalk.bold(`📦 Installing ${chalk.cyan(pluginName)}...`));
 
-    const pkm = new PackageManager(
-      this.cwd, pm, registry
-    );
+    const pkm = new PackageManager(this.cwd, pm, registry);
     await pkm.add(`${pluginName}@${pluginVersion}`);
 
     // configTransform(pluginName, this.cwd); // notice: 注释生成配置文件
 
     console.log(
-      chalk.bold(
-        `${chalk.green('✔')}  Successfully installed plugin: ${chalk.cyan(pluginName)}`
-      )
+      chalk.bold(`${chalk.green('✔')}  Successfully installed plugin: ${chalk.cyan(pluginName)}`)
     );
   }
 
@@ -94,26 +86,18 @@ export default class AddPlugin extends BasePlugin {
    *
    * Download tgz and decompression
    */
-  async download(
-    { pluginName, tarball, pm, remoteDeps, registry }: AddOptions
-  ): Promise<void> {
+  async download({ pluginName, tarball, pm, remoteDeps, registry }: AddOptions): Promise<void> {
     const path = await downloadPackage(pluginName, tarball, this.cwd);
 
     if (Object.keys(remoteDeps).length > 0) {
       const resolvedDeps = await syncInstallDeps(remoteDeps, this.cwd);
 
       if (resolvedDeps.length > 0) {
-        const pkm = new PackageManager(
-          this.cwd, pm, registry,
-        );
+        const pkm = new PackageManager(this.cwd, pm, registry);
         await pkm.add(resolvedDeps);
       }
     }
 
-    console.log(
-      chalk.bold(
-        `${chalk.green('✔')}  Successfully downloaded in ${chalk.cyan(path)}`
-      )
-    );
+    console.log(chalk.bold(`${chalk.green('✔')}  Successfully downloaded in ${chalk.cyan(path)}`));
   }
 }

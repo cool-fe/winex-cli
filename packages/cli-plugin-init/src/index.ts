@@ -1,27 +1,31 @@
-import path from "path";
-import chalk from "chalk";
+import path from 'path';
+import chalk from 'chalk';
 
-import { BasePlugin } from "@winfe/cli-core";
-import { IAnswers, ICommandOptions } from "./interface/index";
+import { BasePlugin } from '@winfe/cli-core';
+import { IAnswers, ICommandOptions } from './interface/index';
 
-import commands from "./commands";
-import { PackageManager } from "./packageManager";
-import { GenerateTemplate } from "./generateTemplate";
-import { runPrompts, commonPrompts } from "./prompts/project";
-import { pathExists, clearConsole, checkPakcageName } from "./utils/index";
+import commands from './commands';
+import { PackageManager } from './packageManager';
+import { GenerateTemplate } from './generateTemplate';
+import { runPrompts, commonPrompts } from './prompts/project';
+import { pathExists, clearConsole, checkPakcageName } from './utils/index';
 
 export default class InitPlugin extends BasePlugin {
-  scaffoldNpmName: string = "";
-  outdir: string = "";
-  context: string = "/";
+  scaffoldNpmName = '';
+
+  outdir = '';
+
+  context = '/';
+
   answers: IAnswers | any;
+
   options: ICommandOptions | any;
 
   commands = commands;
 
   hooks = {
-    "before:init:init": this.beforeInit.bind(this),
-    "init:init": this.init.bind(this),
+    'before:init:init': this.beforeInit.bind(this),
+    'init:init': this.init.bind(this)
   };
 
   /**
@@ -43,15 +47,11 @@ export default class InitPlugin extends BasePlugin {
   }
 
   async installingDependencies(): Promise<void> {
-    this.core.cli.log("📦  Installing additional dependencies...\n");
+    this.core.cli.log('📦  Installing additional dependencies...\n');
 
     const { packageManager } = this.options;
 
-    const pm = new PackageManager(
-      this.context,
-      packageManager,
-      this.options.registry
-    );
+    const pm = new PackageManager(this.context, packageManager, this.options.registry);
 
     await pm.install();
   }
@@ -93,10 +93,10 @@ export default class InitPlugin extends BasePlugin {
 
     this.core.cli.log(
       `\n🎉  Successfully created project ${chalk.yellow(this.outdir)}.` +
-        "\n👉  Get started with the following commands:\n\n" +
+        '\n👉  Get started with the following commands:\n\n' +
         `${chalk.cyan(
-          `${chalk.gray("$")} cd ${this.outdir}\n${chalk.gray("$")} ${
-            packageManager === "yarn" ? "yarn serve" : "npm run serve"
+          `${chalk.gray('$')} cd ${this.outdir}\n${chalk.gray('$')} ${
+            packageManager === 'yarn' ? 'yarn serve' : 'npm run serve'
           }\n`
         )}`
     );
@@ -114,9 +114,7 @@ export default class InitPlugin extends BasePlugin {
     const validDir = this.checkTargetDir(this.context);
 
     if (!validDir) {
-      this.core.cli.log(
-        `${chalk.red(`✖  Target directory ${options.name} already exists.`)}`
-      );
+      this.core.cli.log(`${chalk.red(`✖  Target directory ${options.name} already exists.`)}`);
       process.exit(1);
     }
 
@@ -140,22 +138,18 @@ export default class InitPlugin extends BasePlugin {
     clearConsole();
 
     // specify template
-    if (this.options["template"]) {
-      const SPECIFIED_SCAFFOLD = this.options["template"];
+    if (this.options.template) {
+      const SPECIFIED_SCAFFOLD = this.options.template;
 
       const validPkg = await checkPakcageName(SPECIFIED_SCAFFOLD);
 
       if (!validPkg) {
-        this.core.cli.log(
-          `${chalk.red(`✖  Invalid scaffold name: ${SPECIFIED_SCAFFOLD}`)}`
-        );
+        this.core.cli.log(`${chalk.red(`✖  Invalid scaffold name: ${SPECIFIED_SCAFFOLD}`)}`);
         return;
       }
 
       this.core.cli.log(
-        `${chalk.green("✔")} Specified scaffold · ${chalk.cyan(
-          SPECIFIED_SCAFFOLD
-        )}`
+        `${chalk.green('✔')} Specified scaffold · ${chalk.cyan(SPECIFIED_SCAFFOLD)}`
       );
 
       await this.runCommonPrompts(SPECIFIED_SCAFFOLD);
@@ -168,5 +162,6 @@ export default class InitPlugin extends BasePlugin {
     await this.installingDependencies();
 
     this.displayGetStarted();
+    process.exit(1);
   }
 }
