@@ -1,103 +1,97 @@
-'use strict'
-
 /**
  * Module dependencies.
  */
 
-import chalk from 'chalk'
+import chalk from 'chalk';
 
 interface LoggerOptions {
   logLevel: number;
 }
 
 class Logger {
-  options: LoggerOptions
+  options: LoggerOptions;
 
-  constructor (options?: LoggerOptions) {
-    this.options = Object.assign(
-      {
-        logLevel: process.argv.includes('--debug')
-          ? 4
-          : 3
-      },
-      options
-    )
+  constructor(options?: LoggerOptions) {
+    this.options = {
+      logLevel: process.argv.includes('--debug') ? 4 : 3,
+      ...options
+    };
   }
 
-  setOptions (options: LoggerOptions) {
-    Object.assign(this.options, options)
+  setOptions(options: LoggerOptions) {
+    Object.assign(this.options, options);
   }
 
   // level: 4
-  debug (...args: any[]) {
+  debug(...args: any[]) {
     if (this.options.logLevel < 4) {
-      return
+      return;
     }
 
-    this.status('magenta', 'debug', ...args)
+    this.status('magenta', 'debug', ...args);
   }
 
   // level: 2
-  warn (...args: any[]) {
+  warn(...args: any[]) {
     if (this.options.logLevel < 2) {
-      return
+      return;
     }
-    console.warn(chalk.yellow('warning'), ...args)
+    console.warn(chalk.yellow('warning'), ...args);
   }
 
   // level: 1
-  error (...args: any[]) {
+  error(...args: any[]) {
     if (this.options.logLevel < 1) {
-      return
+      return;
     }
-    process.exitCode = process.exitCode || 1
-    console.error(chalk.red('error'), ...args)
+    process.exitCode = process.exitCode || 1;
+    console.error(chalk.red('error'), ...args);
   }
 
   // level: 3
-  success (...args: any[]) {
+  success(...args: any[]) {
     if (this.options.logLevel < 3) {
-      return
+      return;
     }
-    this.status('green', 'success', ...args)
+    this.status('green', 'success', ...args);
   }
 
   // level: 3
-  tip (...args: any[]) {
+  tip(...args: any[]) {
     if (this.options.logLevel < 3) {
-      return
+      return;
     }
-    this.status('blue', 'tip', ...args)
+    this.status('blue', 'tip', ...args);
   }
 
   // level: 3
-  info (...args: any[]) {
+  info(...args: any[]) {
     if (this.options.logLevel < 3) {
-      return
+      return;
     }
-    this.status('cyan', 'info', ...args)
+    this.status('cyan', 'info', ...args);
   }
 
-  wait (...args: any[]) {
+  wait(...args: any[]) {
     if (this.options.logLevel < 3) {
-      return
+      return;
     }
-    this.status('cyan', 'wait', ...args)
+    this.status('cyan', 'wait', ...args);
   }
 
   // level: 3
-  status (color: string, label: string, ...args: any[]) {
+  status(color: string, label: string, ...args: any[]) {
     if (this.options.logLevel < 3) {
-      return
+      return;
     }
-    console.log(chalk[color](label), ...args)
+    console.log(chalk[color](label), ...args);
   }
 
-  developer (...args: any[]) {
+  developer(...args: any[]) {
     if (process.env.VUEPRESS_ENV !== 'developer' && !process.argv.includes('--developer')) {
-      return
+      return;
     }
-    this.status('cyan', 'developer', ...args)
+    this.status('cyan', 'developer', ...args);
   }
 }
 
@@ -105,4 +99,4 @@ class Logger {
  * Expose a logger instance.
  */
 
-export = new Logger()
+export default new Logger();

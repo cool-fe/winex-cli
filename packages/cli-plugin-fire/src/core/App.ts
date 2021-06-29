@@ -256,6 +256,6 @@ export default class App {
     if (error) {
       throw error;
     }
-    return this;
+    return error;
   }
 }

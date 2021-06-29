@@ -1,12 +1,12 @@
-import path from 'upath'
+import path from 'upath';
 
 /**
  * Normalize path request to absolute path.
  */
 
-export = function toAbsolutePath (raw: string, cwd: string = process.cwd()) {
+export default function toAbsolutePath(raw: string, cwd: string = process.cwd()) {
   if (path.isAbsolute(raw)) {
-    return raw
+    return raw;
   }
-  return path.resolve(cwd, raw)
+  return path.resolve(cwd, raw);
 }

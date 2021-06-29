@@ -1,21 +1,20 @@
-type Provider<T, U> = (arg: T) => U
-type Resolver<T, U> = (Provider<T, U> | boolean)[] | Provider<T, U>
+type Provider<T, U> = (arg: T) => U;
+type Resolver<T, U> = (Provider<T, U> | boolean)[] | Provider<T, U>;
 
-export = function tryChain<T, U> (resolvers: Array<Resolver<T, U>>, arg: T): U | void {
-  let response: U
+export default function tryChain<T, U>(resolvers: Array<Resolver<T, U>>, arg: T): U | void {
+  let response: U;
 
   for (let resolver of resolvers) {
     if (!Array.isArray(resolver)) {
-      resolver = [resolver, true]
+      resolver = [resolver, true];
     }
-    const [provider, condition] = resolver
+    const [provider, condition] = resolver;
     if (!condition) {
-      continue
+      continue;
     }
     try {
-      response = (provider as Provider<T, U>)(arg)
-      return response
-    } catch (e) {
-    }
+      response = (provider as Provider<T, U>)(arg);
+      return response;
+    } catch (e) {}
   }
 }

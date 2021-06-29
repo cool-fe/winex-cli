@@ -94,6 +94,8 @@ export default class LintPlugin extends BasePlugin {
       await interEslintToCI(hookEngine, env, typescript, pm);
 
       Logger.info(chalk`\n🎉 {bold Successfully linted, happy coding~}\n`);
+
+      process.exit(1);
     }
   };
 }
