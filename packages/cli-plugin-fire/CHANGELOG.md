@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.15 (2021-06-29)
+
+
+### Bug Fixes
+
+* resolve conflict ([a6cbb82](https://github.com/cool-fe/winex-cli/commit/a6cbb82c1f444b7cc48d2c64a0eb4a358a97d052))
+
+
+
+
+
 ## 1.0.14 (2021-06-29)
 
 
