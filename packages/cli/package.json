@@ -1,6 +1,6 @@
 {
   "name": "@winfe/winex-cli",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "bin": {
     "winex": "bin/winex.js"
   },
@@ -35,10 +35,10 @@
   "dependencies": {
     "@sentry/node": "^6.7.2",
     "@sentry/tracing": "^6.7.2",
-    "@winfe/cli-core": "^1.0.12",
-    "@winfe/cli-plugin-add": "^1.0.12",
-    "@winfe/cli-plugin-init": "^1.0.12",
-    "@winfe/cli-plugin-lint": "^1.0.12",
+    "@winfe/cli-core": "^1.0.13",
+    "@winfe/cli-plugin-add": "^1.0.13",
+    "@winfe/cli-plugin-init": "^1.0.13",
+    "@winfe/cli-plugin-lint": "^1.0.13",
     "child_process": "^1.0.2",
     "ini": "^2.0.0"
   },

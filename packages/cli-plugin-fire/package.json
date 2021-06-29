@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-fire",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.13",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -33,7 +33,7 @@
     "@vuepress/plugin-last-updated": "1.8.2",
     "@vuepress/plugin-register-components": "1.8.2",
     "@vuepress/shared-utils": "1.8.2",
-    "@winfe/cli-core": "^1.0.0-beta.10",
+    "@winfe/cli-core": "^1.0.13",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.4",
     "cache-loader": "^3.0.0",
@@ -53,6 +53,7 @@
     "fs-extra": "^10.0.0",
     "glob": "^7.1.7",
     "globby": "^11.0.4",
+    "hash-sum": "^2.0.0",
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
@@ -87,8 +88,7 @@
     "webpack-chain": "^6.0.0",
     "webpack-dev-server": "^3.5.1",
     "webpack-merge": "^4.1.2",
-    "webpackbar": "3.2.0",
-    "hash-sum": "^2.0.0"
+    "webpackbar": "3.2.0"
   },
   "gitHead": "",
   "publishConfig": {
