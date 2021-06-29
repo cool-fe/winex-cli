@@ -1,4 +1,0 @@
-# Excerpt
-
-Blablabla...
-<!-- more -->

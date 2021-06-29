@@ -8,7 +8,7 @@ import build from './build';
 import { runPrompts } from './prompts';
 import publish from './publish';
 
-import App from './core/node/App';
+import App from './core/App';
 
 function output(...args: string[]) {
   log.clearProgress();
@@ -93,7 +93,7 @@ export default class LintPlugin extends BasePlugin {
         sourceDir: process.cwd()
       });
       await app.process();
-      return app.dev();
+      await app.dev();
     }
   };
 }

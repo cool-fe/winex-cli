@@ -5,16 +5,12 @@ import Router from 'vue-router';
 import { routes } from '@internal/routes';
 import appEnhancers from '@internal/app-enhancers';
 import globalUIComponents from '@internal/global-ui';
-import dataMixin from './dataMixin';
 import VuePress from './plugins/VuePress';
 import { handleRedirectForCleanUrls } from './redirect.js';
 import { getLayoutAsyncComponent } from './util';
 
 // built-in components
 import Content from './components/Content.js';
-import ContentSlotsDistributor from './components/ContentSlotsDistributor';
-import OutboundLink from './components/OutboundLink.vue';
-import ClientOnly from './components/ClientOnly';
 
 Vue.config.productionTip = false;
 
@@ -22,10 +18,6 @@ Vue.use(Router);
 Vue.use(VuePress);
 
 Vue.component('Content', Content);
-Vue.component('ContentSlotsDistributor', ContentSlotsDistributor);
-Vue.component('OutboundLink', OutboundLink);
-// component for client-only content
-Vue.component('ClientOnly', ClientOnly);
 // core components
 Vue.component('Layout', getLayoutAsyncComponent('Layout'));
 Vue.component('NotFound', getLayoutAsyncComponent('NotFound'));
