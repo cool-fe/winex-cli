@@ -186,12 +186,7 @@ module.exports = function createBaseConfig(
       name: `assets/fonts/[name].[hash:8].[ext]`
     });
 
-  function createCSSRule(
-    lang: string,
-    test: RegExp,
-    loader: string | undefined,
-    options: undefined
-  ) {
+  function createCSSRule(lang: string, test: RegExp, loader?: string, options?: any) {
     const baseRule = config.module.rule(lang).test(test).sideEffects(true);
     const modulesRule = baseRule.oneOf('modules').resourceQuery(/module/);
     const normalRule = baseRule.oneOf('normal');
@@ -227,13 +222,10 @@ module.exports = function createBaseConfig(
     }
   }
 
-  //@ts-ignore
   createCSSRule('css', /\.css$/);
-  //@ts-ignore
   createCSSRule('postcss', /\.p(ost)?css$/);
-  //@ts-ignore
+  createCSSRule('scss', /\.scss$/, 'sass-loader');
   createCSSRule('sass', /\.sass$/, 'sass-loader', { indentedSyntax: true });
-  //@ts-ignore
   createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   });
