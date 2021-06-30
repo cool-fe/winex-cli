@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.17 (2021-06-30)
+
+
+### Bug Fixes
+
+* add scss loader ([245f7c6](https://github.com/cool-fe/winex-cli/commit/245f7c6eaa342749f17c9e9595a3f937f81467e1))
+
+
+
+
+
 ## 1.0.16 (2021-06-30)
 
 
