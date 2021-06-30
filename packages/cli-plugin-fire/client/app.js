@@ -1,12 +1,11 @@
+/* eslint-disable node/no-missing-import */
 /* eslint-disable import/prefer-default-export */
-/* global VUEPRESS_TEMP_PATH */
 import Vue from 'vue';
 import Router from 'vue-router';
 import { routes } from '@internal/routes';
 import appEnhancers from '@internal/app-enhancers';
 import globalUIComponents from '@internal/global-ui';
 import VuePress from './plugins/VuePress';
-import { handleRedirectForCleanUrls } from './redirect.js';
 import { getLayoutAsyncComponent } from './util';
 
 // built-in components
@@ -42,8 +41,6 @@ export async function createApp(isServer) {
     fallback: false,
     routes
   });
-
-  handleRedirectForCleanUrls(router);
 
   const options = {};
 
