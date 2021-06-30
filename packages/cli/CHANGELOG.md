@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.16 (2021-06-30)
+
+
+### Bug Fixes
+
+* add client to files ([2a4c583](https://github.com/cool-fe/winex-cli/commit/2a4c5838bb766eca7adea39a6d41dd56c8031b56))
+
+
+
+
+
 ## 1.0.15 (2021-06-29)
 
 
