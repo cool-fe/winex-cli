@@ -6,7 +6,8 @@
   "types": "lib/index.d.ts",
   "files": [
     "lib/",
-    "config"
+    "config",
+    "client"
   ],
   "keywords": [
     "winfe",
