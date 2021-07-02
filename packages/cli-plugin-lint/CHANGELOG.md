@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.18 (2021-07-02)
+
+
+### Bug Fixes
+
+* delete markdown code ([7a350e7](https://github.com/cool-fe/winex-cli/commit/7a350e7e51b80ee60dfdd11a5c72021cf1018d4f))
+
+
+
+
+
 ## 1.0.17 (2021-06-30)
 
 
