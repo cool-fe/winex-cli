@@ -18,7 +18,6 @@ import logger from './logger';
 import * as moduleLoader from './moduleLoader';
 import * as moduleResolver from './moduleResolver';
 import normalizeConfig from './normalizeConfig';
-import * as parseEmojis from './parseEmojis';
 import slugify from './slugify';
 import sort from './sort';
 import toAbsolutePath from './toAbsolutePath';
@@ -39,7 +38,6 @@ export {
   moduleLoader,
   moduleResolver,
   normalizeConfig,
-  parseEmojis,
   slugify,
   sort,
   toAbsolutePath,

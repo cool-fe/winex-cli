@@ -257,11 +257,5 @@ class ModuleResolver {
   }
 }
 
-export const getMarkdownItResolver = (cwd: string) =>
-  new ModuleResolver('markdown-it', '', [String, Function], true /* load module */, cwd);
-
 export const getPluginResolver = (cwd: string): ModuleResolver =>
   new ModuleResolver('plugin', 'vuepress', [String, Function, Object], true /* load module */, cwd);
-
-export const getThemeResolver = (cwd: string): ModuleResolver =>
-  new ModuleResolver('theme', 'vuepress', [String], false /* load module */, cwd);
