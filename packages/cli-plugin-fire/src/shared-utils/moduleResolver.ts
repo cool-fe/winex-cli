@@ -1,3 +1,6 @@
+/* eslint-disable typescript/member-ordering */
+/* eslint-disable no-useless-constructor */
+/* eslint-disable max-classes-per-file */
 /**
  * Module dependencies.
  */
@@ -66,6 +69,7 @@ type Type =
   | number
   | boolean
   | RegExp
+  // eslint-disable-next-line @typescript-eslint/ban-types
   | Function
   | Record<string, any>
   | Record<string, any>
@@ -74,7 +78,7 @@ type Type =
 class ModuleResolver {
   private nonScopePrefix: string;
 
-  private scopePrefix: string;
+  private scopePrefix = '';
 
   private typePrefixLength: number;
 
@@ -159,6 +163,7 @@ class ModuleResolver {
 
   resolvePathPackage(req: string) {
     if (!path.isAbsolute(req)) {
+      // eslint-disable-next-line no-param-reassign
       req = path.resolve(this.cwd, req);
     }
 
@@ -258,4 +263,4 @@ class ModuleResolver {
 }
 
 export const getPluginResolver = (cwd: string): ModuleResolver =>
-  new ModuleResolver('plugin', 'vuepress', [String, Function, Object], true /* load module */, cwd);
+  new ModuleResolver('plugin', 'fire', [String, Function, Object], true /* load module */, cwd);
