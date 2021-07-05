@@ -217,6 +217,7 @@ export default class DevProcess extends EventEmitter {
         'access-control-allow-origin': '*'
       },
       open: this.context.options.open,
+      proxy: this.context.appConfig.proxy || {},
       publicPath: this.context.base,
       watchOptions: {
         ignored: [

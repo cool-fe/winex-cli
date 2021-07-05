@@ -4,11 +4,12 @@
  * Module dependencies.
  */
 
-import { fs, path, logger, chalk, globby, sort, fallback } from '../shared-utils';
+import { fs, path, logger, chalk, globby, sort, fallback, datatypes } from '../shared-utils';
 import Page from './Page';
 import PluginAPI from './plugin-api';
 import DevProcess from './dev';
 import createTemp from './createTemp';
+import loadConfig from './loadConfig';
 
 type Options = {
   sourceDir?: string;
@@ -16,14 +17,18 @@ type Options = {
   dest?: string;
   base?: string;
   temp?: string;
+  appConfig?: any;
 };
 
 const { fsExistsFallback } = fallback;
+const { isFunction } = datatypes;
 
 export default class App {
   isProd: boolean;
 
   options: Options;
+
+  appConfig: any;
 
   sourceDir: any;
 
@@ -69,6 +74,16 @@ export default class App {
    */
 
   async resolveConfigAndInitialize() {
+    if (this.options.appConfig) {
+      this.appConfig = this.options.appConfig;
+    } else {
+      let appConfig = loadConfig(this.sourceDir);
+      if (isFunction(appConfig)) {
+        appConfig = await appConfig(this);
+      }
+      this.appConfig = appConfig;
+    }
+
     // TODO custom cwd.
     this.cwd = process.cwd();
 

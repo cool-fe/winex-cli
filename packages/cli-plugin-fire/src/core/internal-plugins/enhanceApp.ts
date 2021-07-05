@@ -5,7 +5,7 @@ export default (options, context) => ({
 
   enhanceAppFiles() {
     const { sourceDir } = context;
-    const enhanceAppPath = path.resolve(sourceDir, './enhanceApp.js');
+    const enhanceAppPath = path.resolve(sourceDir, './app.js');
     const files = [enhanceAppPath];
 
     return files;
