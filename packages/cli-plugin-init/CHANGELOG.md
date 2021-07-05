@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.19 (2021-07-05)
+
+
+### Features
+
+* add winfe.config.js ([4932013](https://github.com/cool-fe/winex-cli/commit/4932013864871edca5fd696cfa572d8890b31dcf))
+
+
+
+
+
 ## 1.0.18 (2021-07-02)
 
 
