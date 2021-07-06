@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.20 (2021-07-06)
+
+
+### Bug Fixes
+
+* upgrade @vue/babel-preset-app to 4.15.3 & fix client path ([f17e459](https://github.com/cool-fe/winex-cli/commit/f17e4593b658e8f455d69d90a7cd11516b5ce032))
+
+
+
+
+
 ## 1.0.19 (2021-07-05)
 
 
