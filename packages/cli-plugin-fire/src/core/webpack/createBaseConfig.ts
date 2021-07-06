@@ -136,7 +136,7 @@ module.exports = function createBaseConfig(
             entryFiles: [
               path.resolve(
                 __dirname,
-                '../../client',
+                '../../../client',
                 isServer ? 'serverEntry.js' : 'clientEntry.js'
               )
             ]
