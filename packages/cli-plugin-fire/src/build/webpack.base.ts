@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
-//@ts-ignore
+// @ts-ignore
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import path from 'path';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import assets from './assets'
 
 // resolve
 export const resolve = {
   extensions: ['.js', '.vue', '.json'],
   alias: {
-    // "@": path.resolve(__dirname, "../../src"),
-    // packages: path.resolve(__dirname, "../../packages")
   }
 };
 
@@ -37,7 +36,14 @@ export const rules = [
     test: /\.(js|jsx?|babel|es6)$/,
     include: process.cwd(),
     exclude: /node_modules/,
-    loader: 'babel-loader'
+    loader: "babel-loader",
+    options: {
+      presets: ["@babel/preset-env", "@vue/babel-preset-jsx"],
+      plugins: [
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-proposal-class-properties",
+      ],
+    },
   },
   {
     test: /\.vue$/,
@@ -50,29 +56,39 @@ export const rules = [
   },
   {
     test: /\.(scss|css)$/,
-    loaders: ['style-loader', 'css-loader', 'sass-loader']
+    use: [
+      MiniCssExtractPlugin.loader,
+      'css-loader',
+      'resolve-url-loader',
+      {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true
+        }
+      }
+    ]
+   
   },
   {
     test: /\.html$/,
     loader: 'html-loader?minimize=false'
   },
   {
-    test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
-    loader: 'url-loader',
-    query: {
-      esModule: false,
-      limit: 10000,
-      name: path.posix.join('static', '[name].[ext]')
-    }
-  },
-  {
     test: /\.json$/,
     loader: 'json-loader'
-  }
+  },
+  ...assets()
 ];
 
 //plugins
-export const plugins = [new VueLoaderPlugin(), new CleanWebpackPlugin(), new ProgressBarPlugin()];
+export const plugins = [
+  new VueLoaderPlugin(), 
+  new CleanWebpackPlugin(), 
+  new ProgressBarPlugin(),
+  new MiniCssExtractPlugin({
+    filename: "index.css"
+  })
+];
 
 //alias
 export const alias = [];
