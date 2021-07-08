@@ -27,10 +27,9 @@ Sentry.configureScope((scope) => {
   const filePath = path.join(os.homedir(), '.gitconfig');
   if (fs.existsSync(filePath)) {
     const { user = {} } = ini.parse(fs.readFileSync(filePath, 'utf8'));
-    scope.setUser({ git_name: user.username || user.name, git_email: user.email });
-  } else {
-    scope.setUser({ git_name: '', git_email: '' });
-  }
+    scope.setTag('git-name',user.username || user.name);
+    scope.setTag('git-name',user.email);
+  } 
 });
 
 const plugins: {

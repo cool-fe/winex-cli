@@ -85,11 +85,11 @@
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
     "vuepress-html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.8.1",
+    "webpack": "4.46.0",
     "webpack-chain": "^6.5.1",
-    "webpack-dev-server": "^1.16.5",
+    "webpack-dev-server": "^3.5.1",
     "webpack-merge": "^5.8.0",
-    "webpackbar": "3.2.0"
+    "webpackbar": "^5.0.0-3"
   },
   "publishConfig": {
     "access": "public",
@@ -105,6 +105,7 @@
     "@types/mini-css-extract-plugin": "^2.0.1",
     "@types/minio": "^7.0.7",
     "@types/npmlog": "^4.1.2",
+    "@types/postcss-safe-parser": "^5.0.0",
     "@types/progress-bar-webpack-plugin": "^2.1.1",
     "@types/semver": "^7.3.6",
     "@types/terser-webpack-plugin": "^5.0.3",
