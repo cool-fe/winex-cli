@@ -1,0 +1,9 @@
+{
+  "name": "fire-start",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ../../packages/cli/bin/winex.js fire start"
+  },
+  "license": "MIT"
+}
