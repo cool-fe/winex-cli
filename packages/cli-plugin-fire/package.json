@@ -31,6 +31,7 @@
     "@lerna/collect-updates": "^4.0.0",
     "@lerna/package-graph": "^4.0.0",
     "@lerna/project": "^4.0.0",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-app": "^4.5.13",
     "@winfe/cli-core": "^1.1.0",
     "autoprefixer": "^9.5.1",
