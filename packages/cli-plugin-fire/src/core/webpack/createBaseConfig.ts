@@ -6,14 +6,16 @@
 /**
  * Module dependencies.
  */
-
+import Config from 'webpack-chain'
+import {VueLoaderPlugin} from 'vue-loader'
+import CSSExtractPlugin from 'mini-css-extract-plugin'
 import { path, env } from '../../shared-utils';
 
 /**
  * Expose createBaseConfig method.
  */
 
-module.exports = function createBaseConfig(
+export default function createBaseConfig(
   context: {
     getLibFilePath?: any;
     sourceDir?: any;
@@ -25,13 +27,9 @@ module.exports = function createBaseConfig(
     options?: any;
     pluginAPI?: any;
   },
-  isServer: any
+  isServer?: any
 ) {
   const { sourceDir, outDir, base: publicPath, tempPath, pluginAPI } = context;
-
-  const Config = require('webpack-chain');
-  const { VueLoaderPlugin } = require('vue-loader');
-  const CSSExtractPlugin = require('mini-css-extract-plugin');
 
   const isProd = process.env.NODE_ENV === 'production';
   const inlineLimit = 10000;

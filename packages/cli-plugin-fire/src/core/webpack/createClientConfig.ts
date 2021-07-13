@@ -1,14 +1,18 @@
 /* eslint-disable node/no-missing-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
+
+import WebpackBar from 'webpackbar';
+import type Config from 'webpack-chain';
+
+import safeParser from 'postcss-safe-parser';
+import createBaseConfig from './createBaseConfig';
+import { env } from '../../shared-utils';
+
 /**
  * Expose createClientConfig method.
  */
 
-export default function createClientConfig(ctx: any) {
-  const { env } = require('../../shared-utils');
-  const createBaseConfig = require('./createBaseConfig');
-  const safeParser = require('postcss-safe-parser');
-
+export default function createClientConfig(ctx: any): Config {
   const config = createBaseConfig(ctx);
 
   config.entry('app').add(ctx.getLibFilePath('client/clientEntry.js'));
@@ -58,12 +62,11 @@ export default function createClientConfig(ctx: any) {
   }
 
   if (!env.isDebug) {
-    const WebpackBar = require('webpackbar');
-    config.plugin('bar').use(WebpackBar, [
+    config.plugin('progress').use(WebpackBar, [
       {
         name: 'Client',
         color: '#41b883',
-        compiledIn: false
+        profile: true
       }
     ]);
   }
