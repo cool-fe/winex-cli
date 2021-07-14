@@ -6,12 +6,12 @@ function fileToComponentName(file: string) {
   return file.replace(/\/|\\/g, '-');
 }
 
-async function resolveComponents(componentDir: string) {
+async function resolveComponents(componentDir: string): Promise<string[]> {
   if (!fs.existsSync(componentDir)) {
-    return;
+    return [];
   }
-  // eslint-disable-next-line consistent-return
-  return (await globby(['**/*.vue'], { cwd: componentDir })).map((file) => file.slice(0, -4));
+  const files = await globby(['indev.vue', 'index.js'], { cwd: componentDir });
+  return files;
 }
 
 // Since this plugin can ben used by multiple times, we need to

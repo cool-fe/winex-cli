@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <router-view />
-    <div>123</div>
-  </div>
+  <component :is="layout" />
 </template>
 
 <script>
@@ -22,7 +19,19 @@
 
     methods: {
       getLayout() {
-        return 'Layout';
+        debugger;
+        if (this.$page.path) {
+          const layout = this.$page.frontmatter.layout;
+          if (
+            layout &&
+            (this.$vuepress.getLayoutAsyncComponent(layout) ||
+              this.$vuepress.getVueComponent(layout))
+          ) {
+            return layout;
+          }
+          return 'Layout';
+        }
+        return 'NotFound';
       }
     }
   };

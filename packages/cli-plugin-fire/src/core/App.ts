@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { fs, path, logger, chalk, globby, sort, fallback, datatypes } from '../shared-utils';
+import { fs, path, logger, chalk, globby, fallback, datatypes } from '../shared-utils';
 import Page from './Page';
 import PluginAPI from './plugin-api';
 import DevProcess from './dev';
@@ -152,7 +152,7 @@ export default class App {
       .use(require('./internal-plugins/layoutComponents'))
       .use(require('./internal-plugins/pageComponents'))
       .use(require('./internal-plugins/register-components'), {
-        componentsDir: [path.resolve(this.sourceDir, './components')]
+        componentsDir: [path.resolve(this.sourceDir, './')]
       });
   }
 
@@ -187,7 +187,7 @@ export default class App {
     // resolve pageFiles
     const patterns = this.options.patterns
       ? this.options.patterns
-      : ['index.js', 'src/index.js', 'src/*.vue', 'src/**/*.vue'];
+      : ['src/index.vue', 'index.js', 'index.vue'];
     patterns.push('!.tmp', '!node_modules');
 
     if (this.options.dest) {
@@ -196,8 +196,7 @@ export default class App {
         patterns.push(`!${outDirRelative}`);
       }
     }
-    //@ts-ignore
-    const pageFiles = sort(await globby(patterns, { cwd: this.sourceDir }));
+    const pageFiles = await globby(patterns, { cwd: this.sourceDir });
 
     await Promise.all(
       pageFiles.map(async (relative: any) => {

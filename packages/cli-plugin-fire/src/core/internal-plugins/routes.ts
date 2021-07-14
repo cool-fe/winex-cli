@@ -19,9 +19,8 @@ function importCode(globalLayout: any) {
   return `
 import { injectComponentOption, ensureAsyncComponentsLoaded } from '@app/util'
 import GlobalLayout from ${JSON.stringify(globalLayout)}
+import NotFound from '@app/components/NotFound.vue'
 import PageComponents from  '@internal/page-components'
-
-
 `;
 }
 
@@ -45,7 +44,7 @@ function routesCode(pages: any[]) {
   const notFoundRoute = `,
   {
     path: '*',
-    component: GlobalLayout
+    component: NotFound
   }`;
 
   return `export const routes = [${pages.map(genRoute).join(',')}${notFoundRoute}\n]`;

@@ -8,15 +8,11 @@ import globalUIComponents from '@internal/global-ui';
 import VuePress from './plugins/VuePress';
 import { getLayoutAsyncComponent } from './util';
 
-// built-in components
-import Content from './components/Content.js';
-
 Vue.config.productionTip = false;
 
 Vue.use(Router);
 Vue.use(VuePress);
 
-Vue.component('Content', Content);
 // core components
 Vue.component('Layout', getLayoutAsyncComponent('Layout'));
 Vue.component('NotFound', getLayoutAsyncComponent('NotFound'));
