@@ -6,6 +6,8 @@
 import { path, hash, slugify } from '../shared-utils';
 import { DATE_RE } from './util/index';
 
+const IndexRegx = /^(src\/)?index.(vue|js)$/;
+
 /**
  * Expose Page class.
  */
@@ -59,7 +61,7 @@ export default class Page {
       this.regularPath = encodeURI(_path);
     }
 
-    if (this.regularPath === 'index.js') {
+    if (IndexRegx.test(this.regularPath || '')) {
       this.regularPath = '/';
     }
 

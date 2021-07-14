@@ -86,8 +86,8 @@ export default class LintPlugin extends BasePlugin {
       if (!pub) return;
       await build(buildResolved.map((res) => res.fetchSpec));
     },
-    'fire:build:build': async ():Promise<void> => {
-      await build()
+    'fire:build:build': async (): Promise<void> => {
+      await build();
     },
     'build:publish': publish,
     'fire:start:dev': async (): Promise<void> => {
