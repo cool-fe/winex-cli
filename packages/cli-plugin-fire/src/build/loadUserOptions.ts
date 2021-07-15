@@ -6,7 +6,7 @@ export default (context: string): object => {
   let fileConfig: object = {};
   let fileConfigPath: string = "";
 
-  const possibleConfigPaths: string = "./winex.config.js"
+  const possibleConfigPaths: string = "./winfe.config.js"
   const resolvedPath: string = possibleConfigPaths ? path.resolve(context, possibleConfigPaths) : '';
   if(resolvedPath && fs.existsSync(resolvedPath)) {
     fileConfigPath = resolvedPath
