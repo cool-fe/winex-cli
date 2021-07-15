@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.3 (2021-07-15)
+
+
+### Bug Fixes
+
+* winex修改为winfe ([#77](https://github.com/cool-fe/winex-cli/issues/77)) ([ea1c24b](https://github.com/cool-fe/winex-cli/commit/ea1c24b522853eb51a07937055f4b97cd8c99455))
+
+
+
+
+
 ## 1.1.2 (2021-07-14)
 
 **Note:** Version bump only for package @winfe/cli-plugin-fire
