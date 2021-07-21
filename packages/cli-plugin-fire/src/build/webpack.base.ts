@@ -6,6 +6,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import assets from './assets'
+import path from 'path'
 
 // resolve
 export const resolve = {
@@ -65,9 +66,14 @@ export const rules = [
         options: {
           sourceMap: true
         }
-      }
+      },
+      {
+        loader: "style-resources-loader",
+        options:{
+          patterns: [path.resolve(__dirname, "../styles/index.scss")],
+        }
+      },
     ]
-   
   },
   {
     test: /\.html$/,
