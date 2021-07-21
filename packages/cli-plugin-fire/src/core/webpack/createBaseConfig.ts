@@ -230,6 +230,9 @@ export default function createBaseConfig(
   createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   });
+  createCSSRule('scss', /\.scss$/, 'style-resources-loader', {
+    patterns: [path.resolve(__dirname, "../../styles/index.scss")],
+  });
 
   config.plugin('vue-loader').use(VueLoaderPlugin);
 
@@ -266,7 +269,6 @@ export default function createBaseConfig(
 
   pluginAPI.applySyncOption('define', config);
   pluginAPI.applySyncOption('alias', config);
-
   return config;
 };
 

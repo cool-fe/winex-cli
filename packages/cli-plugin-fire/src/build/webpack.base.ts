@@ -35,7 +35,7 @@ export const externals = {
 export const rules = [
   {
     test: /\.(js|jsx?|babel|es6)$/,
-    include: process.cwd(),
+    // include: process.cwd(),
     exclude: /node_modules/,
     loader: "babel-loader",
     options: {
