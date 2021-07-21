@@ -6,6 +6,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import assets from './assets'
+import path from 'path'
 
 // resolve
 export const resolve = {
@@ -34,7 +35,7 @@ export const externals = {
 export const rules = [
   {
     test: /\.(js|jsx?|babel|es6)$/,
-    include: process.cwd(),
+    // include: process.cwd(),
     exclude: /node_modules/,
     loader: "babel-loader",
     options: {
@@ -65,6 +66,12 @@ export const rules = [
         options: {
           sourceMap: true
         }
+      },
+      {
+        loader: "style-resources-loader",
+        options: {
+          patterns: [path.resolve(__dirname, "./../styles/index.scss")],
+        },
       }
     ]
    
