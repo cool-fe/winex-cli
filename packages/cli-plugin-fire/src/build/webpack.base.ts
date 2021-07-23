@@ -69,12 +69,11 @@ export const rules = [
       },
       {
         loader: "style-resources-loader",
-        options: {
-          patterns: [path.resolve(__dirname, "./../styles/index.scss")],
-        },
-      }
+        options:{
+          patterns: [path.resolve(__dirname, "../styles/index.scss")],
+        }
+      },
     ]
-   
   },
   {
     test: /\.html$/,

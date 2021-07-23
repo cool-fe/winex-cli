@@ -223,6 +223,9 @@ export default function createBaseConfig(
   createCSSRule('css', /\.css$/);
   createCSSRule('postcss', /\.p(ost)?css$/);
   createCSSRule('scss', /\.scss$/, 'sass-loader');
+  createCSSRule('scss', /\.scss$/, 'style-resources-loader', {
+    patterns: [path.resolve(__dirname, "../../styles/index.scss")],
+  });
   createCSSRule('sass', /\.sass$/, 'sass-loader', { indentedSyntax: true });
   createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
