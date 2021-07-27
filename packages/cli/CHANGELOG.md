@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.5 (2021-07-23)
+
+
+### Features
+
+* 增加公共样式 ([#81](https://github.com/cool-fe/winex-cli/issues/81)) ([4c6044d](https://github.com/cool-fe/winex-cli/commit/4c6044d1102f8fca5a879be97c96764609b36016))
+
+
+
+
+
 ## 1.1.4 (2021-07-21)
 
 **Note:** Version bump only for package @winfe/winex-cli
