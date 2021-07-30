@@ -5,6 +5,7 @@ import loadFileConfig from './loadUserOptions'
 import Config from 'webpack-chain'
 import  { merge } from 'webpack-merge'
 import { IFileConfig } from './interface';
+import ChainWebapckConfig from './assets'
 
 const createSingleConfig = (dir: string): webpack.Configuration => {
   const WebpackComConfig: webpack.Configuration = {
@@ -15,7 +16,7 @@ const createSingleConfig = (dir: string): webpack.Configuration => {
       path: path.resolve(dir, './lib/'),
       filename: 'index.js',
       chunkFilename: '[id].js',
-      libraryTarget: 'umd'
+      libraryTarget: 'umd',
     },
     resolve: {
       extensions: ['.js', '.vue', '.json'],
@@ -30,9 +31,12 @@ const createSingleConfig = (dir: string): webpack.Configuration => {
     plugins: [...config.plugins]
   };
 
-  const cwd: string = dir || process.cwd()
+
+  const cwd: string = dir || process.cwd();
+  // 获取本地winfe.config.js配置
   const fileConfig:IFileConfig = loadFileConfig(cwd);
-  const chainableConfig = new Config()
+
+  const chainableConfig = ChainWebapckConfig()
   let webpackChainFn = (config: any):void => {} 
   let configureWebpackFn = (config: webpack.Configuration):void => {} 
 
@@ -43,6 +47,8 @@ const createSingleConfig = (dir: string): webpack.Configuration => {
     configureWebpackFn = fileConfig.configureWebpack
   }
   webpackChainFn(chainableConfig)
+
+  // 获取本地winfe.config.js中webpackChain的配置
   let conf = chainableConfig.toConfig()
   const original = conf
 
@@ -58,6 +64,7 @@ const createSingleConfig = (dir: string): webpack.Configuration => {
       original.module && original.module.rules
     );
   }
+  // console.log(merge(WebpackComConfig, conf), 'webpack-config')
   return merge(WebpackComConfig, conf);
 };
 
