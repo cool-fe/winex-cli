@@ -107,7 +107,7 @@
     "@types/hash-sum": "^1.0.0",
     "@types/lodash": "^4.14.169",
     "@types/mini-css-extract-plugin": "^2.0.1",
-    "@types/minio": "^7.0.7",
+    "@types/minio": "^7.0.9",
     "@types/npmlog": "^4.1.2",
     "@types/postcss-safe-parser": "^5.0.0",
     "@types/progress-bar-webpack-plugin": "^2.1.1",

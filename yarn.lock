@@ -3093,10 +3093,10 @@
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
-"@types/minio@^7.0.7":
-  version "7.0.8"
-  resolved "https://registry.npmjs.org/@types/minio/-/minio-7.0.8.tgz#6c5152d34232f4498c741cd26c4c5f786bf4055f"
-  integrity sha512-3l9JTgbgZQMQFSRIzK8vDvPhM8MOkyqzftD0+5ltd8sMvodz9WswmzxpzNhI6vZJ19iqZfgzDMyZ4e/lNexOvA==
+"@types/minio@^7.0.9":
+  version "7.0.9"
+  resolved "https://registry.npmjs.org/@types/minio/-/minio-7.0.9.tgz#23591f7cdd8aba27fc1a1da2d63767d9fcef4d58"
+  integrity sha512-aMalbSDDB+TV9m3fVMD4E2vJR3XVAtOcf9t5Iq+PHnc5D0ti3LMXjaxGKXmllicliaBrh0gzURLrs44n/Jl43g==
   dependencies:
     "@types/node" "*"
 
