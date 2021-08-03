@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.7 (2021-08-03)
+
+
+### Bug Fixes
+
+* 修改本地打包配置无效问题 ([#88](https://github.com/cool-fe/winex-cli/issues/88)) ([1ed46d9](https://github.com/cool-fe/winex-cli/commit/1ed46d9fe8fc01ead5522096dcb1a03a342975bd))
+
+
+
+
+
 ## 1.1.6 (2021-08-03)
 
 
