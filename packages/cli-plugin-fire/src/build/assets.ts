@@ -37,10 +37,17 @@ module.exports = (() => {
     .rule("svg")
     .test(/\.(svg)(\?.*)?$/)
     .use("file-loader")
-    .loader(require.resolve("file-loader"))
+    .loader(require.resolve("url-loader"))
     .options({
-      name: genAssetSubPath("img"),
+      limit: inlineLimit,
       esModule: supportsEsModuleAsset,
+      fallback: {
+        loader: require.resolve("file-loader"),
+        options: {
+          name: genAssetSubPath("img"),
+          esModule: supportsEsModuleAsset,
+        },
+      },
     });
 
   config.module
@@ -56,5 +63,6 @@ module.exports = (() => {
     .use("url-loader")
     .loader(require.resolve("url-loader"))
     .options(genUrlLoaderOptions("fonts"));
-  return config.toConfig().module?.rules
+  // return config.toConfig().module?.rules
+  return config
 });
