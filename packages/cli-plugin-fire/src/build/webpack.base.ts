@@ -5,7 +5,6 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// import assets from './assets'
 import path from 'path'
 
 // resolve
@@ -70,7 +69,7 @@ export const rules = [
       {
         loader: "style-resources-loader",
         options:{
-          patterns: [path.resolve(__dirname, "../styles/index.scss")],
+          patterns: [path.resolve(__dirname, '../../../../node_modules/@winfe/theme-helper/import.scss')],
         }
       },
     ]
