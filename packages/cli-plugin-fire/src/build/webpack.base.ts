@@ -5,7 +5,7 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import assets from './assets'
+// import assets from './assets'
 import path from 'path'
 
 // resolve
@@ -83,7 +83,7 @@ export const rules = [
     test: /\.json$/,
     loader: 'json-loader'
   },
-  ...assets()
+  // ...assets()
 ];
 
 //plugins
