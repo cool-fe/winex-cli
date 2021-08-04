@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node ../../packages/cli/bin/winex.js fire start",
-    "build": "node ../../packages/cli/bin/winex.js fire build"
+    "start": "node ../../packages/cli/bin/winex.js   start",
+    "build": "node ../../packages/cli/bin/winex.js   build"
   },
   "license": "MIT",
   "dependencies": {
