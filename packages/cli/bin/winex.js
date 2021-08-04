@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable node/shebang */
 
 const cliFun = async (argv) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
