@@ -70,7 +70,6 @@ export default function createClientConfig(ctx: any): Config {
       }
     ]);
   }
-
   ctx.pluginAPI.applySyncOption('chainWebpack', config, false /* isServer */);
 
   return config;

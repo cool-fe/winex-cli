@@ -18,6 +18,7 @@ type Options = {
   base?: string;
   temp?: string;
   appConfig?: any;
+  plugins?: any[];
 };
 
 const { fsExistsFallback } = fallback;
@@ -119,6 +120,7 @@ export default class App {
     this.resolveGlobalLayout();
 
     this.applyInternalPlugins();
+    this.applyUserPlugins();
     this.pluginAPI.initialize();
 
     await this.resolvePages();
@@ -154,6 +156,17 @@ export default class App {
       .use(require('./internal-plugins/register-components'), {
         componentsDir: [path.resolve(this.sourceDir, './')]
       });
+  }
+
+  /**
+   * Apply user plugins
+   *
+   * @api private
+   */
+
+  applyUserPlugins() {
+    this.pluginAPI.useByPluginsConfig(this.options.plugins);
+    this.pluginAPI.use({ ...this.appConfig, name: '@winfe/internal-app-config' });
   }
 
   resolveTemplates() {
