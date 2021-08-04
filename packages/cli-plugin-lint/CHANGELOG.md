@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.8 (2021-08-04)
+
+
+### Bug Fixes
+
+* 修复用户自定义配置不生效问题 ([e711bcc](https://github.com/cool-fe/winex-cli/commit/e711bcc49a3f72512c8019acedd9bd717e33c110))
+
+
+
+
+
 ## 1.1.7 (2021-08-03)
 
 
