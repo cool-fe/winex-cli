@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import chalk from 'chalk';
 import fse from "fs-extra";
 import CreateWebpackCompoConfig from './webpack.component';
-import upload from './upload-lib'
+import uploadLib from './uploadLib'
 
 const pkg = require(process.cwd() + "/package.json");
 export default (dir = [process.cwd()]): Promise<void> =>
@@ -21,12 +21,13 @@ export default (dir = [process.cwd()]): Promise<void> =>
           }
           console.log(chalk.green('webpack build success'));
           fse.copy("lib", `dist/${pkg.version}`);
-          upload();
+          uploadLib();
           resolve();
         } else {
           console.log('err:', err);
           console.log(err.stack && err.stack);
-          throw err;
+          reject(err);
+          process.exit(-1);
         }
       });
     })
