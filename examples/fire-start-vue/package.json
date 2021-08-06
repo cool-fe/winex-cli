@@ -1,5 +1,5 @@
 {
-  "name": "fire-start",
+  "name": "@winex-comp/exampledomain-fire-start",
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@vue/babel-preset-jsx": "^1.2.4",
+    "@winning-plugin/webpack-filelist-export": "^1.0.6",
     "babel-loader": "^8.2.2"
   }
 }

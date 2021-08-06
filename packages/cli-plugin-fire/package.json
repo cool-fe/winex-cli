@@ -33,6 +33,7 @@
     "@lerna/project": "^4.0.0",
     "@vue/babel-preset-app": "^4.5.13",
     "@vue/babel-preset-jsx": "^1.2.4",
+    "@winfe/theme-helper": "^0.0.4",
     "@winfe/cli-core": "^1.1.8",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.2.2",

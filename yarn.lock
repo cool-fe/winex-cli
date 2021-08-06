@@ -3779,6 +3779,11 @@
     fs-extra "^10.0.0"
     minio "^7.0.18"
 
+"@winfe/theme-helper@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@winfe/theme-helper/-/theme-helper-0.0.4.tgz#26ac0a2691114af783335701a4077bc3140c6b79"
+  integrity sha512-zInK0o3R52bLR8gKDdVzaHFMAfMT41OkdR5dIEIl2EPuapyiYgG9Cb2bgE8mPZd7u8FiqhoUEuxVPbrChxXfWA==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"

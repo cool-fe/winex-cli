@@ -231,7 +231,7 @@ export default function createBaseConfig(
     preferPathResolver: 'webpack'
   });
   createCSSRule('scss', /\.scss$/, 'style-resources-loader', {
-    patterns: [path.resolve(__dirname, "../../styles/index.scss")],
+    patterns: [require.resolve('@winfe/theme-helper')],
   });
 
   config.plugin('vue-loader').use(VueLoaderPlugin);
