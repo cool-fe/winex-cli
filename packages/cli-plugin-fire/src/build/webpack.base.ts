@@ -5,9 +5,8 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// import assets from './assets'
 import path from 'path'
-
+console.log(require.resolve('@winfe/theme-helper'), 'sssss')
 // resolve
 export const resolve = {
   extensions: ['.js', '.vue', '.json'],
@@ -70,7 +69,9 @@ export const rules = [
       {
         loader: "style-resources-loader",
         options:{
-          patterns: [path.resolve(__dirname, "../styles/index.scss")],
+          patterns: [
+            require.resolve('@winfe/theme-helper')
+          ]
         }
       },
     ]

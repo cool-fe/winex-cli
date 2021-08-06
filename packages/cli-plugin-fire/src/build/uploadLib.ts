@@ -18,7 +18,9 @@ module.exports = async () => {
   };
   
   // 区分文件和文件夹然后上传
-  const filepath = `materials-lib/${pkg.name}/${pkg.version}/`;
+  // const materialClassify = pkg.name.split('/')[0].split('-')[1]
+  const domainName = pkg.name.split('/')[1].split('-')[0]
+  const filepath = `materials-umd-lib/${domainName}/${pkg.name}/${pkg.version}/`;
   const file = process.cwd() + "/lib/";
   
   const classifyFiles = (filepath: string, file: any) => {
