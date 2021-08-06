@@ -36,7 +36,7 @@ const plugins: { mod: string; name: string; command?: string | string[] }[] = [
   { mod: '@winfe/cli-plugin-lint', name: 'LintPlugin', command: 'lint' },
   { mod: '@winfe/cli-plugin-init', name: 'InitPlugin', command: 'init' },
   { mod: '@winfe/cli-plugin-add', name: 'AddPlugin', command: 'add' },
-  { mod: '@winfe/cli-plugin-fire', name: 'FirePlugin', command: ['fire', 'start', 'build'] }
+  { mod: '@winfe/cli-plugin-fire', name: 'FirePlugin', command: ['fire', 'dev', 'build'] }
 ];
 
 // eslint-disable-next-line import/prefer-default-export

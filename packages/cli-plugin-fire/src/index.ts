@@ -1,6 +1,5 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
-import log from 'npmlog';
 // import os from 'os';
 import Logger from './logger';
 // import { collectMatiralUpdates } from './package';
@@ -59,8 +58,13 @@ export default class LintPlugin extends BasePlugin {
         }
       }
     },
-    start: {
+    dev: {
       describe: 'start a material package',
+      options: {
+        '--vmi': {
+          usage: '是否以vmi启动'
+        }
+      },
       lifecycleEvents: ['dev']
     },
     // TODO: Remove in minor
@@ -129,13 +133,17 @@ export default class LintPlugin extends BasePlugin {
       await build();
     },
     // 'build:publish': publish,
-    'start:dev': async (): Promise<void> => {
+    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
       console.log('fire start');
-      await runStart();
+      if (parsedOptions?.options?.vmi) {
+        require('@winfe/vmi/lib/cli');
+      } else {
+        await runStart();
+      }
     },
     'fire:start:dev': async (): Promise<void> => {
       const fireStartInfo =
-        'winex fire start 命令已经被 winex start 代替，winex fire start 将在下个minor版本移除，请及时修改。';
+        'winex fire start 命令已经被 winex dev 代替，winex fire start 将在下个minor版本移除，请及时修改。';
       console.log();
       console.log(chalk.red.bold(fireStartInfo));
       await runStart();

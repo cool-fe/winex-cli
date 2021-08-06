@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node ../../packages/cli/bin/winex.js   start",
+    "start": "node ../../packages/cli/bin/winex.js   dev --vmi",
     "build": "node ../../packages/cli/bin/winex.js   build"
   },
   "license": "MIT",
