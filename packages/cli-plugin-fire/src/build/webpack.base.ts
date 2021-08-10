@@ -5,13 +5,10 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import path from 'path'
-console.log(require.resolve('@winfe/theme-helper'), 'sssss')
 // resolve
 export const resolve = {
   extensions: ['.js', '.vue', '.json'],
-  alias: {
-  }
+  alias: {}
 };
 
 // externals
@@ -27,6 +24,12 @@ export const externals = {
     commonjs: 'element-ui',
     commonjs2: 'element-ui',
     amd: 'element-ui'
+  },
+  '@winfe/win-request': {
+    root: 'winRequest',
+    commonjs: 'win-request',
+    commonjs2: 'win-request',
+    amd: 'win-request'
   }
 };
 
@@ -36,14 +39,11 @@ export const rules = [
     test: /\.(js|jsx?|babel|es6)$/,
     // include: process.cwd(),
     exclude: /node_modules/,
-    loader: "babel-loader",
+    loader: 'babel-loader',
     options: {
-      presets: ["@babel/preset-env", "@vue/babel-preset-jsx"],
-      plugins: [
-        "@babel/plugin-transform-runtime",
-        "@babel/plugin-proposal-class-properties",
-      ],
-    },
+      presets: ['@babel/preset-env', '@vue/babel-preset-jsx'],
+      plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-class-properties']
+    }
   },
   {
     test: /\.vue$/,
@@ -67,13 +67,11 @@ export const rules = [
         }
       },
       {
-        loader: "style-resources-loader",
-        options:{
-          patterns: [
-            require.resolve('@winfe/theme-helper')
-          ]
+        loader: 'style-resources-loader',
+        options: {
+          patterns: [require.resolve('@winfe/theme-helper')]
         }
-      },
+      }
     ]
   },
   {
@@ -83,17 +81,17 @@ export const rules = [
   {
     test: /\.json$/,
     loader: 'json-loader'
-  },
+  }
   // ...assets()
 ];
 
 //plugins
 export const plugins = [
-  new VueLoaderPlugin(), 
-  new CleanWebpackPlugin(), 
+  new VueLoaderPlugin(),
+  new CleanWebpackPlugin(),
   new ProgressBarPlugin(),
   new MiniCssExtractPlugin({
-    filename: "index.css"
+    filename: 'index.css'
   })
 ];
 

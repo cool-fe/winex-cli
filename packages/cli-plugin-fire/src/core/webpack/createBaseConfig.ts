@@ -6,9 +6,9 @@
 /**
  * Module dependencies.
  */
-import Config from 'webpack-chain'
-import {VueLoaderPlugin} from 'vue-loader'
-import CSSExtractPlugin from 'mini-css-extract-plugin'
+import Config from 'webpack-chain';
+import { VueLoaderPlugin } from 'vue-loader';
+import CSSExtractPlugin from 'mini-css-extract-plugin';
 import { path, env } from '../../shared-utils';
 
 /**
@@ -185,7 +185,10 @@ export default function createBaseConfig(
     });
 
   function createCSSRule(lang: string, test: RegExp, loader?: string, options?: any) {
-    const baseRule = config.module.rule(lang).test(test).sideEffects(true);
+    const baseRule = config.module
+      .rule(lang)
+      .test(test)
+      .sideEffects(true);
     const modulesRule = baseRule.oneOf('modules').resourceQuery(/module/);
     const normalRule = baseRule.oneOf('normal');
 
@@ -201,13 +204,16 @@ export default function createBaseConfig(
         }
       }
 
-      rule.use('css-loader').loader('css-loader').options({
-        modules,
-        localIdentName: `[local]_[hash:base64:8]`,
-        importLoaders: 1,
-        sourceMap: !isProd,
-        exportOnlyLocals: isServer
-      });
+      rule
+        .use('css-loader')
+        .loader('css-loader')
+        .options({
+          modules,
+          localIdentName: `[local]_[hash:base64:8]`,
+          importLoaders: 1,
+          sourceMap: !isProd,
+          exportOnlyLocals: isServer
+        });
 
       rule
         .use('postcss-loader')
@@ -215,7 +221,10 @@ export default function createBaseConfig(
         .options({ plugins: [require('autoprefixer')], sourceMap: !isProd });
 
       if (loader) {
-        rule.use(loader).loader(loader).options(options);
+        rule
+          .use(loader)
+          .loader(loader)
+          .options(options);
       }
     }
   }
@@ -224,14 +233,14 @@ export default function createBaseConfig(
   createCSSRule('postcss', /\.p(ost)?css$/);
   createCSSRule('scss', /\.scss$/, 'sass-loader');
   createCSSRule('scss', /\.scss$/, 'style-resources-loader', {
-    patterns: [path.resolve(__dirname, "../../styles/index.scss")],
+    patterns: [path.resolve(__dirname, '../../styles/index.scss')]
   });
   createCSSRule('sass', /\.sass$/, 'sass-loader', { indentedSyntax: true });
   createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   });
   createCSSRule('scss', /\.scss$/, 'style-resources-loader', {
-    patterns: [require.resolve('@winfe/theme-helper')],
+    patterns: [require.resolve('@winfe/theme-helper')]
   });
 
   config.plugin('vue-loader').use(VueLoaderPlugin);
@@ -270,7 +279,7 @@ export default function createBaseConfig(
   pluginAPI.applySyncOption('define', config);
   pluginAPI.applySyncOption('alias', config);
   return config;
-};
+}
 
 function getModulePaths() {
   return module.paths.concat([path.resolve(process.cwd(), 'node_modules')]);

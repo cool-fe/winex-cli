@@ -47,8 +47,20 @@ export default class LintPlugin extends BasePlugin {
           usage: '需要发布的包目录',
           config: {}
         },
-        '--registry': {
-          usage: '发布的源地址'
+        '--vmi': {
+          usage: '是否以vmi启动'
+        },
+        '--component': {
+          usage: '打包组件物料'
+        },
+        '--upload': {
+          usage: '打包组件物料后是否上传到minio'
+        },
+        '--registry [registry]': {
+          usage: '发布的源地址',
+          config: {
+            default: 'http://172.16.9.242:8081/repository/npm-local/'
+          }
         },
         '--ci': {
           usage: '是否在ci/cd中'
@@ -63,6 +75,9 @@ export default class LintPlugin extends BasePlugin {
       options: {
         '--vmi': {
           usage: '是否以vmi启动'
+        },
+        '--component': {
+          usage: '本地启动组件物料'
         }
       },
       lifecycleEvents: ['dev']
@@ -122,8 +137,13 @@ export default class LintPlugin extends BasePlugin {
     //   if (!pub) return;
     //   await build(buildResolved.map((res) => res.fetchSpec));
     // },
-    'build:build': async (): Promise<void> => {
-      await build();
+    'build:build': async ({ parsedOptions }: any): Promise<void> => {
+      if (parsedOptions?.options?.vmi) {
+        process.env.APP_ROOT = process.cwd();
+        require('@winfe/vmi/lib/cli');
+      } else {
+        await build();
+      }
     },
     'fire:build:build': async (): Promise<void> => {
       const fireBuildInfo =
@@ -134,8 +154,8 @@ export default class LintPlugin extends BasePlugin {
     },
     // 'build:publish': publish,
     'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
-      console.log('fire start');
       if (parsedOptions?.options?.vmi) {
+        process.env.APP_ROOT = process.cwd();
         require('@winfe/vmi/lib/cli');
       } else {
         await runStart();
