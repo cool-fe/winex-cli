@@ -1,24 +1,19 @@
-import mri from "mri";
+import mri from 'mri';
 
 import {
   IOptions,
   ICommandHooksCore,
   ICoreInstance,
   ICommands,
-  IHooks,
-} from "./interface/commandHookCore";
-import { IPluginInstance, ICommandInstance } from "./interface/plugin";
+  IHooks
+} from './interface/commandHookCore';
+import { IPluginInstance, ICommandInstance } from './interface/plugin';
 
-import { loadNpm } from "./npm";
-import GetMap from "./errorMap";
-import Command from "./commands";
+import { loadNpm } from './npm';
+import GetMap from './errorMap';
+import Command from './commands';
 
-import {
-  getMriOptions,
-  camelcaseOptionName,
-  setDotProp,
-  setByType,
-} from "./utils/index";
+import { getMriOptions, camelcaseOptionName, setDotProp, setByType } from './utils/index';
 
 const RegProviderNpm = /^npm:([\w]*):(.*)$/i; // npm providerName pkgName
 const RegProviderLocal = /^local:([\w]*):(.*)$/i; // local providerName pkgPath
@@ -30,18 +25,27 @@ interface ParsedArgv {
   };
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export class CommandHookCore implements ICommandHooksCore {
   options: IOptions;
-  private instances: IPluginInstance[] = [];
-  private commands: ICommands = {};
-  private hooks: IHooks = {};
-  private coreInstance: ICoreInstance;
-  private npmPlugin: string[] = [];
-  private loadNpm: any;
-  private preDebugTime: any;
-  private execId: number = Math.ceil(Math.random() * 1000);
 
   store = new Map();
+
+  private instances: IPluginInstance[] = [];
+
+  private commands: ICommands = {};
+
+  private hooks: IHooks = {};
+
+  private coreInstance: ICoreInstance;
+
+  private npmPlugin: string[] = [];
+
+  private loadNpm: any;
+
+  private preDebugTime: any;
+
+  private execId: number = Math.ceil(Math.random() * 1000);
 
   constructor(options: IOptions) {
     this.options = options || {};
@@ -58,10 +62,10 @@ export class CommandHookCore implements ICommandHooksCore {
   }
 
   // 添加插件
-  public addPlugin(Plugin: any) {
+  public addPlugin(Plugin: any): void {
     const coreInstance: ICoreInstance = this.coreInstance;
     // 支持加载npm 或 本地插件（绝对地址）
-    if (typeof Plugin === "string") {
+    if (typeof Plugin === 'string') {
       if (RegProviderNpm.test(Plugin)) {
         const npmProviderMatch: any = RegProviderNpm.exec(Plugin);
         this.npmPlugin.push(npmProviderMatch[2]);
@@ -69,12 +73,12 @@ export class CommandHookCore implements ICommandHooksCore {
         const localProviderMatch: any = RegProviderLocal.exec(Plugin);
         this.loadLocalPlugin(localProviderMatch[2]);
       } else {
-        this.error("pluginType", Plugin);
+        this.error('pluginType', Plugin);
       }
       return;
     }
     // 非class不加载
-    if (typeof Plugin !== "function") {
+    if (typeof Plugin !== 'function') {
       return;
     }
 
@@ -98,11 +102,12 @@ export class CommandHookCore implements ICommandHooksCore {
   // -  allowEntryPoints 为是否可以调用 entryPoints
   // -  options 调用参数
 
+  // eslint-disable-next-line consistent-return
   public async invoke(
     commandsArray?: string[],
     allowEntryPoints?: boolean,
     options?: any
-  ) {
+  ): Promise<void> {
     if (commandsArray == null) {
       // 把用户输入的命令赋值
       commandsArray = this.options.commands;
@@ -115,21 +120,18 @@ export class CommandHookCore implements ICommandHooksCore {
       Object.assign(this.options.options, options);
     }
 
-    const displayHelp =
-      mri(this.options.options).h || mri(this.options.options).help;
+    const displayHelp = mri(this.options.options).h || mri(this.options.options).help;
 
     if (!commandsArray.length && displayHelp) {
       return this.displayHelp();
     }
 
     if (!commandsArray.length) return;
+
     const commandInfo = this.getCommand(commandsArray, allowEntryPoints);
 
     // 处理默认值的问题
-    commandInfo.parsedOptions = this.mri(
-      this.options.options,
-      commandInfo.command
-    );
+    commandInfo.parsedOptions = this.mri(this.options.options, commandInfo.command);
 
     // 校验参数值
     commandInfo.command.checkOptionValue();
@@ -141,7 +143,7 @@ export class CommandHookCore implements ICommandHooksCore {
     );
 
     if (this.options.point) {
-      this.options.point("invoke", commandsArray, commandInfo, this);
+      this.options.point('invoke', commandsArray, commandInfo, this);
     }
 
     // 展示帮助
@@ -150,13 +152,13 @@ export class CommandHookCore implements ICommandHooksCore {
     }
 
     for (const lifecycle of lifecycleEvents) {
-      this.debug("Core Lifecycle", lifecycle);
+      this.debug('Core Lifecycle', lifecycle);
       const hooks = this.hooks[lifecycle] || [];
       for (const hook of hooks) {
         try {
           await hook.call(commandInfo, commandInfo);
         } catch (e) {
-          this.debug("Core Lifecycle Hook Error");
+          this.debug('Core Lifecycle Hook Error');
           console.log(e);
           throw e;
         }
@@ -174,7 +176,7 @@ export class CommandHookCore implements ICommandHooksCore {
     const { commands } = this.options;
     return {
       classes: {
-        Error,
+        Error
       },
       store: this.store,
       cli: this.getLog(),
@@ -186,10 +188,10 @@ export class CommandHookCore implements ICommandHooksCore {
       // 保存执行命令过程option和command
       processedInput: {
         options: {},
-        commands: commands || [],
+        commands: commands || []
       },
       // core内部插件管理类,主要做插件的增删改查操作
-      pluginManager: this,
+      pluginManager: this
     };
   }
 
@@ -209,14 +211,14 @@ export class CommandHookCore implements ICommandHooksCore {
       if (!commandsMap[command]) {
         commandsMap[command] = new Command({
           description: commandInstance.usage,
-          type: commandInstance.type || "command",
+          type: commandInstance.type || 'command',
           lifecycleEvents: commandInstance.lifecycleEvents,
           options: [],
           origin: [],
           commands: {},
           config: commandInstance.config,
           cliArgs: this.options?.options,
-          name: command,
+          name: command
         });
       }
 
@@ -227,12 +229,8 @@ export class CommandHookCore implements ICommandHooksCore {
 
       // 对当前的命令options做处理
       for (const option in commandInstance.options) {
-        if (
-          Object.prototype.hasOwnProperty.call(commandInstance.options, option)
-        ) {
-          const { usage, shortcut, config = {} } = commandInstance.options[
-            option
-          ];
+        if (Object.prototype.hasOwnProperty.call(commandInstance.options, option)) {
+          const { usage, shortcut, config = {} } = commandInstance.options[option];
           currentCommand.option(option, usage, shortcut, config);
         }
       }
@@ -272,9 +270,7 @@ export class CommandHookCore implements ICommandHooksCore {
     const allLifecycles: string[] = [];
     const { stopLifecycle } = this.options;
     const parentCommand =
-      parentCommandList && parentCommandList.length
-        ? `${parentCommandList.join(":")}:`
-        : "";
+      parentCommandList && parentCommandList.length ? `${parentCommandList.join(':')}:` : '';
     if (lifecycleEvents) {
       for (const life of lifecycleEvents) {
         const tmpLife = `${parentCommand}${command}:${life}`;
@@ -290,7 +286,7 @@ export class CommandHookCore implements ICommandHooksCore {
   }
 
   private getCommand(commandsArray: string[], allowEntryPoints?: boolean): any {
-    let command: string | undefined = "";
+    let command: string | undefined = '';
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let cmdObj: any = this;
     const commandPath: string[] = [];
@@ -302,22 +298,22 @@ export class CommandHookCore implements ICommandHooksCore {
       }
       commandPath.push(command);
       if (!cmdObj || !cmdObj.commands || !cmdObj.commands[command]) {
-        this.error("commandNotFound", { command, commandPath });
+        this.error('commandNotFound', { command, commandPath });
       }
       cmdObj = cmdObj.commands[command];
     }
     if (!cmdObj) {
-      this.error("commandNotFound", { command, commandPath });
+      this.error('commandNotFound', { command, commandPath });
     }
-    if (cmdObj.type === "entrypoint" && !allowEntryPoints) {
-      this.error("commandIsEntrypoint", { command, commandPath });
+    if (cmdObj.type === 'entrypoint' && !allowEntryPoints) {
+      this.error('commandIsEntrypoint', { command, commandPath });
     }
 
     return {
       commandName: command,
       command: cmdObj,
       usage,
-      parentCommandList,
+      parentCommandList
     };
   }
 
@@ -331,14 +327,14 @@ export class CommandHookCore implements ICommandHooksCore {
   // 加载本地插件
   private async loadLocalPlugin(localPath: string) {
     try {
-      this.debug("Core Local Plugin", localPath);
+      this.debug('Core Local Plugin', localPath);
       let plugin = require(localPath);
-      if (typeof plugin === "object") {
+      if (typeof plugin === 'object') {
         plugin = plugin[Object.keys(plugin)[0]];
       }
       this.addPlugin(plugin);
     } catch (e) {
-      this.error("localPlugin", { path: localPath, err: e });
+      this.error('localPlugin', { path: localPath, err: e });
     }
   }
 
@@ -386,22 +382,16 @@ export class CommandHookCore implements ICommandHooksCore {
       this.preDebugTime = now;
     }
     const { type, path, line } = this.getStackTrace();
-    let stack = "";
+    let stack = '';
     if (type) {
-      if (typeof verbose === "string" && type !== verbose) {
+      if (typeof verbose === 'string' && type !== verbose) {
         return;
       }
       stack = `(${type}:${path}:${line})`;
     }
     const diffTime = Number((now - this.preDebugTime) / 1000).toFixed(2);
     this.preDebugTime = now;
-    this.getLog().log(
-      "[Verbose]",
-      this.execId,
-      `+${diffTime}s`,
-      ...args,
-      stack
-    );
+    this.getLog().log('[Verbose]', this.execId, `+${diffTime}s`, ...args, stack);
   }
 
   getStackTrace() {
@@ -413,7 +403,7 @@ export class CommandHookCore implements ICommandHooksCore {
     if (!obj.stack || !obj.stack.split) {
       return {};
     }
-    const stackStr = obj.stack.split("\n");
+    const stackStr = obj.stack.split('\n');
     if (!stackStr || !stackStr[2]) {
       return {};
     }
@@ -425,21 +415,18 @@ export class CommandHookCore implements ICommandHooksCore {
     return {
       type: matchResult && matchResult[1],
       path: matchResult && matchResult[2],
-      line: matchResult && matchResult[3],
+      line: matchResult && matchResult[3]
     };
   }
 
-  private mri(
-    argv: string[],
-    /** Matched command */ command?: Command
-  ): ParsedArgv {
+  private mri(argv: string[], /** Matched command */ command?: Command): ParsedArgv {
     // All added options
     const cliOptions = [...(command ? command.options : [])];
     const mriOptions = getMriOptions(cliOptions);
 
     // Extract everything after `--` since mri doesn't support it
     let argsAfterDoubleDashes: string[] = [];
-    const doubleDashesIndex = argv.indexOf("--");
+    const doubleDashesIndex = argv.indexOf('--');
     if (doubleDashesIndex > -1) {
       argsAfterDoubleDashes = argv.slice(doubleDashesIndex + 1);
       argv = argv.slice(0, doubleDashesIndex);
@@ -447,19 +434,17 @@ export class CommandHookCore implements ICommandHooksCore {
 
     let parsed = mri(argv, mriOptions);
     parsed = Object.keys(parsed).reduce(
-      (res, name) => {
-        return {
-          ...res,
-          [camelcaseOptionName(name)]: parsed[name],
-        };
-      },
+      (res, name) => ({
+        ...res,
+        [camelcaseOptionName(name)]: parsed[name]
+      }),
       { _: [] }
     );
 
     const args = parsed._;
 
     const options: { [k: string]: any } = {
-      "--": argsAfterDoubleDashes,
+      '--': argsAfterDoubleDashes
     };
 
     // Set option default value
@@ -468,7 +453,7 @@ export class CommandHookCore implements ICommandHooksCore {
         ? command.config.ignoreOptionDefaultValue
         : false;
 
-    let transforms = Object.create(null);
+    const transforms = Object.create(null);
 
     for (const cliOption of cliOptions) {
       if (!ignoreDefault && cliOption.config.default !== undefined) {
@@ -482,17 +467,16 @@ export class CommandHookCore implements ICommandHooksCore {
         if (transforms[cliOption.name] === undefined) {
           transforms[cliOption.name] = Object.create(null);
 
-          transforms[cliOption.name]["shouldTransform"] = true;
-          transforms[cliOption.name]["transformFunction"] =
-            cliOption.config.type[0];
+          transforms[cliOption.name].shouldTransform = true;
+          transforms[cliOption.name].transformFunction = cliOption.config.type[0];
         }
       }
     }
 
     // Set option values (support dot-nested property name)
     for (const key of Object.keys(parsed)) {
-      if (key !== "_") {
-        const keys = key.split(".");
+      if (key !== '_') {
+        const keys = key.split('.');
         setDotProp(options, keys, parsed[key]);
         setByType(options, transforms);
       }
@@ -500,7 +484,7 @@ export class CommandHookCore implements ICommandHooksCore {
 
     return {
       args,
-      options,
+      options
     };
   }
 }

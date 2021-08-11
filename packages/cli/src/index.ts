@@ -27,22 +27,21 @@ Sentry.configureScope((scope) => {
   const filePath = path.join(os.homedir(), '.gitconfig');
   if (fs.existsSync(filePath)) {
     const { user = {} } = ini.parse(fs.readFileSync(filePath, 'utf8'));
-    scope.setTag('git-name',user.username || user.name);
-    scope.setTag('git-name',user.email);
-  } 
+    scope.setTag('git-name', user.username || user.name);
+    scope.setTag('git-name', user.email);
+  }
 });
 
-const plugins: {
-  [key: string]: { mod: string; name: string }[] | { mod: string; name: string };
-} = {
-  lint: { mod: '@winfe/cli-plugin-lint', name: 'LintPlugin' },
-  init: { mod: '@winfe/cli-plugin-init', name: 'InitPlugin' },
-  add: { mod: '@winfe/cli-plugin-add', name: 'AddPlugin' },
-  fire: { mod: '@winfe/cli-plugin-fire', name: 'FirePlugin' }
-};
+const plugins: { mod: string; name: string; command?: string | string[] }[] = [
+  { mod: '@winfe/cli-plugin-lint', name: 'LintPlugin', command: 'lint' },
+  { mod: '@winfe/cli-plugin-init', name: 'InitPlugin', command: 'init' },
+  { mod: '@winfe/cli-plugin-add', name: 'AddPlugin', command: 'add' },
+  { mod: '@winfe/cli-plugin-fire', name: 'FirePlugin', command: ['fire', 'start', 'build'] }
+];
 
 // eslint-disable-next-line import/prefer-default-export
 export class CLI extends BaseCLI {
+  // eslint-disable-next-line complexity
   async loadDefaultPlugin(): Promise<void> {
     // 获取this.commands[0]，只加载相关命令的插件
     const command = this.commands && this.commands[0];
@@ -54,14 +53,15 @@ export class CLI extends BaseCLI {
     let needLoad: { mod: string; name: string }[] = [];
     if (!this.argv.h && command) {
       Sentry.captureMessage(`[WINEX CLI](command):${command}`);
-      if (plugins[command]) {
-        needLoad = needLoad.concat(plugins[command]);
-      }
-    } else {
-      // load all
-      Object.keys(plugins).forEach((cmd: string) => {
-        needLoad = needLoad.concat(plugins[cmd]);
-      });
+      needLoad = needLoad.concat(
+        ...plugins.filter(
+          (plugin) =>
+            plugin.command &&
+            (typeof plugin.command === 'string'
+              ? plugin.command === command
+              : plugin.command.includes(command))
+        )
+      );
     }
     needLoad.forEach((pluginInfo) => {
       try {
