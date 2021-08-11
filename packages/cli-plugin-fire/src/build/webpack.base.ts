@@ -5,8 +5,7 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import path from 'path'
-console.log(require.resolve('@winfe/theme-helper'), 'sssss')
+// import path from 'path'
 // resolve
 export const resolve = {
   extensions: ['.js', '.vue', '.json'],
@@ -27,7 +26,10 @@ export const externals = {
     commonjs: 'element-ui',
     commonjs2: 'element-ui',
     amd: 'element-ui'
-  }
+  },
+  "his-request": "HISREUEST",
+  "vue-router": "VueRouter",
+  "vuex": "Vuex"
 };
 
 // rules
