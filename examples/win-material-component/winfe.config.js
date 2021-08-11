@@ -4,7 +4,8 @@ module.exports = {
       target: 'http://172.16.6.201'
     }
   },
-  chainWebpack: (config) => {
+  sass: {},
+  chainWebpack: () => {
     // console.log(config.toConfig().resolve);
   }
 };
