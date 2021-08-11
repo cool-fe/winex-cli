@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.11 (2021-08-11)
+
+
+### Features
+
+* upgrade @winfe/vmi ([2dc985d](https://github.com/cool-fe/winex-cli/commit/2dc985da3c25432caa970ac4c598db9c78f61356))
+
+
+
+
+
 ## 1.1.10 (2021-08-06)
 
 **Note:** Version bump only for package @winfe/cli-plugin-add
