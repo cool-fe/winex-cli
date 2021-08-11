@@ -35,7 +35,7 @@
     "@vue/babel-preset-jsx": "^1.2.4",
     "@winfe/cli-core": "^1.1.10",
     "@winfe/theme-helper": "^0.0.4",
-    "@winfe/vmi": "^1.0.6",
+    "@winfe/vmi": "^1.1.0-alpha.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.2.2",
     "cache-loader": "^3.0.0",
