@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.12 (2021-08-11)
+
+
+### Bug Fixes
+
+* 修改cjs为esm ([ba1673a](https://github.com/cool-fe/winex-cli/commit/ba1673a85c18d531157da344f6322a086d84bda4))
+
+
+
+
+
 ## 1.1.11 (2021-08-11)
 
 
