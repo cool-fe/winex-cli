@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@winfe/win-request": "^1.0.34",
+    "compression-webpack-plugin": "6.0.0",
     "core-js": "^3.15.2",
     "element-ui": "^2.15.3",
     "js-cookie": "^2.2.1"
