@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.13 (2021-08-11)
+
+
+### Features
+
+* upgrade vmi 支持library ([5734a66](https://github.com/cool-fe/winex-cli/commit/5734a66e958dd445fd7648a908f140c0dabb299f))
+
+
+
+
+
 ## 1.1.12 (2021-08-11)
 
 
