@@ -75,9 +75,6 @@ export default class LintPlugin extends BasePlugin {
       options: {
         '--vmi': {
           usage: '是否以vmi启动'
-        },
-        '--component': {
-          usage: '本地启动组件物料'
         }
       },
       lifecycleEvents: ['dev']
