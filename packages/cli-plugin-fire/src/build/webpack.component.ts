@@ -17,6 +17,8 @@ const createSingleConfig = (dir: string): webpack.Configuration => {
       filename: 'index.js',
       chunkFilename: '[id].js',
       libraryTarget: 'umd',
+      libraryExport: 'default',
+      globalObject: 'typeof self !== \'undefined\' ? self : this'
     },
     resolve: {
       extensions: ['.js', '.vue', '.json'],
