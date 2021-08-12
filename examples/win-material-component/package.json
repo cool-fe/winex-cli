@@ -1,0 +1,30 @@
+{
+  "name": "@winex-comp/encounter-filter",
+  "version": "1.1.0-beta.0",
+  "description": "患者域业务组件",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node ../../packages/cli/bin/winex.js   dev",
+    "build": "node ../../packages/cli/bin/winex.js   build"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@winning-plugin/portal-login-plugin": "^1.1.4"
+  },
+  "dependencies": {
+    "@winfe/win-request": "^1.0.34",
+    "compression-webpack-plugin": "6.0.0",
+    "core-js": "^3.15.2",
+    "element-ui": "^2.15.3",
+    "js-cookie": "^2.2.1"
+  },
+  "componentConfig": {
+    "name": "@winex-comp/encounter-filter",
+    "title": "就诊过滤组件",
+    "category": "component",
+    "domain": "encounter"
+  },
+  "license": "MIT"
+}

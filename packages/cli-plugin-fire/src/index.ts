@@ -1,6 +1,5 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
-import log from 'npmlog';
 // import os from 'os';
 import Logger from './logger';
 // import { collectMatiralUpdates } from './package';
@@ -48,8 +47,20 @@ export default class LintPlugin extends BasePlugin {
           usage: '需要发布的包目录',
           config: {}
         },
-        '--registry': {
-          usage: '发布的源地址'
+        '--vmi': {
+          usage: '是否以vmi启动'
+        },
+        '--component': {
+          usage: '打包组件物料'
+        },
+        '--upload': {
+          usage: '打包组件物料后是否上传到minio'
+        },
+        '--registry [registry]': {
+          usage: '发布的源地址',
+          config: {
+            default: 'http://172.16.9.242:8081/repository/npm-local/'
+          }
         },
         '--ci': {
           usage: '是否在ci/cd中'
@@ -59,8 +70,13 @@ export default class LintPlugin extends BasePlugin {
         }
       }
     },
-    start: {
+    dev: {
       describe: 'start a material package',
+      options: {
+        '--vmi': {
+          usage: '是否以vmi启动'
+        }
+      },
       lifecycleEvents: ['dev']
     },
     // TODO: Remove in minor
@@ -118,8 +134,13 @@ export default class LintPlugin extends BasePlugin {
     //   if (!pub) return;
     //   await build(buildResolved.map((res) => res.fetchSpec));
     // },
-    'build:build': async (): Promise<void> => {
-      await build();
+    'build:build': async ({ parsedOptions }: any): Promise<void> => {
+      if (parsedOptions?.options?.vmi) {
+        process.env.APP_ROOT = process.cwd();
+        require('@winfe/vmi/lib/cli');
+      } else {
+        await build();
+      }
     },
     'fire:build:build': async (): Promise<void> => {
       const fireBuildInfo =
@@ -129,13 +150,17 @@ export default class LintPlugin extends BasePlugin {
       await build();
     },
     // 'build:publish': publish,
-    'start:dev': async (): Promise<void> => {
-      console.log('fire start');
-      await runStart();
+    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
+      if (parsedOptions?.options?.vmi) {
+        process.env.APP_ROOT = process.cwd();
+        require('@winfe/vmi/lib/cli');
+      } else {
+        await runStart();
+      }
     },
     'fire:start:dev': async (): Promise<void> => {
       const fireStartInfo =
-        'winex fire start 命令已经被 winex start 代替，winex fire start 将在下个minor版本移除，请及时修改。';
+        'winex fire start 命令已经被 winex dev 代替，winex fire start 将在下个minor版本移除，请及时修改。';
       console.log();
       console.log(chalk.red.bold(fireStartInfo));
       await runStart();

@@ -12,6 +12,6 @@
 <style lang="scss">
   html,
   body {
-    color: $-color-primary-var;
+    // color: $-color-primary-var;
   }
 </style>

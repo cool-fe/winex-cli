@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.13 (2021-08-11)
+
+
+### Features
+
+* upgrade vmi 支持library ([5734a66](https://github.com/cool-fe/winex-cli/commit/5734a66e958dd445fd7648a908f140c0dabb299f))
+
+
+
+
+
+## 1.1.12 (2021-08-11)
+
+
+### Bug Fixes
+
+* 修改cjs为esm ([ba1673a](https://github.com/cool-fe/winex-cli/commit/ba1673a85c18d531157da344f6322a086d84bda4))
+
+
+
+
+
+## 1.1.11 (2021-08-11)
+
+
+### Features
+
+* upgrade @winfe/vmi ([2dc985d](https://github.com/cool-fe/winex-cli/commit/2dc985da3c25432caa970ac4c598db9c78f61356))
+
+
+
+
+
 ## 1.1.10 (2021-08-06)
 
 **Note:** Version bump only for package @winfe/cli-plugin-init
