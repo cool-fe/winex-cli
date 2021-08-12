@@ -61,6 +61,11 @@ ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+async-validator@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/async-validator/-/async-validator-4.0.1.tgz#5cf3525036efe5a74c0d4167207659829fd7b11c"
+  integrity sha512-jA1y7iZeT5vm9MM4RepKRJPTxKGPOSFijdoGRXMm6kLMgj9xiXn53TYlLquLKawK+m8/5zukzL0X3HwdXR9b3A==
+
 async-validator@~1.8.1:
   version "1.8.5"
   resolved "https://registry.npmjs.org/async-validator/-/async-validator-1.8.5.tgz#dc3e08ec1fd0dddb67e60842f02c0cd1cec6d7f0"
