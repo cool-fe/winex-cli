@@ -5,7 +5,7 @@ module.exports = {
     }
   },
   sass: {},
-  chainWebpack: (config) =>
+  chainWebpack: (config) => {
     // const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
     // config.plugin('compressionWebpackplugin').use(require.resolve('compression-webpack-plugin'), [
     //   {
@@ -16,5 +16,10 @@ module.exports = {
     //     minRatio: 0.8
     //   }
     // ]);
-    config
+
+    config.merge({ devtool: 'source-map' });
+    config.optimization.minimize(false);
+    console.log('config.resolve.modules', config.toConfig());
+    return config;
+  }
 };
