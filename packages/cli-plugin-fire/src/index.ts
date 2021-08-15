@@ -1,19 +1,10 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
-// import os from 'os';
 import Logger from './logger';
-// import { collectMatiralUpdates } from './package';
 import build from './build';
-// import { runPrompts } from './prompts';
-// import publish from './publish';
+import publish from './publish/index';
 
 import App from './core/App';
-
-// function output(...args: string[]) {
-//   log.clearProgress();
-//   console.log(...args);
-//   log.showProgress();
-// }
 
 export type PluginOptions = {
   package: string;
@@ -40,13 +31,9 @@ async function runStart() {
 export default class LintPlugin extends BasePlugin {
   commands = {
     build: {
-      describe: 'publish a material package',
-      lifecycleEvents: ['build', 'file', 'publish', 'upload'],
+      describe: 'build a project',
+      lifecycleEvents: ['build'],
       options: {
-        '--package [package]': {
-          usage: '需要发布的包目录',
-          config: {}
-        },
         '--vmi': {
           usage: '是否以vmi启动'
         },
@@ -56,11 +43,36 @@ export default class LintPlugin extends BasePlugin {
         '--upload': {
           usage: '打包组件物料后是否上传到minio'
         },
+        '--ci': {
+          usage: '是否在ci/cd中'
+        },
+        '--verbose': {
+          usage: '是否显示详细的日志信息'
+        }
+      }
+    },
+    publish: {
+      describe: 'publish a  package',
+      lifecycleEvents: ['publish'],
+      options: {
+        '--mode [mode]': {
+          usage: '指定发布模式：normal ｜ lerna',
+          config: {
+            default: 'normal'
+          }
+        },
+        '--package [package]': {
+          usage: '需要发布的包目录',
+          config: {}
+        },
         '--registry [registry]': {
           usage: '发布的源地址',
           config: {
             default: 'http://172.16.9.242:8081/repository/npm-local/'
           }
+        },
+        '--upload': {
+          usage: '打包组件物料后是否上传到minio'
         },
         '--ci': {
           usage: '是否在ci/cd中'
@@ -112,28 +124,12 @@ export default class LintPlugin extends BasePlugin {
   answer = {};
 
   hooks = {
-    // 'before:build:publish': async (): Promise<void> => {
-    //   const [changes, updatePacksges] = await collectMatiralUpdates();
-    //   if (changes && changes.length) {
-    //     output('');
-    //     output('Changes:');
-    //     output(changes.join(os.EOL));
-    //     output('');
-    //   } else {
-    //     Logger.info(chalk.green(`all materials is updated`));
-    //     return;
-    //   }
-    //   console.log('updatePacksges', updatePacksges);
-    //   // use this opportunity to confirm publishing
-    //   const { pub } = await runPrompts({
-    //     type: 'confirm',
-    //     name: 'pub',
-    //     message: 'Are you sure you want to publish these packages?'
-    //   });
-    //   const buildResolved = updatePacksges.map((pack) => pack.resolved);
-    //   if (!pub) return;
-    //   await build(buildResolved.map((res) => res.fetchSpec));
-    // },
+    'publish:publish': async ({ parsedOptions }: any): Promise<void> => {
+      await publish(process.cwd(), parsedOptions.options).catch((err) => {
+        console.error(err);
+        process.exit(1);
+      });
+    },
     'build:build': async ({ parsedOptions }: any): Promise<void> => {
       if (parsedOptions?.options?.vmi) {
         process.env.APP_ROOT = process.cwd();

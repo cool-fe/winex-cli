@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/cool-fe/winex-cli/compare/v1.0.19...v1.2.0) (2021-08-14)
+
+
+### Bug Fixes
+
+* 删除无效注释 ([d98424f](https://github.com/cool-fe/winex-cli/commit/d98424fc42056580b1516bc1f34ab750a9077d48))
+* fix cli sentry ([07644a6](https://github.com/cool-fe/winex-cli/commit/07644a638babdd4aadb2b7338ed9ccfd33bfa644))
+
+
+### Features
+
+* 修改cli加载plugin逻辑，可以支持一个plugin有多个一级command ([9b179cf](https://github.com/cool-fe/winex-cli/commit/9b179cfd6d230bbbe217b286119807c08d1cd1d7))
+* dev命令接入@winfe/vmi ([fa39c31](https://github.com/cool-fe/winex-cli/commit/fa39c3165f8804bc99aa065db0175d5761e6b43b))
+
+
+
+
+
 ## 1.1.13 (2021-08-11)
 
 

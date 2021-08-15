@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/cool-fe/winex-cli/compare/v1.0.19...v1.2.0) (2021-08-14)
+
+
+### Bug Fixes
+
+* 切换npm源 ([7be922e](https://github.com/cool-fe/winex-cli/commit/7be922eb6401296b420c6123e262455fcb48cd12))
+* 删除无效注释 ([d98424f](https://github.com/cool-fe/winex-cli/commit/d98424fc42056580b1516bc1f34ab750a9077d48))
+* 修复用户自定义配置不生效问题 ([e711bcc](https://github.com/cool-fe/winex-cli/commit/e711bcc49a3f72512c8019acedd9bd717e33c110))
+* 修改本地打包配置无效问题 ([#88](https://github.com/cool-fe/winex-cli/issues/88)) ([1ed46d9](https://github.com/cool-fe/winex-cli/commit/1ed46d9fe8fc01ead5522096dcb1a03a342975bd))
+* 修改cjs为esm ([ba1673a](https://github.com/cool-fe/winex-cli/commit/ba1673a85c18d531157da344f6322a086d84bda4))
+* 修改example ([d4bb365](https://github.com/cool-fe/winex-cli/commit/d4bb365b2ab1327d433cba21715d1e8c18926b36))
+* 修改example [skip ci] ([63fe445](https://github.com/cool-fe/winex-cli/commit/63fe445bf21f7d89eb3ed9737c0a927d99e3ba6e))
+* 修改fire build打包报错 ([f46d8ea](https://github.com/cool-fe/winex-cli/commit/f46d8ea4a8a6d9c020d9ef38f506e727d057c5b0))
+* fix cli sentry ([07644a6](https://github.com/cool-fe/winex-cli/commit/07644a638babdd4aadb2b7338ed9ccfd33bfa644))
+* upgrade @vue/babel-preset-app to 4.15.3 & fix client path ([f17e459](https://github.com/cool-fe/winex-cli/commit/f17e4593b658e8f455d69d90a7cd11516b5ce032))
+* winex修改为winfe ([#77](https://github.com/cool-fe/winex-cli/issues/77)) ([ea1c24b](https://github.com/cool-fe/winex-cli/commit/ea1c24b522853eb51a07937055f4b97cd8c99455))
+
+
+### Features
+
+* 合并dev和build暨接入vmi第一阶段开发完毕 ([ed9ad22](https://github.com/cool-fe/winex-cli/commit/ed9ad224a2839191148ad7d4d6363b6fec98c76d))
+* 删除package-lock.json ([c2739a7](https://github.com/cool-fe/winex-cli/commit/c2739a799d437f3f4c27ff0a0b52d0a2fc551887))
+* 修改打包并处理静态资源 ([041b1d9](https://github.com/cool-fe/winex-cli/commit/041b1d98e1290c280526432a28bd071ae9d28059))
+* 修改cli加载plugin逻辑，可以支持一个plugin有多个一级command ([9b179cf](https://github.com/cool-fe/winex-cli/commit/9b179cfd6d230bbbe217b286119807c08d1cd1d7))
+* 增加公共样式 ([#81](https://github.com/cool-fe/winex-cli/issues/81)) ([4c6044d](https://github.com/cool-fe/winex-cli/commit/4c6044d1102f8fca5a879be97c96764609b36016))
+* add dev & build command by vmi ([164867a](https://github.com/cool-fe/winex-cli/commit/164867aeb8604a1e26ac93771be41fa9133d5b4f))
+* add examples ([1d38d0f](https://github.com/cool-fe/winex-cli/commit/1d38d0f43bde669e3c43cfff27ab4da80052f94a))
+* add index.vue entry ([96abe55](https://github.com/cool-fe/winex-cli/commit/96abe552effc278d5b9bb0e370bb5fa5a5d40806))
+* dev命令接入@winfe/vmi ([fa39c31](https://github.com/cool-fe/winex-cli/commit/fa39c3165f8804bc99aa065db0175d5761e6b43b))
+* upgrade @winfe/vmi ([2dc985d](https://github.com/cool-fe/winex-cli/commit/2dc985da3c25432caa970ac4c598db9c78f61356))
+* upgrade vmi 支持library ([5734a66](https://github.com/cool-fe/winex-cli/commit/5734a66e958dd445fd7648a908f140c0dabb299f))
+
+
+
+
+
 ## 1.1.13 (2021-08-11)
 
 

@@ -5,11 +5,18 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node ../../packages/cli/bin/winex.js   dev",
-    "build": "node ../../packages/cli/bin/winex.js   build"
+    "build": "node ../../packages/cli/bin/winex.js   build",
+    "publish": "node ../../packages/cli/bin/winex.js   publish"
   },
   "files": [
     "lib"
   ],
+  "lerna": {
+    "version": "independent",
+    "packages": [
+      "./"
+    ]
+  },
   "devDependencies": {
     "@winning-plugin/portal-login-plugin": "^1.1.4"
   },

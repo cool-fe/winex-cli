@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/cool-fe/winex-cli/compare/v1.0.19...v1.2.0) (2021-08-14)
+
+
+### Features
+
+* 修改cli加载plugin逻辑，可以支持一个plugin有多个一级command ([9b179cf](https://github.com/cool-fe/winex-cli/commit/9b179cfd6d230bbbe217b286119807c08d1cd1d7))
+
+
+
+
+
 ## 1.1.13 (2021-08-11)
 
 
