@@ -54,6 +54,10 @@ export const rules = [
     options: {
       compilerOptions: {
         preserveWhitespace: false
+      },
+      cssModules: {
+        localIdentName: '[path][name]---[local]---[hash:base64:5]',
+        camelCase: true
       }
     }
   },
@@ -61,7 +65,15 @@ export const rules = [
     test: /\.(scss|css)$/,
     use: [
       MiniCssExtractPlugin.loader,
-      'css-loader',
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          importLoaders: 1,
+          localIdentName: '[hash:base64]'
+        }
+        
+      },
       'resolve-url-loader',
       {
         loader: 'sass-loader',
