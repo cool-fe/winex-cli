@@ -5,7 +5,14 @@ import { PackageGraph } from '@lerna/package-graph';
 //@ts-ignore
 import { collectUpdates } from '@lerna/collect-updates';
 import chalk from 'chalk';
-import Logger from './logger';
+import os from 'os';
+import Logger from '../logger';
+
+import { runPrompts } from '../prompts';
+
+function output(...args: string[]) {
+  console.log(...args);
+}
 
 type updatePacksge = {
   name: string;
@@ -18,9 +25,6 @@ type updatePacksge = {
 type update = string[];
 
 export async function collectMatiralUpdates(options = {}): Promise<[update, updatePacksge]> {
-  // 安装相关依赖
-  // const { package, registry, ci } = content?.parsedOptions?.options as PluginOptions;
-  // if (ci) return;
   const project = new Project();
   const packageGraph = new PackageGraph(await project.getPackages());
 
@@ -70,8 +74,28 @@ export async function collectMatiralUpdates(options = {}): Promise<[update, upda
   return [changes, packagesToVersion];
 }
 
-collectMatiralUpdates();
+export async function packageName(packs: any) {
+  const [changes, updatePacksges] = await collectMatiralUpdates(packs);
+  if (changes && changes.length) {
+    output('');
+    output('Changes:');
+    output(changes.join(os.EOL));
+    output('');
+  } else {
+    Logger.info(chalk.green(`all materials is updated`));
+    return;
+  }
+  console.log('updatePacksges', updatePacksges);
 
-export function packageName() {
-  console.log(99);
+  // use this opportunity to confirm publishing
+  const { pub } = await runPrompts({
+    type: 'confirm',
+    name: 'pub',
+    message: 'Are you sure you want to publish these packages?'
+  });
+
+  const buildResolved = updatePacksges.map((pack) => pack.resolved);
+  if (!pub) return;
+  // await build(buildResolved.map((res) => res.fetchSpec));
+  console.log(buildResolved);
 }
