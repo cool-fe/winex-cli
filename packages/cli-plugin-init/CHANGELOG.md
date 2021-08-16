@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.14 (2021-08-16)
+
+
+### Features
+
+* add command publish ([8ace15a](https://github.com/cool-fe/winex-cli/commit/8ace15ad28755fddd48b1e0b87db4fa96216cdce))
+
+
+
+
+
 ## 1.1.13 (2021-08-11)
 
 

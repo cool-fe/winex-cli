@@ -1,0 +1,18 @@
+0 silly argv {
+0 silly argv   '--': [],
+0 silly argv   mode: 'lerna',
+0 silly argv   registry: 'http://172.16.9.242:8081/repository/npm-local/',
+0 silly argv   skipGitStatusCheck: true,
+0 silly argv   package: 'a,c,b',
+0 silly argv   gitTagVersion: false,
+0 silly argv   exact: true,
+0 silly argv   commitHooks: false,
+0 silly argv   push: false
+0 silly argv }
+1 notice cli vundefined
+2 verbose rootPath /Users/gaowujun/Desktop/winex-cli/examples/win-material-component
+3 info versioning independent
+4 error TypeError: Cannot redefine property: envDefaults
+4 error     at Function.defineProperty (<anonymous>)
+4 error     at VersionCommand.configureEnvironment (/Users/gaowujun/Desktop/winex-cli/node_modules/@lerna/command/index.js:148:12)
+4 error     at /Users/gaowujun/Desktop/winex-cli/node_modules/@lerna/command/index.js:48:37

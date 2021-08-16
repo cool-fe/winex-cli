@@ -6,17 +6,20 @@ module.exports = {
   },
   sass: {},
   chainWebpack: (config) => {
-    // console.log(config.toConfig().resolve);
-    const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-    config.plugin('compressionWebpackplugin').use(require.resolve('compression-webpack-plugin'), [
-      {
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: productionGzipExtensions,
-        threshold: 10240,
-        minRatio: 0.8
-      }
-    ]);
+    // const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+    // config.plugin('compressionWebpackplugin').use(require.resolve('compression-webpack-plugin'), [
+    //   {
+    //     filename: '[path].gz[query]',
+    //     algorithm: 'gzip',
+    //     test: productionGzipExtensions,
+    //     threshold: 10240,
+    //     minRatio: 0.8
+    //   }
+    // ]);
+
+    config.merge({ devtool: 'source-map' });
+    config.optimization.minimize(false);
+    console.log('config.resolve.modules', config.toConfig());
     return config;
   }
 };
