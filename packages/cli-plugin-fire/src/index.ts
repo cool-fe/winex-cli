@@ -61,6 +61,9 @@ export default class LintPlugin extends BasePlugin {
             default: 'normal'
           }
         },
+        '--vmi': {
+          usage: '是否以vmi启动'
+        },
         '--package [package]': {
           usage: '需要发布的包目录',
           config: {}

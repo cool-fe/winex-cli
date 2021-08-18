@@ -2,8 +2,10 @@ import { htmlEscape } from './escape-got';
 import * as git from './git';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getChangelog = async () => {
-  const repoUrl = 'https://github.com/umijs/umi';
+export const getChangelog = async (repoUrl?: string) => {
+  if (!repoUrl) {
+    throw new Error(`get changelog failed, no repo url was found.`);
+  }
   const latest = await git.latestTagOrFirstCommit();
   const log = await git.commitLogFromRevision(latest);
 

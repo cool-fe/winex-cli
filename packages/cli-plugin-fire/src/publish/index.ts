@@ -3,37 +3,25 @@
 import execa from 'execa';
 import chalk from 'chalk';
 import { join } from 'path';
-import { writeFileSync } from 'fs';
-import getRepoInfo from 'git-repo-info';
-import pReduce from 'p-reduce';
-import semver from 'semver';
-import Version from '@lerna/version';
+import standardVersion from 'standard-version';
+//@ts-ignore
+import { npmPublish } from '@lerna/npm-publish';
+//@ts-ignore
+import npmConf from '@lerna/npm-conf';
+import crypto from 'crypto';
+//@ts-ignore
+import Package from '@lerna/package';
+// import getRepoInfo from 'git-repo-info';
+import packDirectory from './pack-directory';
 import exec from '../utils/exec';
-import isNextVersion from '../utils/isNextVersion';
-import { getChangelog } from '../utils/changelog';
 
-// eslint-disable-next-line node/no-extraneous-require
-const lernaCli = require.resolve('lerna/cli');
+const lazy = Package.Package.lazy;
+const REGISTRY = 'http://localhost:8073/repository/dsx/';
+const NEXUS_TOKEN = 'YWRtaW46ODc2MzM3';
 
-function isBreakingChange(currentVersion: string, nextVersion: string) {
-  const releaseType = semver.diff(currentVersion, nextVersion);
-  let breaking;
-
-  if (releaseType === 'major') {
-    // self-evidently
-    breaking = true;
-  } else if (releaseType === 'minor') {
-    // 0.1.9 => 0.2.0 is breaking
-    breaking = semver.lt(currentVersion, '1.0.0');
-  } else if (releaseType === 'patch') {
-    // 0.0.1 => 0.0.2 is breaking(?)
-    breaking = semver.lt(currentVersion, '0.1.0');
-  } else {
-    // versions are equal, or any prerelease
-    breaking = false;
-  }
-
-  return breaking;
+function userAgent() {
+  // consumed by npm-registry-fetch (via libnpmpublish)
+  return `lerna/4.0.0/node@${process.version}+${process.arch} (${process.platform})`;
 }
 
 function printErrorAndExit(message: string) {
@@ -60,7 +48,7 @@ function logStep(name: string) {
  *
  */
 
-export default async function release(cwd = process.cwd(), args: any) {
+export default async function release(cwd = process.cwd(), args: any): Promise<void> {
   // Check git status
   if (!args.skipGitStatusCheck && !args.publishOnly) {
     const gitStatus = execa.sync('git', ['status', '--porcelain']).stdout;
@@ -71,14 +59,15 @@ export default async function release(cwd = process.cwd(), args: any) {
     logStep('git status check is skipped, since --skip-git-status-check is supplied');
   }
 
-  // get release notes
-  let releaseNotes;
+  const npmSession = crypto.randomBytes(8).toString('hex');
 
-  if (!args.publishOnly) {
-    logStep('get release notes');
-    // releaseNotes = await getChangelog();
-    // console.log(releaseNotes(''));
-  }
+  const conf = npmConf({
+    lernaCommand: 'publish',
+    _auth: args.legacyAuth || NEXUS_TOKEN,
+    npmSession: args.npmSession || npmSession,
+    npmVersion: args.userAgent || userAgent(),
+    registry: REGISTRY //args.registry ||
+  });
 
   // Check npm registry
   logStep('check npm registry');
@@ -97,16 +86,15 @@ export default async function release(cwd = process.cwd(), args: any) {
     // Get updated packages
     logStep('check updated packages');
     let updatedStdout;
-
-    if (args.mode === 'lerna') updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
-    else {
-      updatedStdout = args.package ? args.package : './';
+    if (args.mode === 'lerna') {
+      //TODO lerna类似的文件结构后续支持
+      updatedStdout = [];
+    } else {
+      updatedStdout = args.package ? args.package : [lazy(join(cwd, 'package.json'))];
     }
 
-    updated = updatedStdout
-      .split(/[\n|,]/)
-      .map((pkg: string) => pkg.split('/')[1])
-      .filter(Boolean);
+    updated = updatedStdout;
+
     if (!updated.length) {
       printErrorAndExit('Release failed, no updated package is updated.');
     }
@@ -117,101 +105,88 @@ export default async function release(cwd = process.cwd(), args: any) {
     // Build
     if (!args.skipBuild) {
       logStep('build');
-      // await exec('npm', ['run', 'build']);
+      // let build;
+      // if (args.vmi) {
+      //   // eslint-disable-next-line @typescript-eslint/no-var-requires
+      //   build = require('@winfe/vmi').runCli;
+      // } else {
+      //   // eslint-disable-next-line node/no-missing-require
+      //   build = require('../build/index');
+      // }
+      // await build(args);
     } else {
       logStep('build is skipped, since args.skipBuild is supplied');
     }
 
-    if (args.mode === 'lerna') {
-      // Bump version
-      logStep('bump version with lerna version');
+    logStep('bump version with standard-version version');
 
-      const verInstance = Version(args);
-
-      const result = await Promise.resolve()
-
-        .then(() => verInstance.configureEnvironment())
-        .then(() => verInstance.configureOptions())
-        .then(() => verInstance.configureProperties())
-        .then(() => verInstance.configureLogging())
-        .then(() => verInstance.runPreparations())
-        .then(() => verInstance.initialize())
-        // eslint-disable-next-line consistent-return
-        .then((proceed) => {
-          if (proceed !== false) {
-            return verInstance.execute();
-          }
-          // early exits set their own exitCode (if non-zero)
-        });
-      process.exit();
-    } else {
-      // 单个包更新版本
-      const resolvePrereleaseId = args.preid || 'alpha';
-      const getVersion = (node) => execa.sync('npm', ['version', 'resolvePrereleaseId']).stdout;
-
-      const iterator = (versionMap: Map<any, any>, node: any) =>
-        Promise.resolve(getVersion(node)).then((version) => versionMap.set(node.name, version));
-
-      const verMap = pReduce(updated, iterator, new Map());
-
-      const packageGraph = function packageGraph(name: string) {
-        // eslint-disable-next-line import/no-dynamic-require
-        return require(`${name}/package.json`);
-      };
-
-      let hasBreakingChange;
-
-      for (const [name, bump] of verMap) {
-        hasBreakingChange = hasBreakingChange || isBreakingChange(packageGraph(name).version, bump);
-      }
-
-      if (hasBreakingChange) {
-        // _all_ packages need a major version bump whenever _any_ package does
-        updated = Array.from(this.packageGraph.values());
-
-        // --no-private completely removes private packages from consideration
-        if (this.options.private === false) {
-          // TODO: (major) make --no-private the default
-          updated = updated.filter((node) => !node.pkg.private);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const _ of updated.entries()) {
+      const versionCliArgs: standardVersion.Options = {
+        skip: {
+          // commit: true,
+          // tag: true
         }
+      };
+      const resolvePrereleaseId = args.release;
 
-        this.updatesVersions = new Map(updated.map((node) => [node.name, this.globalVersion]));
-      } else {
-        this.updatesVersions = versions;
+      if (['patch', 'minor', 'major'].includes(resolvePrereleaseId)) {
+        versionCliArgs.releaseAs = resolvePrereleaseId;
       }
+
+      if (['prepatch', 'preminor', 'premajor'].includes(resolvePrereleaseId)) {
+        versionCliArgs.releaseAs = resolvePrereleaseId.split('pre')[1];
+        versionCliArgs.prerelease = 'beta';
+      }
+
+      if (!resolvePrereleaseId) printErrorAndExit('Release failed, no release type.');
+
+      await standardVersion(versionCliArgs);
     }
+
+    // Push all
+    logStep(`git push`);
+    // const { branch } = getRepoInfo();
+    // await exec('git', ['push', 'origin', branch, '--tags']);
   }
 
   // Publish
-  const releasePkgs = updated;
-  logStep(`publish packages: ${chalk.blue(releasePkgs.join(', '))}`);
+  // eslint-disable-next-line no-nested-ternary
+  const releasePkgs = args.publishOnly
+    ? args.package
+      ? args.package
+      : [lazy(join(cwd, 'package.json'))]
+    : updated;
 
-  const currVersion = require('../lerna').version;
-  const isNext = isNextVersion(currVersion);
+  logStep(`publish packages: ${chalk.blue(releasePkgs.map((pck: any) => `${pck.name},`))}`);
+
+  // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
+  // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
+  await exec('npm', ['config', 'set', `//localhost:8073/repository/dsx/:_authToken=`]);
 
   for (const [index, pkg] of releasePkgs.entries()) {
-    const pkgPath = join(cwd, 'packages', pkg);
-    const { name, version } = require(join(pkgPath, 'package.json'));
-    if (version === currVersion) {
-      console.log(
-        `[${index + 1}/${releasePkgs.length}] Publish package ${name} ${
-          isNext ? 'with next tag' : ''
-        }`
-      );
-      const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
+    await pkg.refresh();
+    console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
+    pkg.packed = await packDirectory(pkg, pkg.location, args);
+    const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
 
-      const { stdout } = execa.sync('npm', cliArgs, {
-        cwd: pkgPath
-      });
-      console.log(stdout);
-    }
+    const opts = Object.assign(conf.snapshot, {
+      // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
+      // if we skip temp tags we should tag with the proper value immediately
+      tag: conf.get('tag')
+    });
+
+    const pkgOpts = {
+      ...args,
+      ...opts,
+      ...{
+        tag
+      }
+    };
+
+    await npmPublish(pkg, pkg.packed.tarFilePath, pkgOpts);
+    logStep(`published: ${chalk.blue(pkg.name, pkg.version)}`);
   }
-
-  logStep('create github release');
-  const tag = `v${currVersion}`;
-
-  const changelog = releaseNotes ? releaseNotes(tag) : '';
-  console.log(changelog);
 
   logStep('done');
 }

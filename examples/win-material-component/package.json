@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ../../packages/cli/bin/winex.js   dev",
     "build": "node ../../packages/cli/bin/winex.js   build",
-    "publish": "node ../../packages/cli/bin/winex.js   publish"
+    "pub": "node ../../packages/cli/bin/winex.js   publish"
   },
   "files": [
     "lib"
