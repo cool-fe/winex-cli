@@ -1,7 +1,19 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.1.0-beta.1](https://github.com/cool-fe/winex-cli/compare/v1.1.13...v1.1.0-beta.1) (2021-08-18)
+
+
+### Features
+
+* add command publish ([8ace15a](https://github.com/cool-fe/winex-cli/commit/8ace15ad28755fddd48b1e0b87db4fa96216cdce))
+* publish command 1.0.0 ([352e350](https://github.com/cool-fe/winex-cli/commit/352e350f218ca73f788f57e34501cbb4dc545804))
+
+
+### Bug Fixes
+
+* 修改example [skip ci] ([63fe445](https://github.com/cool-fe/winex-cli/commit/63fe445bf21f7d89eb3ed9737c0a927d99e3ba6e))
 
 # 1.1.0-beta.0 (2021-07-28)
 
