@@ -9,7 +9,8 @@
     "pub": "node ../../packages/cli/bin/winex.js   publish"
   },
   "files": [
-    "lib"
+    "lib",
+    "dist"
   ],
   "lerna": {
     "version": "independent",
