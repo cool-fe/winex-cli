@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-require */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable complexity */
 import execa from 'execa';
@@ -105,15 +106,15 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     // Build
     if (!args.skipBuild) {
       logStep('build');
-      // let build;
-      // if (args.vmi) {
-      //   // eslint-disable-next-line @typescript-eslint/no-var-requires
-      //   build = require('@winfe/vmi').runCli;
-      // } else {
-      //   // eslint-disable-next-line node/no-missing-require
-      //   build = require('../build/index');
-      // }
-      // await build(args);
+      let build;
+      if (args.vmi) {
+        const vmiCli = require.resolve('@winfe/vmi/bin/vmi');
+        await exec(vmiCli, ['build']);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        build = require('../build/index').default;
+        await build();
+      }
     } else {
       logStep('build is skipped, since args.skipBuild is supplied');
     }
