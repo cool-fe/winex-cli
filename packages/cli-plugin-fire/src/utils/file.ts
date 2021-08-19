@@ -6,7 +6,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import Logger from '../logger';
-import { runPrompts } from '../prompts';
+import { runPrompts } from './prompts';
 
 /**
  *

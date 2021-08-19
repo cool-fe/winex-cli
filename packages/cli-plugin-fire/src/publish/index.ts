@@ -12,9 +12,12 @@ import npmConf from '@lerna/npm-conf';
 import crypto from 'crypto';
 //@ts-ignore
 import Package from '@lerna/package';
+//@ts-ignore
+// import npmDistTag from '@lerna/npm-dist-tag';
 // import getRepoInfo from 'git-repo-info';
 import packDirectory from './pack-directory';
 import exec from '../utils/exec';
+import { runPrompts } from '../utils/prompts';
 
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://localhost:8073/repository/dsx/';
@@ -122,26 +125,35 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     logStep('bump version with standard-version version');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const _ of updated.entries()) {
+    for (const [_, pack] of updated.entries()) {
       const versionCliArgs: standardVersion.Options = {
         skip: {
           // commit: true,
           // tag: true
         }
       };
-      const resolvePrereleaseId = args.release;
+      const isRelease = args.release;
+      const isBeta = args.beta;
 
-      if (['patch', 'minor', 'major'].includes(resolvePrereleaseId)) {
-        versionCliArgs.releaseAs = resolvePrereleaseId;
+      if (!isRelease && !isBeta) printErrorAndExit('Release failed, no beta param.');
+      if (isRelease && isBeta)
+        printErrorAndExit('Release failed, there can only be one --beta and --release.');
+
+      if (isRelease) {
+        const relaseConfirm: any = await runPrompts({
+          type: 'confirm',
+          name: 'release',
+          message: `Does your release from ${pack.version} to release ${isRelease}? `,
+          initial: false
+        });
+        if (!relaseConfirm.release) printErrorAndExit('Release cancel');
+        versionCliArgs.releaseAs = isRelease;
+      } else if (isBeta) {
+        if (['patch', 'minor', 'major'].includes(isBeta)) {
+          versionCliArgs.releaseAs = isBeta;
+          versionCliArgs.prerelease = 'beta';
+        }
       }
-
-      if (['prepatch', 'preminor', 'premajor'].includes(resolvePrereleaseId)) {
-        versionCliArgs.releaseAs = resolvePrereleaseId.split('pre')[1];
-        versionCliArgs.prerelease = 'beta';
-      }
-
-      if (!resolvePrereleaseId) printErrorAndExit('Release failed, no release type.');
-
       await standardVersion(versionCliArgs);
     }
 
@@ -168,25 +180,32 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();
     console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
+
     pkg.packed = await packDirectory(pkg, pkg.location, args);
-    const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
+
+    // const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
 
     const opts = Object.assign(conf.snapshot, {
       // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
       // if we skip temp tags we should tag with the proper value immediately
-      tag: conf.get('tag')
+      tag: conf.get('tag') === 'latest' && (args.release ? 'latest' : 'beta')
     });
 
     const pkgOpts = {
       ...args,
-      ...opts,
-      ...{
-        tag
-      }
+      ...opts
     };
 
     await npmPublish(pkg, pkg.packed.tarFilePath, pkgOpts);
-    logStep(`published: ${chalk.blue(pkg.name, pkg.version)}`);
+
+    logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${opts.tag}`);
+
+    // update tag
+    // const spec = `${pkg.name}@${pkg.version}`;
+    // const preDistTag = 'beta';
+    // const distTag = preDistTag || 'latest';
+    // await npmDistTag.add(spec, distTag, pkgOpts);
+    // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
   }
 
   logStep('done');

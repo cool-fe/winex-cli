@@ -4,7 +4,6 @@
  */
 
 import Enquirer from 'enquirer';
-import { PluginOptions } from './index';
 
 type promptAnwser = {
   [key: string]: string | boolean;
@@ -114,61 +113,7 @@ export interface PromptState {
   };
 }
 
-const renderProjectPrompt = function(options: any): PromptOptions[] {
-  const { env, typescript, pm } = options;
-  return [
-    {
-      name: 'pm',
-      message: 'What type of packmanage does your project use?',
-      hint: '(Press <space> to select)',
-      choices: [
-        { name: 'yarn', message: 'Yarn' },
-        { name: 'npm', message: 'Npm' }
-      ],
-      type: 'select',
-      skip: !!pm,
-      initial: 0,
-      result(value) {
-        return pm || value;
-      }
-    },
-    {
-      type: 'select',
-      name: 'env',
-      message: 'Where does your code run?',
-      hint: '(Press <space> to select)',
-      initial: 0,
-      choices: [
-        { message: 'Browser', name: 'browser' },
-        { message: 'Node', name: 'node' }
-      ],
-      skip: !!env,
-      result(value) {
-        return env || value;
-      }
-    },
-    {
-      type: 'toggle',
-      name: 'typescript',
-      message: 'Does your project use TypeScript?',
-      initial: false,
-      skip: !!typescript,
-      //@ts-ignore
-      result(value) {
-        return typescript || value;
-      }
-    }
-  ];
-};
-
-export const runPrompts = async function<T>(prompts: PromptOptions | PromptOptions[]): Promise<T> {
+export const runPrompts = async function <T>(prompts: PromptOptions | PromptOptions[]): Promise<T> {
   const enquirer = new Enquirer<T>();
   return enquirer.prompt(prompts);
-};
-
-export const createCliPrompt = async function<T = promptAnwser>(
-  options: PluginOptions
-): Promise<T> {
-  const prompts = [...renderProjectPrompt(options)];
-  return runPrompts<T>(prompts);
 };

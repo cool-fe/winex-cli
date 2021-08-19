@@ -61,6 +61,14 @@ export default class LintPlugin extends BasePlugin {
             default: 'normal'
           }
         },
+        '--beta [patch | minor | major]': {
+          usage: '发布beta版本',
+          config: {}
+        },
+        '--release [patch | minor | major]': {
+          usage: '发布release版本',
+          config: {}
+        },
         '--vmi': {
           usage: '是否以vmi启动'
         },
@@ -148,7 +156,6 @@ export default class LintPlugin extends BasePlugin {
       console.log(chalk.red.bold(fireBuildInfo));
       await build();
     },
-    // 'build:publish': publish,
     'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
       if (parsedOptions?.options?.vmi) {
         process.env.APP_ROOT = process.cwd();
