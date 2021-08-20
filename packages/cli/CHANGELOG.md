@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.18 (2021-08-20)
+
+
+### Bug Fixes
+
+* update token ([8d0c1db](https://github.com/cool-fe/winex-cli/commit/8d0c1db7fe352971caef5ba1cd6511a684b65d95))
+
+
+
+
+
 ## 1.1.17 (2021-08-20)
 
 
