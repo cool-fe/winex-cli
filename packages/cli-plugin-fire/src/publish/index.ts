@@ -23,6 +23,7 @@ const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
 const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
 const NEXUS_TOKEN = 'MjAyMTY2Ng=='; //'YWRtaW46ODc2MzM3';
+const NEXUS_AUTHTOKEN = 'NpmToken.23e08da2-c391-3620-bd7a-e6651c4e9f3c';
 const REGISTRY_URI = REGISTRY.slice(5);
 
 function userAgent() {
@@ -181,7 +182,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
   await exec(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [
     'config',
     'delete',
-    `${REGISTRY_URI}:_authToken=`
+    `${REGISTRY_URI}:_authToken=${NEXUS_AUTHTOKEN}`
   ]);
   await exec(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [
     'config',
