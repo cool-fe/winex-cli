@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.19 (2021-08-20)
+
+
+### Bug Fixes
+
+* spawn error ([25d6ea5](https://github.com/cool-fe/winex-cli/commit/25d6ea505c7d0eb008bfab4903e86281fcd0aa5b))
+
+
+
+
+
 ## 1.1.18 (2021-08-20)
 
 
