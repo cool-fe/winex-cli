@@ -190,7 +190,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
       // if we skip temp tags we should tag with the proper value immediately
       // if no pkg.publishConfig.tag default tag is latest
-      tag: pkg.publishConfig.tag
+      tag: pkg?.publishConfig?.tag
         ? pkg.publishConfig.tag
         : conf.get('tag') === 'latest' && (args.release ? 'latest' : 'latest')
     });
