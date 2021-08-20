@@ -22,7 +22,7 @@ import { runPrompts } from '../utils/prompts';
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
 const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
-const NEXUS_TOKEN = 'd2luZXhAbWF0ZXJpYWw='; //'YWRtaW46ODc2MzM3';
+const NEXUS_TOKEN = 'MjAyMTY2Ng=='; //'YWRtaW46ODc2MzM3';
 const REGISTRY_URI = REGISTRY.slice(5);
 
 function userAgent() {
@@ -80,11 +80,11 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
   if (userRegistry.includes(WIN_REGISTRY)) {
-    printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
+    //printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
   }
   if (!userRegistry.includes(REGISTRY)) {
     const registry = chalk.blue(REGISTRY);
-    printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
+    //printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
   }
 
   let updated = null;
