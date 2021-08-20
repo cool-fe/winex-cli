@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.22 (2021-08-20)
+
+
+### Bug Fixes
+
+* update NEXUS_AUTHTOKEN ([37910b2](https://github.com/cool-fe/winex-cli/commit/37910b2fd9de2cac553e9ed4479c655b32250ca7))
+
+
+
+
+
 ## 1.1.21 (2021-08-20)
 
 
