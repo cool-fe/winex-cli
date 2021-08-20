@@ -22,7 +22,7 @@ import { runPrompts } from '../utils/prompts';
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
 const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
-const NEXUS_TOKEN = 'ZHN4OjEyMzQ1Ng=='; //'YWRtaW46ODc2MzM3';
+const NEXUS_TOKEN = 'd2luZXhAbWF0ZXJpYWw='; //'YWRtaW46ODc2MzM3';
 const REGISTRY_URI = REGISTRY.slice(5);
 
 function userAgent() {
