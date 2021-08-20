@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-fire",
-  "version": "1.1.22",
+  "version": "1.1.23",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
@@ -38,7 +38,7 @@
     "@lerna/project": "^4.0.0",
     "@vue/babel-preset-app": "^4.5.13",
     "@vue/babel-preset-jsx": "^1.2.4",
-    "@winfe/cli-core": "^1.1.22",
+    "@winfe/cli-core": "^1.1.23",
     "@winfe/theme-helper": "^0.0.4",
     "@winfe/vmi": "^v1.2.0-beta.0",
     "autoprefixer": "^9.5.1",

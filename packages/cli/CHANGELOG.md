@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.23 (2021-08-20)
+
+
+### Bug Fixes
+
+* update spawn.sync ([afcf3de](https://github.com/cool-fe/winex-cli/commit/afcf3deb0895e2dfd7eeaba657a3627ab138802b))
+
+
+
+
+
 ## 1.1.22 (2021-08-20)
 
 
