@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.24 (2021-08-20)
+
+
+### Bug Fixes
+
+* remove _auth ([4b26eb3](https://github.com/cool-fe/winex-cli/commit/4b26eb3572ea56a4afa813bd3a49441f88ae2fbe))
+
+
+
+
+
 ## 1.1.23 (2021-08-20)
 
 
