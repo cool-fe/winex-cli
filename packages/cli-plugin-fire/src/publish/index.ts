@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable complexity */
 import execa from 'execa';
+import spawn from 'cross-spawn';
 import chalk from 'chalk';
 import { join } from 'path';
 import standardVersion from 'standard-version';
@@ -179,16 +180,8 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
   // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
-  await exec(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [
-    'config',
-    'set',
-    `${REGISTRY_URI}:_authToken=${NEXUS_AUTHTOKEN}`
-  ]);
-  await exec(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', [
-    'config',
-    'set',
-    `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`
-  ]);
+  spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_authToken=${NEXUS_AUTHTOKEN}`]);
+  spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
 
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();
