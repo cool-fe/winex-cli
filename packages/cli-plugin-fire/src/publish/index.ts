@@ -14,14 +14,16 @@ import crypto from 'crypto';
 import Package from '@lerna/package';
 //@ts-ignore
 // import npmDistTag from '@lerna/npm-dist-tag';
-// import getRepoInfo from 'git-repo-info';
+import getRepoInfo from 'git-repo-info';
 import packDirectory from './pack-directory';
 import exec from '../utils/exec';
 import { runPrompts } from '../utils/prompts';
 
 const lazy = Package.Package.lazy;
-const REGISTRY = 'http://localhost:8073/repository/dsx/';
-const NEXUS_TOKEN = 'YWRtaW46ODc2MzM3';
+const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
+const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
+const NEXUS_TOKEN = 'ZHN4OjEyMzQ1Ng=='; //'YWRtaW46ODc2MzM3';
+const REGISTRY_URI = REGISTRY.slice(5);
 
 function userAgent() {
   // consumed by npm-registry-fetch (via libnpmpublish)
@@ -67,7 +69,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   const conf = npmConf({
     lernaCommand: 'publish',
-    _auth: args.legacyAuth || NEXUS_TOKEN,
+    _auth: args.legacyAuth || `'${NEXUS_TOKEN}'`,
     npmSession: args.npmSession || npmSession,
     npmVersion: args.userAgent || userAgent(),
     registry: REGISTRY //args.registry ||
@@ -75,12 +77,13 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   // Check npm registry
   logStep('check npm registry');
+
   const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
-  if (userRegistry.includes('https://registry.yarnpkg.com/')) {
-    printErrorAndExit(`Release failed, please use ${chalk.blue('npm run release')}.`);
+  if (userRegistry.includes(WIN_REGISTRY)) {
+    printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
   }
-  if (!userRegistry.includes('https://registry.npmjs.org/')) {
-    const registry = chalk.blue('https://registry.npmjs.org/');
+  if (!userRegistry.includes(REGISTRY)) {
+    const registry = chalk.blue(REGISTRY);
     printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
   }
 
@@ -159,8 +162,8 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
     // Push all
     logStep(`git push`);
-    // const { branch } = getRepoInfo();
-    // await exec('git', ['push', 'origin', branch, '--tags']);
+    const { branch } = getRepoInfo();
+    await exec('git', ['push', 'origin', branch, '--tags']);
   }
 
   // Publish
@@ -175,20 +178,21 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
   // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
-  await exec('npm', ['config', 'set', `//localhost:8073/repository/dsx/:_authToken=`]);
+  await exec('npm', ['config', 'delete', `${REGISTRY_URI}:_authToken=`]);
+  await exec('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
 
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();
     console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
-
     pkg.packed = await packDirectory(pkg, pkg.location, args);
-
     // const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
-
     const opts = Object.assign(conf.snapshot, {
       // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
       // if we skip temp tags we should tag with the proper value immediately
-      tag: conf.get('tag') === 'latest' && (args.release ? 'latest' : 'beta')
+      // if no pkg.publishConfig.tag default tag is latest
+      tag: pkg.publishConfig.tag
+        ? pkg.publishConfig.tag
+        : conf.get('tag') === 'latest' && (args.release ? 'latest' : 'latest')
     });
 
     const pkgOpts = {
@@ -207,6 +211,5 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     // await npmDistTag.add(spec, distTag, pkgOpts);
     // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
   }
-
   logStep('done');
 }
