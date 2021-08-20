@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.16 (2021-08-20)
+
+
+### Features
+
+* 替换registry ([9e7cdc8](https://github.com/cool-fe/winex-cli/commit/9e7cdc8b7b7eb21374b2fcc102ace5e0e98cd05b))
+
+
+
+
+
 ## 1.1.15 (2021-08-19)
 
 **Note:** Version bump only for package @winfe/cli-core
