@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.17 (2021-08-20)
+
+
+### Bug Fixes
+
+* update nexus user ([58cc452](https://github.com/cool-fe/winex-cli/commit/58cc4525f95e7b7845ada420057cc5987c30a001))
+
+
+
+
+
 ## 1.1.16 (2021-08-20)
 
 
