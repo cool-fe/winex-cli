@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.20 (2021-08-20)
+
+
+### Bug Fixes
+
+* publishConfig undefiend ([bec6070](https://github.com/cool-fe/winex-cli/commit/bec6070367bc6752787f3cf84af5be64d54036ef))
+
+
+
+
+
 ## 1.1.19 (2021-08-20)
 
 
