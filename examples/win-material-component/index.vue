@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import encounterFilter from '@winex-comp/encounter-filter';
+  import encounterFilter from './index';
   console.log(999, encounterFilter);
   encounterFilter.install();
   export default {
