@@ -19,7 +19,7 @@ module.exports = {
 
     config.merge({ devtool: 'source-map' });
     config.optimization.minimize(false);
-    console.log('config.resolve.modules', config.toConfig());
+    // console.log('config.resolve.modules', config.toConfig());
     return config;
   }
 };
