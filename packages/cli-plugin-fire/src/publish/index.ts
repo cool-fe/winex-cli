@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable complexity */
 import execa from 'execa';
+import spawn from 'cross-spawn';
 import chalk from 'chalk';
 import { join } from 'path';
 import standardVersion from 'standard-version';
@@ -22,7 +23,8 @@ import { runPrompts } from '../utils/prompts';
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
 const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
-const NEXUS_TOKEN = 'd2luZXhAbWF0ZXJpYWw='; //'YWRtaW46ODc2MzM3';
+const NEXUS_TOKEN = 'MjAyMTY2Ng=='; //'YWRtaW46ODc2MzM3';
+const NEXUS_AUTHTOKEN = 'NpmToken.117fb104-1494-35fb-9971-1af5cad0a92a';
 const REGISTRY_URI = REGISTRY.slice(5);
 
 function userAgent() {
@@ -80,11 +82,11 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
   if (userRegistry.includes(WIN_REGISTRY)) {
-    printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
+    //printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
   }
   if (!userRegistry.includes(REGISTRY)) {
     const registry = chalk.blue(REGISTRY);
-    printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
+    //printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
   }
 
   let updated = null;
@@ -178,8 +180,8 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
   // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
-  await exec('npm', ['config', 'delete', `${REGISTRY_URI}:_authToken=`]);
-  await exec('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
+  spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_authToken=${NEXUS_AUTHTOKEN}`]);
+  // spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
 
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();

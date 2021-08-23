@@ -3,6 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.24 (2021-08-20)
+
+
+### Bug Fixes
+
+* remove _auth ([4b26eb3](https://github.com/cool-fe/winex-cli/commit/4b26eb3572ea56a4afa813bd3a49441f88ae2fbe))
+
+
+
+
+
+## 1.1.23 (2021-08-20)
+
+
+### Bug Fixes
+
+* update spawn.sync ([afcf3de](https://github.com/cool-fe/winex-cli/commit/afcf3deb0895e2dfd7eeaba657a3627ab138802b))
+
+
+
+
+
+## 1.1.22 (2021-08-20)
+
+
+### Bug Fixes
+
+* update NEXUS_AUTHTOKEN ([37910b2](https://github.com/cool-fe/winex-cli/commit/37910b2fd9de2cac553e9ed4479c655b32250ca7))
+
+
+
+
+
+## 1.1.21 (2021-08-20)
+
+
+### Bug Fixes
+
+* NEXUS_AUTHTOKEN ([5c90ff0](https://github.com/cool-fe/winex-cli/commit/5c90ff0e2c2b0c9471c941d469151a029750b68f))
+
+
+
+
+
+## 1.1.20 (2021-08-20)
+
+
+### Bug Fixes
+
+* publishConfig undefiend ([bec6070](https://github.com/cool-fe/winex-cli/commit/bec6070367bc6752787f3cf84af5be64d54036ef))
+
+
+
+
+
+## 1.1.19 (2021-08-20)
+
+
+### Bug Fixes
+
+* spawn error ([25d6ea5](https://github.com/cool-fe/winex-cli/commit/25d6ea505c7d0eb008bfab4903e86281fcd0aa5b))
+
+
+
+
+
+## 1.1.18 (2021-08-20)
+
+
+### Bug Fixes
+
+* update token ([8d0c1db](https://github.com/cool-fe/winex-cli/commit/8d0c1db7fe352971caef5ba1cd6511a684b65d95))
+
+
+
+
+
 ## 1.1.17 (2021-08-20)
 
 
