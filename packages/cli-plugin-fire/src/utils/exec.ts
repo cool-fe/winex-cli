@@ -1,4 +1,5 @@
-import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
+import { spawn } from 'cross-spawn';
+import type { SpawnOptionsWithoutStdio } from 'child_process';
 
 export default function exec(
   command: string,
