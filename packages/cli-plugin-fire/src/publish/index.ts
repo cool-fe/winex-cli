@@ -18,6 +18,9 @@ import getRepoInfo from 'git-repo-info';
 import packDirectory from './pack-directory';
 import exec from '../utils/exec';
 import { runPrompts } from '../utils/prompts';
+import uploadMaterialDatas from './upload-minio';
+import { printErrorAndExit, logStep } from '../utils/print';
+import materialProject from './material';
 
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
@@ -28,15 +31,6 @@ const REGISTRY_URI = REGISTRY.slice(5);
 function userAgent() {
   // consumed by npm-registry-fetch (via libnpmpublish)
   return `lerna/4.0.0/node@${process.version}+${process.arch} (${process.platform})`;
-}
-
-function printErrorAndExit(message: string) {
-  console.error(chalk.red(message));
-  process.exit(1);
-}
-
-function logStep(name: string) {
-  console.log(`${chalk.gray('>> Release:')} ${chalk.magenta.bold(name)}`);
 }
 
 /**
@@ -54,6 +48,7 @@ function logStep(name: string) {
  *
  */
 
+// eslint-disable-next-line consistent-return
 export default async function release(cwd = process.cwd(), args: any): Promise<void> {
   // Check git status
   if (!args.skipGitStatusCheck && !args.publishOnly) {
@@ -127,8 +122,8 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     for (const [_, pack] of updated.entries()) {
       const versionCliArgs: standardVersion.Options = {
         skip: {
-          commit: true,
-          tag: true
+          // commit: true,
+          // tag: true
         }
       };
       const isRelease = args.release;
@@ -173,11 +168,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   logStep(`publish packages: ${chalk.blue(releasePkgs.map((pck: any) => `${pck.name},`))}`);
 
-  // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
-  // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
-  // spawn.sync('npm', ['config', 'delete', `${REGISTRY_URI}:_authToken`]);
-  // spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
-
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();
     console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
@@ -207,6 +197,18 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     // const distTag = preDistTag || 'latest';
     // await npmDistTag.add(spec, distTag, pkgOpts);
     // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
+
+    logStep(`generate material`);
+    const materialP = materialProject(cwd);
+    if (!materialP || !materialP.rootPath) {
+      return printErrorAndExit(
+        'your project not material repository or package.json no materialConfig config'
+      );
+    }
+    await exec('npx', ['iceworks', 'generate'], {
+      cwd: materialP?.rootPath
+    });
+    await uploadMaterialDatas(materialP?.rootPath);
   }
   logStep('done');
 }
