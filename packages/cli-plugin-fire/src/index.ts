@@ -78,9 +78,7 @@ export default class LintPlugin extends BasePlugin {
         },
         '--registry [registry]': {
           usage: '发布的源地址',
-          config: {
-            default: 'http://172.16.9.242:8081/repository/npm-local/'
-          }
+          config: {}
         },
         '--upload': {
           usage: '打包组件物料后是否上传到minio'

@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable complexity */
 import execa from 'execa';
-import spawn from 'cross-spawn';
 import chalk from 'chalk';
 import { join } from 'path';
 import standardVersion from 'standard-version';
@@ -19,10 +18,12 @@ import getRepoInfo from 'git-repo-info';
 import packDirectory from './pack-directory';
 import exec from '../utils/exec';
 import { runPrompts } from '../utils/prompts';
+import uploadMaterialDatas from './upload-minio';
+import { printErrorAndExit, logStep } from '../utils/print';
+import materialProject from './material';
 
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
-const WIN_REGISTRY = 'http://172.16.9.242:8081/repository/npm-local/';
 const NEXUS_TOKEN = 'MjAyMTY2Ng=='; //'YWRtaW46ODc2MzM3';
 const NEXUS_AUTHTOKEN = 'NpmToken.117fb104-1494-35fb-9971-1af5cad0a92a';
 const REGISTRY_URI = REGISTRY.slice(5);
@@ -30,15 +31,6 @@ const REGISTRY_URI = REGISTRY.slice(5);
 function userAgent() {
   // consumed by npm-registry-fetch (via libnpmpublish)
   return `lerna/4.0.0/node@${process.version}+${process.arch} (${process.platform})`;
-}
-
-function printErrorAndExit(message: string) {
-  console.error(chalk.red(message));
-  process.exit(1);
-}
-
-function logStep(name: string) {
-  console.log(`${chalk.gray('>> Release:')} ${chalk.magenta.bold(name)}`);
 }
 
 /**
@@ -56,6 +48,7 @@ function logStep(name: string) {
  *
  */
 
+// eslint-disable-next-line consistent-return
 export default async function release(cwd = process.cwd(), args: any): Promise<void> {
   // Check git status
   if (!args.skipGitStatusCheck && !args.publishOnly) {
@@ -69,25 +62,22 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   const npmSession = crypto.randomBytes(8).toString('hex');
 
+  // Check npm registry
+  logStep('check npm registry');
+  const registry: string = args.registry || REGISTRY;
+  if (registry !== REGISTRY) {
+    const registryChalk = chalk.blue(REGISTRY);
+    printErrorAndExit(`Release failed, npm registry must be ${registryChalk}.`);
+  }
+
   const conf = npmConf({
     lernaCommand: 'publish',
     _auth: args.legacyAuth || `'${NEXUS_TOKEN}'`,
     npmSession: args.npmSession || npmSession,
     npmVersion: args.userAgent || userAgent(),
-    registry: REGISTRY //args.registry ||
+    registry,
+    [`${REGISTRY_URI}:_authToken`]: NEXUS_AUTHTOKEN
   });
-
-  // Check npm registry
-  logStep('check npm registry');
-
-  const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
-  if (userRegistry.includes(WIN_REGISTRY)) {
-    //printErrorAndExit(`Release failed, please use ${chalk.blue('winex publish')}.`);
-  }
-  if (!userRegistry.includes(REGISTRY)) {
-    const registry = chalk.blue(REGISTRY);
-    //printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
-  }
 
   let updated = null;
 
@@ -126,7 +116,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     } else {
       logStep('build is skipped, since args.skipBuild is supplied');
     }
-
     logStep('bump version with standard-version version');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -140,12 +129,13 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       const isRelease = args.release;
       const isBeta = args.beta;
 
-      if (!isRelease && !isBeta) printErrorAndExit('Release failed, no beta param.');
+      if (!isRelease && !isBeta)
+        printErrorAndExit('Release failed, no --beta or --release  param.');
       if (isRelease && isBeta)
         printErrorAndExit('Release failed, there can only be one --beta and --release.');
 
       if (isRelease) {
-        const relaseConfirm: any = await runPrompts({
+        const relaseConfirm: { release: boolean } = await runPrompts({
           type: 'confirm',
           name: 'release',
           message: `Does your release from ${pack.version} to release ${isRelease}? `,
@@ -178,11 +168,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   logStep(`publish packages: ${chalk.blue(releasePkgs.map((pck: any) => `${pck.name},`))}`);
 
-  // token权限比auth高，为了防止token覆盖auth，每次都重置下配置
-  // 我也没办法，lerna留的坑，lerna应该没有兼容最新版npm-registry-fetch
-  spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_authToken=${NEXUS_AUTHTOKEN}`]);
-  // spawn.sync('npm', ['config', 'set', `${REGISTRY_URI}:_auth=${NEXUS_TOKEN}`]);
-
   for (const [index, pkg] of releasePkgs.entries()) {
     await pkg.refresh();
     console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
@@ -204,7 +189,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
     await npmPublish(pkg, pkg.packed.tarFilePath, pkgOpts);
 
-    logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${opts.tag}`);
+    logStep(`dist-tag ${pkg.name}@${pkg.version} => ${opts.tag}`);
 
     // update tag
     // const spec = `${pkg.name}@${pkg.version}`;
@@ -212,6 +197,18 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     // const distTag = preDistTag || 'latest';
     // await npmDistTag.add(spec, distTag, pkgOpts);
     // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
+
+    logStep(`generate material`);
+    const materialP = materialProject(cwd);
+    if (!materialP || !materialP.rootPath) {
+      return printErrorAndExit(
+        'your project not material repository or package.json no materialConfig config'
+      );
+    }
+    await exec('npx', ['iceworks', 'generate'], {
+      cwd: materialP?.rootPath
+    });
+    await uploadMaterialDatas(materialP?.rootPath);
   }
   logStep('done');
 }
