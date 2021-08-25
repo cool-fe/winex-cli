@@ -184,6 +184,7 @@
       :class="{ 'search-confition-btn': true, 'is-active_sort': showQueryPopover }"
       slot="reference"
     >
+      <test></test>
       <span @click.stop="showPop">
         <slot>
           <i class="filter-img win-icon-filter"></i>
@@ -197,6 +198,7 @@
 <script>
   import queryDialog from './queryDialog';
   import { reqQueryCondition, requestUpdatewQuery, requestDelPlan } from '../api/index';
+  import test from './test.jsx';
   const maps = {
     in: '399544423',
     waitin: '399544424',
@@ -208,7 +210,7 @@
 
   export default {
     name: 'win-encounter-filter',
-    components: { queryDialog },
+    components: { queryDialog, test },
     props: {
       isNurse: {
         type: Boolean,
