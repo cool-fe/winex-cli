@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.2.0 (2021-08-25)
+
+
+### Bug Fixes
+
+* merge main ([7632e71](https://github.com/cool-fe/winex-cli/commit/7632e71ca1b58eac49c4c134f34f4a3dcd37bf06))
+
+
+
+
+
 ## 1.1.28 (2021-08-25)
 
 **Note:** Version bump only for package @winfe/cli-core
