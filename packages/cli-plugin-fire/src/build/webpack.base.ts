@@ -19,11 +19,26 @@ export const externals = {
     commonjs2: 'vue',
     amd: 'vue'
   },
-  "his-request": "HISREUEST",
-  "vuex": "Vuex",
-  "vue-router": "VueRouter",
+  "his-request": {
+    root: 'HISREUEST',
+    commonjs: 'his-request',
+    commonjs2: 'his-request',
+    amd: 'his-request'
+  },
+  "vuex": {
+    root: 'Vuex',
+    commonjs: 'vuex',
+    commonjs2: 'vuex',
+    amd: 'vuex'
+  },
+  "vue-router": {
+    root: 'VueRouter',
+    commonjs: 'vue-router',
+    commonjs2: 'vue-router',
+    amd: 'vue-router'
+  },
   'element-ui': {
-    root: 'element-ui',
+    root: 'ELEMENT',
     commonjs: 'element-ui',
     commonjs2: 'element-ui',
     amd: 'element-ui'
