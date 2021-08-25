@@ -84,6 +84,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
   if (!args.publishOnly) {
     // Get updated packages
     logStep('check updated packages');
+
     let updatedStdout;
     if (args.mode === 'lerna') {
       //TODO lerna类似的文件结构后续支持
@@ -101,21 +102,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     // Clean
     logStep('clean');
 
-    // Build
-    if (!args.skipBuild) {
-      logStep('build');
-      let build;
-      if (args.vmi) {
-        const vmiCli = require.resolve('@winfe/vmi/bin/vmi');
-        await exec(vmiCli, ['build']);
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        build = require('../build/index').default;
-        await build();
-      }
-    } else {
-      logStep('build is skipped, since args.skipBuild is supplied');
-    }
     logStep('bump version with standard-version version');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -151,64 +137,92 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       }
       await standardVersion(versionCliArgs);
     }
+  }
+
+  try {
+    // Publish
+    // eslint-disable-next-line no-nested-ternary
+    const releasePkgs = args.publishOnly
+      ? args.package
+        ? args.package
+        : [lazy(join(cwd, 'package.json'))]
+      : updated;
+
+    logStep(`publish packages: ${chalk.blue(releasePkgs.map((pck: any) => `${pck.name},`))}`);
+
+    for (const [index, pkg] of releasePkgs.entries()) {
+      // Build
+      if (!args.skipBuild) {
+        logStep(`build: ${pkg.name}`);
+        let build;
+        if (args.vmi) {
+          process.env.APP_ROOT = pkg.rootPath;
+          const vmiCli = require.resolve('@winfe/vmi/bin/vmi');
+          await exec(vmiCli, ['build']);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          build = require('../build/index').default;
+          await build([pkg.rootPath]);
+        }
+      } else {
+        logStep('build is skipped, since args.skipBuild is supplied');
+      }
+
+      await pkg.refresh();
+
+      console.log(
+        `[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`
+      );
+
+      pkg.packed = await packDirectory(pkg, pkg.location, args);
+      // const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
+      const opts = Object.assign(conf.snapshot, {
+        // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
+        // if we skip temp tags we should tag with the proper value immediately
+        // if no pkg.publishConfig.tag default tag is latest
+        tag: pkg?.publishConfig?.tag
+          ? pkg.publishConfig.tag
+          : conf.get('tag') === 'latest' && (args.release ? 'latest' : 'latest')
+      });
+
+      const pkgOpts = {
+        ...args,
+        ...opts
+      };
+
+      await npmPublish(pkg, pkg.packed.tarFilePath, pkgOpts);
+
+      logStep(`dist-tag ${pkg.name}@${pkg.version} => ${opts.tag}`);
+
+      // update tag
+      // const spec = `${pkg.name}@${pkg.version}`;
+      // const preDistTag = 'beta';
+      // const distTag = preDistTag || 'latest';
+      // await npmDistTag.add(spec, distTag, pkgOpts);
+      // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
+
+      logStep(`generate material`);
+      const materialP = materialProject(cwd);
+      if (!materialP || !materialP.rootPath) {
+        return printErrorAndExit(
+          'your project not material repository or package.json no materialConfig config'
+        );
+      }
+      await exec('npx', ['iceworks', 'generate'], {
+        cwd: materialP?.rootPath
+      });
+      await uploadMaterialDatas(materialP?.rootPath);
+    }
 
     // Push all
     logStep(`git push`);
     const { branch } = getRepoInfo();
     await exec('git', ['push', 'origin', branch, '--tags']);
-  }
-
-  // Publish
-  // eslint-disable-next-line no-nested-ternary
-  const releasePkgs = args.publishOnly
-    ? args.package
-      ? args.package
-      : [lazy(join(cwd, 'package.json'))]
-    : updated;
-
-  logStep(`publish packages: ${chalk.blue(releasePkgs.map((pck: any) => `${pck.name},`))}`);
-
-  for (const [index, pkg] of releasePkgs.entries()) {
-    await pkg.refresh();
-    console.log(`[${index + 1}/${releasePkgs.length}] Publish package ${pkg.name} ${pkg.version}`);
-    pkg.packed = await packDirectory(pkg, pkg.location, args);
-    // const tag = execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout;
-    const opts = Object.assign(conf.snapshot, {
-      // distTag defaults to "latest" OR whatever is in pkg.publishConfig.tag
-      // if we skip temp tags we should tag with the proper value immediately
-      // if no pkg.publishConfig.tag default tag is latest
-      tag: pkg?.publishConfig?.tag
-        ? pkg.publishConfig.tag
-        : conf.get('tag') === 'latest' && (args.release ? 'latest' : 'latest')
-    });
-
-    const pkgOpts = {
-      ...args,
-      ...opts
-    };
-
-    await npmPublish(pkg, pkg.packed.tarFilePath, pkgOpts);
-
-    logStep(`dist-tag ${pkg.name}@${pkg.version} => ${opts.tag}`);
-
-    // update tag
-    // const spec = `${pkg.name}@${pkg.version}`;
-    // const preDistTag = 'beta';
-    // const distTag = preDistTag || 'latest';
-    // await npmDistTag.add(spec, distTag, pkgOpts);
-    // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
-
-    logStep(`generate material`);
-    const materialP = materialProject(cwd);
-    if (!materialP || !materialP.rootPath) {
-      return printErrorAndExit(
-        'your project not material repository or package.json no materialConfig config'
-      );
+    logStep('done');
+  } catch (error) {
+    if (!args.publishOnly) {
+      await exec('git', ['reset', '--mixed', 'HEAD^']);
     }
-    await exec('npx', ['iceworks', 'generate'], {
-      cwd: materialP?.rootPath
-    });
-    await uploadMaterialDatas(materialP?.rootPath);
+    logStep('fail');
   }
-  logStep('done');
 }
