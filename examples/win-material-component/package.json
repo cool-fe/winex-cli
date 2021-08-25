@@ -4,7 +4,7 @@
   "description": "患者域业务组件",
   "main": "lib/index.js",
   "scripts": {
-    "start": "node ../../packages/cli/bin/winex.js   dev",
+    "start": "node ../../packages/cli/bin/winex.js   dev --vmi",
     "build": "node ../../packages/cli/bin/winex.js   build",
     "pub": "node ../../packages/cli/bin/winex.js   publish --vmi --componet  --skipGitStatusCheck"
   },
