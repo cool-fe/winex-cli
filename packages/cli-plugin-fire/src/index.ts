@@ -148,26 +148,18 @@ export default class LintPlugin extends BasePlugin {
       }
     },
     'fire:build:build': async (): Promise<void> => {
-      const fireBuildInfo =
-        'winex fire build 命令已经被 winex build 代替，winex fire build 将在下个minor版本移除，请及时修改。';
+      const fireBuildInfo = 'winex fire build 命令已经被 winex build 代替，请使用 winex build。';
       console.log();
       console.log(chalk.red.bold(fireBuildInfo));
-      await build();
     },
-    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
-      if (parsedOptions?.options?.vmi) {
-        process.env.APP_ROOT = process.cwd();
-        require('@winfe/vmi/lib/cli');
-      } else {
-        await runStart();
-      }
+    'dev:dev': async (): Promise<void> => {
+      process.env.APP_ROOT = process.cwd();
+      require('@winfe/vmi/lib/cli');
     },
     'fire:start:dev': async (): Promise<void> => {
-      const fireStartInfo =
-        'winex fire start 命令已经被 winex dev 代替，winex fire start 将在下个minor版本移除，请及时修改。';
+      const fireStartInfo = 'winex fire start 命令已经被 winex dev 代替，请使用 winex dev。';
       console.log();
       console.log(chalk.red.bold(fireStartInfo));
-      await runStart();
     }
   };
 }
