@@ -69,39 +69,58 @@ export const rules = [
     options: {
       compilerOptions: {
         preserveWhitespace: false
-      },
-      cssModules: {
-        localIdentName: '[path][name]---[local]---[hash:base64:5]',
-        camelCase: true
       }
     }
   },
   {
     test: /\.(scss|css)$/,
-    use: [
-      MiniCssExtractPlugin.loader,
+    oneOf: [
       {
-        loader: 'css-loader',
-        options: {
-          modules: true,
-          importLoaders: 1,
-          localIdentName: '[hash:base64]'
-        }
+        resourceQuery: /module/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]_[hash:base64:5]'
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'style-resources-loader',
+            options: {
+              patterns: [require.resolve('@winfe/theme-helper')]
+            }
+          }
+        ]
       },
-      'resolve-url-loader',
       {
-        loader: 'sass-loader',
-        options: {
-          sourceMap: true
-        }
-      },
-      {
-        loader: 'style-resources-loader',
-        options: {
-          patterns: [require.resolve('@winfe/theme-helper')]
-        }
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'style-resources-loader',
+            options: {
+              patterns: [require.resolve('@winfe/theme-helper')]
+            }
+          }
+        ]
       }
     ]
+    
   },
   {
     test: /\.html$/,
