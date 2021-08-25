@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.1 (2021-08-25)
+
+
+### Bug Fixes
+
+* **build:** 修改css-module打包 ([#97](https://github.com/cool-fe/winex-cli/issues/97)) ([4e099a8](https://github.com/cool-fe/winex-cli/commit/4e099a8bea584c1841d609472ffbde4cd0942edd))
+
+
+
+
+
 # 1.2.0 (2021-08-25)
 
 
