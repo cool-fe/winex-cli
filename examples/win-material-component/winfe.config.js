@@ -20,18 +20,10 @@ module.exports = {
     config.merge({ devtool: 'source-map' });
     config.optimization.minimize(false);
 
-    config.module
-      .rule('js')
-      .use('babel-loader')
-      .tap((options) => {
-        options.babelrc = true;
-        return options;
-      });
-
-    console.log(
-      'config.resolve.modules',
-      config.module.rule('js').toConfig().use[0].options.presets
-    );
+    // console.log(
+    //   'config.resolve.modules',
+    //   config.module.rule('js').toConfig().use[0].options.presets
+    // );
     return config;
   }
 };

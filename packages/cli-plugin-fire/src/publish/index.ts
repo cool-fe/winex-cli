@@ -158,7 +158,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
         if (args.vmi) {
           process.env.APP_ROOT = pkg.rootPath;
           const vmiCli = require.resolve('@winfe/vmi/bin/vmi');
-          await exec(vmiCli, ['build']);
+          await exec(vmiCli, ['build', ...process.argv.slice(3)]);
         } else {
           // eslint-disable-next-line @typescript-eslint/no-var-requires
           build = require('../build/index').default;
@@ -200,19 +200,19 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       // const distTag = preDistTag || 'latest';
       // await npmDistTag.add(spec, distTag, pkgOpts);
       // logStep(`dist-tag ${pkg.name}@${pkg.versio} => ${distTag}`);
-
-      logStep(`generate material`);
-      const materialP = materialProject(cwd);
-      if (!materialP || !materialP.rootPath) {
-        return printErrorAndExit(
-          'your project not material repository or package.json no materialConfig config'
-        );
-      }
-      await exec('npx', ['iceworks', 'generate'], {
-        cwd: materialP?.rootPath
-      });
-      await uploadMaterialDatas(materialP?.rootPath);
     }
+
+    logStep(`generate material`);
+    const materialP = materialProject(cwd);
+    if (!materialP || !materialP.rootPath) {
+      return printErrorAndExit(
+        'your project not material repository or package.json no materialConfig config'
+      );
+    }
+    await exec('npx', ['iceworks', 'generate'], {
+      cwd: materialP?.rootPath
+    });
+    await uploadMaterialDatas(materialP?.rootPath);
 
     // Push all
     logStep(`git push`);

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node ../../packages/cli/bin/winex.js   dev --vmi",
-    "build": "node ../../packages/cli/bin/winex.js   build",
+    "build": "node ../../packages/cli/bin/winex.js   build --vmi --component",
     "pub": "node ../../packages/cli/bin/winex.js   publish --vmi --componet  --skipGitStatusCheck"
   },
   "files": [
