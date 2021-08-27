@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.3 (2021-08-27)
+
+
+### Bug Fixes
+
+* 修改ts类型和eslint配置 ([260045d](https://github.com/cool-fe/winex-cli/commit/260045ddbb764a8723240db0e451640bc28dfaeb))
+
+
+
+
+
 ## 1.2.2 (2021-08-25)
 
 **Note:** Version bump only for package @winfe/winex-cli
