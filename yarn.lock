@@ -3830,19 +3830,9 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/parser@4.22.1":
-  version "4.22.1"
-  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-4.22.1.tgz#a95bda0fd01d994a15fc3e99dc984294f25c19cc"
-  integrity sha512-l+sUJFInWhuMxA6rtirzjooh8cM/AATAe3amvIkqKFeMzkn85V+eLzb1RyuXkHak4dLfYzOmF6DXPyflJvjQnw==
-  dependencies:
-    "@typescript-eslint/scope-manager" "4.22.1"
-    "@typescript-eslint/types" "4.22.1"
-    "@typescript-eslint/typescript-estree" "4.22.1"
-    debug "^4.1.1"
-
-"@typescript-eslint/parser@^4.5.0":
+"@typescript-eslint/parser@4.29.3", "@typescript-eslint/parser@^4.5.0":
   version "4.29.3"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@typescript-eslint/parser/-/parser-4.29.3.tgz#2ac25535f34c0e98f50c0e6b28c679c2357d45f2"
+  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-4.29.3.tgz#2ac25535f34c0e98f50c0e6b28c679c2357d45f2"
   integrity sha512-jrHOV5g2u8ROghmspKoW7pN8T/qUzk0+DITun0MELptvngtMrwUJ1tv5zMI04CYVEUsSrN4jV7AKSv+I0y0EfQ==
   dependencies:
     "@typescript-eslint/scope-manager" "4.29.3"
@@ -4445,10 +4435,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@winfe/client@^1.2.2":
-  version "1.2.2"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@winfe/client/-/client-1.2.2.tgz#cf09896e7c433eb86096c20f5ab111eb3aa32303"
-  integrity sha512-SOaD03rFCBXFDpRYjQr+o0+g0awFqe5F5h5jZQizlcqwLtkJLm3y7go4+Dve+ETWHHET8g3VygUycVlQ9ueS8A==
+"@winfe/client@^1.2.3":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@winfe/client/-/client-1.2.4.tgz#b4ac82e6ee749715ba1f80946abfe7209532eff7"
+  integrity sha512-uh8bGMcnaJqbAgSMUn1hwlM8Fa+DVHk5Ml8/Q1bYnvzusON+Xybk95TiwS1+CzR07Af3PeeMhCyAn2gD4lSnJw==
   dependencies:
     core-js "^3.6.5"
     node-fetch "^2.6.1"
@@ -4475,10 +4465,10 @@
     fs-extra "^10.0.0"
     minio "^7.0.18"
 
-"@winfe/preset-built-in@^1.2.2":
-  version "1.2.2"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@winfe/preset-built-in/-/preset-built-in-1.2.2.tgz#c8cccbfa2fb4dd662f28f51b302f7816ae043f52"
-  integrity sha512-OHTA0a/l+utqU/NAAYZCAkYfVi5M09Q7I2cGa1kD8qkk6TxLLcNJ2GKhdnwJGPGVZCNlT8j4yrRfzN7wdM7qvg==
+"@winfe/preset-built-in@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@winfe/preset-built-in/-/preset-built-in-1.2.4.tgz#0952da35db6b9ce0acdccee5fdb6e18dd10404d7"
+  integrity sha512-lSWTV+6GbscEWNJLU4gUsn/VQFCl74XbA8TJ56n0we8uQv0p3wq1ukScmIIcQipM8TgFpCWdlCIRL5iJ5W0RpQ==
   dependencies:
     "@umijs/babel-preset-umi" "3.5.2"
     "@umijs/bundler-webpack" "3.5.2"
@@ -4486,8 +4476,8 @@
     "@umijs/server" "3.5.2"
     "@umijs/types" "3.5.2"
     "@umijs/utils" "3.5.2"
-    "@winfe/runtime" "^1.2.2"
-    "@winfe/vmi" "^1.2.2"
+    "@winfe/runtime" "^1.2.4"
+    "@winfe/vmi" "^1.2.4"
     core-js "3.6.5"
     es-module-lexer "0.6.0"
     es5-imcompatible-versions "^0.1.62"
@@ -4496,10 +4486,10 @@
     sass "^1.37.5"
     sass-loader "^7.0.1"
 
-"@winfe/preset-built-vmi@^1.2.2":
-  version "1.2.2"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@winfe/preset-built-vmi/-/preset-built-vmi-1.2.2.tgz#7545ef955e9b8f6bd94d32b83245695af8c322cc"
-  integrity sha512-DawsvenUgjouEx/AL5YdTkJWRFMgfqPtGy8tFzqpkfblpiodo1QbFKQ7mUzmWATKENn+COl41Gx7q+hRb8F31g==
+"@winfe/preset-built-vmi@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@winfe/preset-built-vmi/-/preset-built-vmi-1.2.4.tgz#e8488399c31574c220020edc8f5519be920b6654"
+  integrity sha512-kgOKJqBKtY/hU5JOvN40I1ro3t4stb6NvBUaX+w5dp2bwNaPqe4ORjY4nDE2Ej4ygC6TnxWX7ZFuv0YNYtLWSw==
   dependencies:
     "@hapi/joi" "16.1.8"
     "@nuxt/utils" "^2.15.7"
@@ -4508,7 +4498,7 @@
     "@types/serialize-javascript" "1.5.0"
     "@vue/babel-helper-vue-jsx-merge-props" "^1.2.1"
     "@vue/babel-preset-jsx" "^1.2.4"
-    "@winfe/client" "^1.2.2"
+    "@winfe/client" "^1.2.3"
     "@winfe/theme-helper" "^0.0.4"
     clean-webpack-plugin "^4.0.0-alpha.0"
     cliui "6.0.0"
@@ -4531,10 +4521,10 @@
     webpack "4.46.0"
     zlib "1.0.5"
 
-"@winfe/runtime@^1.2.2":
-  version "1.2.2"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@winfe/runtime/-/runtime-1.2.2.tgz#88a7f54c445ef71d7e7462651308a6c22715b9a9"
-  integrity sha512-LaD6uNCw8+n/+LF5GZMZA+C4Y4GXOy1dTzC+28qdzxJIePdD8OTRROBuz8yLeGUCSEDS2ABk3QOk0Rh85DGnSg==
+"@winfe/runtime@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@winfe/runtime/-/runtime-1.2.4.tgz#2b075f93e394ffb9ff0b213048c84cfa0020e25d"
+  integrity sha512-xjBCREd7Whifd80kEFid51Qn1i1Emy+MFnPbxXbie0YAvbkaum5eigODHPnQFUuh14ooTSOKFvXmJ9PLCQSpPg==
   dependencies:
     use-subscription "1.5.1"
 
@@ -4543,19 +4533,19 @@
   resolved "https://registry.npmjs.org/@winfe/theme-helper/-/theme-helper-0.0.4.tgz#26ac0a2691114af783335701a4077bc3140c6b79"
   integrity sha512-zInK0o3R52bLR8gKDdVzaHFMAfMT41OkdR5dIEIl2EPuapyiYgG9Cb2bgE8mPZd7u8FiqhoUEuxVPbrChxXfWA==
 
-"@winfe/vmi@^1.2.2", "@winfe/vmi@^v1.2.2":
-  version "1.2.2"
-  resolved "http://172.16.9.242:8081/repository/npm-group/@winfe/vmi/-/vmi-1.2.2.tgz#84ded1ff99fc38dab1428c1e3326d057e398b6bd"
-  integrity sha512-4ikjAbUcWj9hBL0sbpnh8/PGDX6GtGiaT1Ki8Ea8BHh+2FYVdyRO1+XLrwTwXSLHTdcVefHrurqSSPT+MCTl0w==
+"@winfe/vmi@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@winfe/vmi/-/vmi-1.2.4.tgz#5b0ac23dedd23f8982fd7472138b75c6de6b3155"
+  integrity sha512-eSU0nUyyD7pnjaz844disTkRgdlSA1oKBd4fJu6MwTrmDBDgxHw46WJWUEKzJHrZClCyiYbY+2wr+D+U46hKew==
   dependencies:
     "@umijs/bundler-webpack" "3.5.2"
     "@umijs/core" "3.5.2"
     "@umijs/deps" "3.5.2"
     "@umijs/types" "3.5.2"
     "@umijs/utils" "3.5.2"
-    "@winfe/preset-built-in" "^1.2.2"
-    "@winfe/preset-built-vmi" "^1.2.2"
-    "@winfe/runtime" "^1.2.2"
+    "@winfe/preset-built-in" "^1.2.4"
+    "@winfe/preset-built-vmi" "^1.2.4"
+    "@winfe/runtime" "^1.2.4"
     minio "^7.0.18"
     string-width "^5.0.0"
     v8-compile-cache "2.3.0"
