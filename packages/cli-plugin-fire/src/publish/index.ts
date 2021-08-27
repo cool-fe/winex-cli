@@ -211,7 +211,7 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      await require('icework/lib/command/generate').default({
+      await require('iceworks/lib/command/generate').default({
         rootDir: materialP?.rootPath
       });
     } catch (err) {
