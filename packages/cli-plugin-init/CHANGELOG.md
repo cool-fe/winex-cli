@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.4 (2021-08-27)
+
+
+### Bug Fixes
+
+* 修改iceworks名称错误 ([5906a7a](https://github.com/cool-fe/winex-cli/commit/5906a7a4030c3c59a5ec5eea7b0fd6a339d94ac7))
+
+
+
+
+
 ## 1.2.3 (2021-08-27)
 
 
