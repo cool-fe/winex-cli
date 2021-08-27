@@ -1,17 +1,23 @@
-import minimist from "minimist";
-import { CommandHookCore } from "./core";
+import minimist from 'minimist';
+import { CommandHookCore } from './core';
 // import PluginManager from "./pluginManager";
 
 export class BaseCLI {
   core: any;
+
   spec: any;
+
   commands: string[];
+
   cwd = process.cwd();
+
   cli: any;
+
   argv: { [key: string]: any; _: string[] };
 
   constructor(argv?: string[]) {
     if (!argv) {
+      // eslint-disable-next-line no-param-reassign
       argv = process.argv.slice(2);
     }
     this.argv = minimist(argv);
@@ -23,7 +29,7 @@ export class BaseCLI {
       options: argv,
       log: this.loadLog(),
       displayUsage: this.displayUsage.bind(this),
-      pm: this.argv.pm,
+      pm: this.argv.pm
     });
   }
 
@@ -73,8 +79,7 @@ export class BaseCLI {
     try {
       await this.core.invoke();
     } catch (error) {
-      // error.stack
-      console.error(error.message);
+      console.error(error);
       process.exit(1);
     }
   }

@@ -1,11 +1,11 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 
-import { getWinningScaffolds, getMaterialsInfo } from "../utils/package";
-import { PROJECT_TYPE, BUSINESS_TYPE } from "../constants/index";
-import { IScaffoldInfo, IMaterialsInfo, IChoice } from "../interface/index";
+import { getWinningScaffolds, getMaterialsInfo } from '../utils/package';
+import { PROJECT_TYPE, BUSINESS_TYPE } from '../constants/index';
+import { IScaffoldInfo, IMaterialsInfo, IChoice } from '../interface/index';
 
-const { Select, AutoComplete, Input, Toggle, prompt } = require("enquirer");
-const semver = require("semver");
+const { Select, AutoComplete, Input, Toggle, prompt } = require('enquirer');
+const semver = require('semver');
 
 /**
  * 格式化选项(选项后跟中文注解, 辅助选择)
@@ -15,23 +15,23 @@ const semver = require("semver");
 function normalizeChoices(choices: IChoice[]) {
   return choices.map(({ name, desc }) => ({
     name: `${name}${chalk.gray(`(${desc})`)}`,
-    value: name,
+    value: name
   }));
 }
 
 async function domainPrompts(domains: IMaterialsInfo[]) {
   const _prompt = new Select({
-    name: "domain",
-    message: "Which domain does the project belong to",
+    name: 'domain',
+    message: 'Which domain does the project belong to',
     choices: normalizeChoices(
       domains.map(({ title, key }) => ({
         name: key,
-        desc: title,
+        desc: title
       }))
     ),
     result(name: string) {
       return this.map(name)[name];
-    },
+    }
   });
 
   return await _prompt.run();
@@ -44,12 +44,12 @@ async function domainPrompts(domains: IMaterialsInfo[]) {
  */
 async function projectTypePrompts() {
   const _prompt = new Select({
-    name: "type",
-    message: "Project type",
+    name: 'type',
+    message: 'Project type',
     choices: normalizeChoices(PROJECT_TYPE),
     result(name: string) {
       return this.map(name)[name];
-    },
+    }
   });
 
   return await _prompt.run();
@@ -57,12 +57,12 @@ async function projectTypePrompts() {
 
 async function qiankunPrompts() {
   const _prompt = new Select({
-    name: "qiankun",
-    message: "Business type of project",
+    name: 'qiankun',
+    message: 'Business type of project',
     choices: normalizeChoices(BUSINESS_TYPE),
     result(name: string) {
       return this.map(name)[name];
-    },
+    }
   });
 
   return await _prompt.run();
@@ -73,11 +73,7 @@ async function qiankunPrompts() {
  * @param domain 域
  * @param qiankunType 业务类型
  */
-async function scaffoldPrompts(
-  domain: string,
-  qiankunType: string,
-  materails: IMaterialsInfo[]
-) {
+async function scaffoldPrompts(domain: string, qiankunType: string, materails: IMaterialsInfo[]) {
   let choices: IScaffoldInfo[] = [];
 
   choices = await getWinningScaffolds(domain, qiankunType, materails);
@@ -86,27 +82,23 @@ async function scaffoldPrompts(
   if (!choices.length) {
     console.error(
       `${chalk.red(
-        `✖  No matching scaffold was found in the ${chalk.cyan(
-          `${domain}/${qiankunType}`
-        )} branch.`
+        `✖  No matching scaffold was found in the ${chalk.cyan(`${domain}/${qiankunType}`)} branch.`
       )}`
     );
     process.exit(1);
   }
 
   const _prompt = new AutoComplete({
-    name: "template",
-    message: "Pick a preset scaffold",
+    name: 'template',
+    message: 'Pick a preset scaffold',
     limit: 10,
-    choices: choices.map(({ name, source }) => {
-      return {
-        name,
-        value: source.npm,
-      };
-    }),
+    choices: choices.map(({ name, source }) => ({
+      name,
+      value: source.npm
+    })),
     result(name: string) {
       return this.map(name)[name];
-    },
+    }
   });
 
   const template = await _prompt.run();
@@ -118,23 +110,23 @@ async function packagePrompts() {
   // 请输入version / description
   const _prompt = await prompt([
     {
-      type: "input",
-      name: "version",
-      message: "Input the project version",
-      initial: "0.0.1",
+      type: 'input',
+      name: 'version',
+      message: 'Input the project version',
+      initial: '0.0.1',
       validate(value: string) {
         if (!semver.valid(value)) {
-          return `${chalk.red("version should be a valid semver value")}`;
+          return `${chalk.red('version should be a valid semver value')}`;
         }
         return true;
-      },
+      }
     },
     {
-      type: "input",
-      name: "description",
-      message: "What is description of the project",
-      initial: "A project created by winex-cli",
-    },
+      type: 'input',
+      name: 'description',
+      message: 'What is description of the project',
+      initial: 'A project created by winex-cli'
+    }
   ]);
 
   return _prompt;
@@ -148,7 +140,7 @@ export async function commonPrompts() {
 
   return {
     ...pacakgeInfo,
-    repository,
+    repository
   };
 }
 
@@ -158,9 +150,9 @@ export async function commonPrompts() {
 async function repositoryPrompts() {
   // 是否需要初始化仓库
   const _prompt = new Toggle({
-    message: "Need to initialize the repository",
-    enabled: "Yes",
-    disabled: "No",
+    message: 'Need to initialize the repository',
+    enabled: 'Yes',
+    disabled: 'No'
   });
 
   const result = await _prompt.run();
@@ -168,15 +160,15 @@ async function repositoryPrompts() {
   if (result) {
     // 请输入仓库的git地址
     const _prompt = new Input({
-      type: "input",
-      name: "repository",
-      message: "Input the git repository",
-      required: true,
+      type: 'input',
+      name: 'repository',
+      message: 'Input the git repository',
+      required: true
     });
 
     return _prompt.run();
   } else {
-    return "";
+    return '';
   }
 }
 
@@ -204,10 +196,10 @@ async function normalTypeHandler() {
       domain,
       qiankunType,
       template,
-      ...common,
+      ...common
     };
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e as string);
   }
 }
 
@@ -215,7 +207,7 @@ async function normalTypeHandler() {
  * 处理待开发项目类型选择异常处理
  */
 function toBeDeveloped() {
-  console.error(`${chalk.red(`✖  This project type is to be developed.`)}`);
+  console.error(`${chalk.red(`✖  This project type is to be developed.`) as string}`);
   process.exit(1);
 }
 
@@ -229,7 +221,7 @@ export async function runPrompts() {
   const handlerMap = new Map();
 
   // 一般业务项目
-  handlerMap.set("normal", normalTypeHandler);
+  handlerMap.set('normal', normalTypeHandler);
 
   const handler = handlerMap.get(projectType);
 

@@ -1,18 +1,17 @@
-import chalk from "chalk";
+import chalk from 'chalk';
+import validatePkgName from 'validate-npm-package-name';
 import {
   IScaffoldInfo,
   IMaterialsInfo,
   IMaterialSource,
-  IPackageBaseInfo,
-} from "../interface/index";
+  IPackageBaseInfo
+} from '../interface/index';
 
-import { getNpmPkg } from "./getNpmPkg";
+import { getNpmPkg } from './getNpmPkg';
 
-import { GROUP_NAME_PREFIX, REGISTRIES } from "../constants/index";
+import { GROUP_NAME_PREFIX, REGISTRIES } from '../constants/index';
 
-import validatePkgName from "validate-npm-package-name";
-
-const { getMaterialListAsync } = require("@winfe/get-materials");
+const { getMaterialListAsync } = require('@winfe/get-materials');
 
 /**
  * 获取物料统计信息数据
@@ -24,7 +23,7 @@ export async function getMaterialsInfo(): Promise<IMaterialsInfo[]> {
 
     return data || [];
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e as any);
   }
 }
 
@@ -43,31 +42,23 @@ export async function getWinningScaffolds(
     const allMaterilas = materials || (await getMaterialsInfo());
 
     // 根据项目类型 筛选相应的模板
-    const gatherScaffolds = (
-      materilas: IMaterialsInfo[],
-      category?: string
-    ) => {
+    const gatherScaffolds = (materilas: IMaterialsInfo[], category?: string) => {
       const list = materilas.reduce(
-        (acc: IScaffoldInfo[], cur: IMaterialsInfo) =>
-          acc.concat(...cur.scaffolds),
+        (acc: IScaffoldInfo[], cur: IMaterialsInfo) => acc.concat(...cur.scaffolds),
         []
       );
 
       // 无需qiankun类型筛选时
       if (!category) return list;
 
-      return list.filter((item: IScaffoldInfo) =>
-        item.category.includes(category)
-      );
+      return list.filter((item: IScaffoldInfo) => item.category.includes(category));
     };
 
-    const filtered = domain
-      ? allMaterilas.filter(({ key }) => key.includes(domain))
-      : allMaterilas;
+    const filtered = domain ? allMaterilas.filter(({ key }) => key.includes(domain)) : allMaterilas;
 
     return gatherScaffolds(filtered, category);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e as any);
   }
 }
 
@@ -76,9 +67,7 @@ export async function getWinningScaffolds(
  * @param name npm包的name
  * @returns 目标模板包信息 | undefined
  */
-export async function isWinningNpm(
-  name: string
-): Promise<IMaterialSource | undefined> {
+export async function isWinningNpm(name: string): Promise<IMaterialSource | undefined> {
   const packages: IScaffoldInfo[] = await getWinningScaffolds();
 
   return packages.map(({ source }) => source).find((item) => item.npm === name);
@@ -91,7 +80,7 @@ export async function isWinningNpm(
  * @param pkgName 包名
  * @returns 包名是否合法
  */
-export async function checkPakcageName(pkgName: string): Promise<Boolean> {
+export async function checkPakcageName(pkgName: string): Promise<boolean> {
   const isWinningPkg = async () => {
     const { name, version } = genNpmInfo(pkgName);
     const validPkg = await isWinningNpm(name);
@@ -100,7 +89,7 @@ export async function checkPakcageName(pkgName: string): Promise<Boolean> {
       return getNpmTarballUrl({
         name,
         version,
-        registry: validPkg.registry,
+        registry: validPkg.registry
       });
     }
   };
@@ -115,12 +104,12 @@ export async function checkPakcageName(pkgName: string): Promise<Boolean> {
  * @returns npm包的基本信息
  */
 export function genNpmInfo(pkgName: string): IPackageBaseInfo {
-  let versionIndex = pkgName.replace(GROUP_NAME_PREFIX, "").lastIndexOf("@");
+  let versionIndex = pkgName.replace(GROUP_NAME_PREFIX, '').lastIndexOf('@');
 
   if (versionIndex < 1) {
     return {
       name: pkgName,
-      version: "latest",
+      version: 'latest'
     };
   }
 
@@ -131,7 +120,7 @@ export function genNpmInfo(pkgName: string): IPackageBaseInfo {
 
   return {
     name: pkgName.slice(0, versionIndex),
-    version: pkgName.slice(versionIndex + 1) || "latest",
+    version: pkgName.slice(versionIndex + 1) || 'latest'
   };
 }
 
@@ -148,15 +137,13 @@ export async function getNpmTarballUrl(options: IPackageBaseInfo) {
 
     return await getNpmPkg(name, {
       registryUrl: registry,
-      version: version || "latest",
+      version: version || 'latest'
     });
   } catch (e) {
     const { version, name } = options;
 
     console.error(
-      `${chalk.red(
-        `✖  Package ${name}${version ? `@${version}` : ""} could not be found.`
-      )}`
+      `${chalk.red(`✖  Package ${name}${version ? `@${version}` : ''} could not be found.`)}`
     );
     process.exit(1);
   }

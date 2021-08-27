@@ -1,17 +1,16 @@
-import fs from "fs-extra";
-import path from "path";
-import ora from "ora";
+import fs from 'fs-extra';
+import path from 'path';
+import ora from 'ora';
 
-import { sync as mkdirp } from "mkdirp";
-import { renameConfigFiles } from "./renameConfigFiles";
-import { readDir } from "./file";
+import { sync as mkdirp } from 'mkdirp';
+import { renameConfigFiles } from './renameConfigFiles';
+import { readDir } from './file';
 
-import { IMoveContent } from "../interface/file";
-import { IPackageBaseInfo } from "../interface/package";
-import { getNpmTarballUrl } from "./package";
+import { IMoveContent } from '../interface/file';
+import { IPackageBaseInfo } from '../interface/package';
+import { getNpmTarballUrl } from './package';
 
-const download = require("download-package-tarball");
-
+const download = require('download-package-tarball');
 
 /**
  * 整理npm包原始结构, 将包内容拷贝到目标路径
@@ -38,18 +37,16 @@ async function formatRemotePreset(moveConfig: IMoveContent): Promise<void> {
     updateDirStructure({
       oldPath,
       content,
-      newPath,
+      newPath
     });
 
     // 修改部分特殊配置文件名称
     const files = await readDir(newPath);
     renameConfigFiles(newPath, files || []);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e as any);
   }
 }
-
-
 
 /**
  * 下载远程模板
@@ -58,13 +55,10 @@ async function formatRemotePreset(moveConfig: IMoveContent): Promise<void> {
  * @param name 模板名称
  * @param context 输出文件路径
  */
-export const loadRemotePreset = async (
-  options: IPackageBaseInfo,
-  context: string
-) => {
-  return new Promise(async (resolve) => {
+export const loadRemotePreset = async (options: IPackageBaseInfo, context: string) =>
+  new Promise(async (resolve) => {
     const {
-      dist: { tarball },
+      dist: { tarball }
     } = await getNpmTarballUrl(options);
 
     try {
@@ -76,22 +70,19 @@ export const loadRemotePreset = async (
       mkdirp(tmpDir);
 
       // download tarball
-      const spinner = ora(
-        "Downloading remote preset scaffold tarball..."
-      ).start();
+      const spinner = ora('Downloading remote preset scaffold tarball...').start();
       await download({ url: tarball, gotOpts: {}, dir: tmpDir });
-      spinner.succeed("Download remote preset scaffold successfully.");
+      spinner.succeed('Download remote preset scaffold successfully.');
 
       // format file
       formatRemotePreset({
         oldPath: tmpDir,
         content: name,
-        newPath: context,
+        newPath: context
       });
 
       resolve(true);
     } catch (e) {
-      throw new Error(e);
+      throw new Error(e as any);
     }
   });
-};

@@ -10,11 +10,7 @@ module.exports = {
     ecmaVersion: 2017
   },
   rules: {
-    complexity: [
-      'warn',
-      {
-        max: 10
-      }
-    ]
+    complexity: 0,
+    'import/prefer-default-export': 0
   }
 };
