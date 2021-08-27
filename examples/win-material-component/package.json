@@ -1,12 +1,12 @@
 {
-  "name": "@winex-comp/encounter-filter",
-  "version": "2.1.23-beta.1",
+  "name": "@winex-test/encounter-filter",
+  "version": "2.7.0",
   "description": "患者域业务组件",
   "main": "lib/index.js",
   "scripts": {
-    "start": "node ../../packages/cli/bin/winex.js   dev --vmi",
-    "build": "node ../../packages/cli/bin/winex.js   build --vmi --component",
-    "pub": "node ../../packages/cli/bin/winex.js   publish --vmi --componet  --skipGitStatusCheck"
+    "start": "node ../../packages/cli/bin/winex.js   dev ",
+    "build": "node ../../packages/cli/bin/winex.js   build",
+    "pub": "node ../../packages/cli/bin/winex.js   publish  --skipGitStatusCheck"
   },
   "files": [
     "lib",

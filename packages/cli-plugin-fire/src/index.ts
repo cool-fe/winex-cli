@@ -69,8 +69,8 @@ export default class LintPlugin extends BasePlugin {
           usage: '发布release版本',
           config: {}
         },
-        '--vmi': {
-          usage: '是否以vmi启动'
+        '--old-build': {
+          usage: '是否起用旧的build'
         },
         '--package [package]': {
           usage: '需要发布的包目录',

@@ -24,7 +24,6 @@ import materialProject from './material';
 
 const lazy = Package.Package.lazy;
 const REGISTRY = 'http://172.16.9.242:8081/repository/winfe-material/';
-const NEXUS_TOKEN = 'MjAyMTY2Ng=='; //'YWRtaW46ODc2MzM3';
 const NEXUS_AUTHTOKEN = 'NpmToken.117fb104-1494-35fb-9971-1af5cad0a92a';
 const REGISTRY_URI = REGISTRY.slice(5);
 
@@ -72,7 +71,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
 
   const conf = npmConf({
     lernaCommand: 'publish',
-    _auth: args.legacyAuth || `'${NEXUS_TOKEN}'`,
     npmSession: args.npmSession || npmSession,
     npmVersion: args.userAgent || userAgent(),
     registry,
@@ -155,8 +153,9 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       if (!args.skipBuild) {
         logStep(`build: ${pkg.name}`);
         let build;
-        if (args.vmi) {
+        if (!args.oldBuild) {
           process.env.APP_ROOT = pkg.rootPath;
+          process.env.APP_TYPE = 'material';
           const vmiCli = require.resolve('@winfe/vmi/bin/vmi');
           await exec(vmiCli, ['build', ...process.argv.slice(3)]);
         } else {
