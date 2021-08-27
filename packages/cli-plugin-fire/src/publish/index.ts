@@ -209,9 +209,16 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
         'your project not material repository or package.json no materialConfig config'
       );
     }
-    await exec('npx', ['iceworks', 'generate'], {
-      cwd: materialP?.rootPath
-    });
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      await require('icework/lib/command/generate').default({
+        rootDir: materialP?.rootPath
+      });
+    } catch (err) {
+      return printErrorAndExit(`iceworks generate error\n${err.message}`);
+    }
+
     await uploadMaterialDatas(materialP?.rootPath);
 
     // Push all

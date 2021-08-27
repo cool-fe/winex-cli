@@ -34,8 +34,8 @@ export default class LintPlugin extends BasePlugin {
       describe: 'build a project',
       lifecycleEvents: ['build'],
       options: {
-        '--vmi': {
-          usage: '是否以vmi启动'
+        '--old-build': {
+          usage: '是否起用旧的build'
         },
         '--component': {
           usage: '打包组件物料'
@@ -94,8 +94,8 @@ export default class LintPlugin extends BasePlugin {
     dev: {
       describe: 'start a material package',
       options: {
-        '--vmi': {
-          usage: '是否以vmi启动'
+        '--old-dev': {
+          usage: '是否起用旧的dev'
         }
       },
       lifecycleEvents: ['dev']
@@ -140,11 +140,12 @@ export default class LintPlugin extends BasePlugin {
       });
     },
     'build:build': async ({ parsedOptions }: any): Promise<void> => {
-      if (parsedOptions?.options?.vmi) {
-        process.env.APP_ROOT = process.cwd();
-        require('@winfe/vmi/lib/cli');
-      } else {
+      if (parsedOptions?.options?.oldBuild) {
         await build();
+      } else {
+        process.env.APP_ROOT = process.cwd();
+        process.env.APP_TYPE = 'material';
+        require('@winfe/vmi/lib/cli');
       }
     },
     'fire:build:build': async (): Promise<void> => {
@@ -152,9 +153,14 @@ export default class LintPlugin extends BasePlugin {
       console.log();
       console.log(chalk.red.bold(fireBuildInfo));
     },
-    'dev:dev': async (): Promise<void> => {
-      process.env.APP_ROOT = process.cwd();
-      require('@winfe/vmi/lib/cli');
+    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
+      if (parsedOptions?.options?.oldDev) {
+        await runStart();
+      } else {
+        process.env.APP_ROOT = process.cwd();
+        process.env.APP_TYPE = 'material';
+        require('@winfe/vmi/lib/cli');
+      }
     },
     'fire:start:dev': async (): Promise<void> => {
       const fireStartInfo = 'winex fire start 命令已经被 winex dev 代替，请使用 winex dev。';

@@ -64,6 +64,7 @@
     "glob": "^7.1.7",
     "globby": "^11.0.4",
     "hash-sum": "^2.0.0",
+    "iceworks": "^3.4.5",
     "import-fresh": "^3.3.0",
     "is-file-esm": "^1.0.0",
     "js-yaml": "^4.1.0",
