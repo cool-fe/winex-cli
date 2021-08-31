@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-core",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "main": "lib/index.js",
   "module": "src/index.js",
   "types": "lib/index.d.ts",
