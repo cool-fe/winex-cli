@@ -1,0 +1,168 @@
+@include win(remote) {
+  @include e(patient) {
+    display: flex;
+    justify-content: space-between;
+    @include m(wrapper) {
+      &.fix-input-width {
+        flex: none;
+      }
+      .el-input {
+        width: 100%;
+      }
+      &.input-wrap-stretch {
+        flex: 0 1 auto;
+      }
+      & .el-input__inner {
+        border-radius: 4px 0 0 4px;
+      }
+      input {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .el-input-group--append {
+        display: flex;
+        .el-select {
+          width: 100%;
+          flex: 1;
+        }
+        & .el-select .el-input.is-focus .el-input__inner {
+          border-color: #2d5afa;
+        }
+      }
+      // 患者搜索框
+      & .el-select-dropdown__list {
+        width: 100%;
+        display: table;
+        padding-top: 0; 
+        & .el-select-dropdown__item {
+          display: table-row;
+          & .table-td {
+            display: table-cell;
+            font-size: 1rem;
+            & .select-cell {
+              padding-left: 16px;
+              padding-right: 57px;
+            }
+            & .select-cell-disabled {
+              color: red;
+            }
+          }
+          .header-sticky {
+            position: sticky;
+            top: 0;
+          }
+        }
+        // 下拉框头部
+        & .el-select-dropdown__header {
+          display: table-row;
+          font-size: 1rem;
+          padding: 0 20;
+          position: relative;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #fff;
+          height: 36px;
+          line-height: 36px;
+          box-sizing: border-box;
+          background: rgb(164, 171, 187);
+        }
+      }
+    }
+    @include m(list) {
+      height: 32px;
+      flex: 1;
+      vertical-align: top;
+      .card-type-item {
+        display: inline-block;
+        padding: 0 15px;
+        height: 30px;
+        line-height: 30px;
+        box-sizing: content-box;
+        border-radius: 4px;
+        &:first-child {
+          margin-left: 10px;
+        }
+      }
+      .no-margin-right {
+        margin-right: 0;
+      }
+      span {
+        height: 32px;
+      }
+      .el-button {
+        // padding: 6px 0;
+        height: 32px;
+        box-sizing: border-box;
+        // font-size: 1rem;
+        // color: #7E89A4;
+      }
+       // icon
+      .win-icon-more {
+        font-size: 16px;
+        margin-right: 2px;
+        padding: 1px;
+        vertical-align: middle;
+        &:focus,
+        &:active {
+          background: rgba($color: #fff, $alpha: 0.3);
+          border-radius: 50%;
+        }
+      }
+      &.only-more {
+        display: inline-block;
+        flex: inherit;
+      }
+      .win-patient-input-more {
+        width: 30px;
+        height: 32px;
+        padding: 0;
+        color: #7E89A4;
+        vertical-align: top;
+        &:hover {
+          color: #5175F4;
+        }
+        &:focus,
+        &:active {
+          color: #2D5AFA;;
+        }
+      }
+      &.full-tag {
+        flex: inherit;
+      }
+    }
+  }
+
+  @include e(pop) {
+    box-shadow: 0 2px 15px 0 rgba(90, 123, 239, 0.36);
+    padding: 16px 8px 16px 8px;
+    min-width: auto !important;
+    .win-popover-button {
+      margin-left: 0;
+      display: block;
+      line-height: 30px;
+      padding: 0px 15px;
+      & + .win-popover-button {
+        margin-top: 10px;
+      }
+    }
+    // .el-button {
+    //   font-size: 0.857142rem
+    // }
+    // .win-patient-input-card--active {
+    //   color: #ffffff;
+    //   background-color: #2d5afa;
+    //   border-color: #2d5afa;
+    // }
+  }
+}
+.read-card-btn-icon {
+  width:1.1428rem;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.patient-input-custom-popper-class {
+  padding: 6px 0 !important;
+  text-align: center !important;
+}
