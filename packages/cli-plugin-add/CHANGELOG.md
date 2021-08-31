@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.6 (2021-08-31)
+
+
+### Bug Fixes
+
+* 修改tag的名称 ([0ac013b](https://github.com/cool-fe/winex-cli/commit/0ac013b8ca55d7da52ff2cee100fbc6602c4eae7))
+
+
+
+
+
 ## 1.2.5 (2021-08-31)
 
 **Note:** Version bump only for package @winfe/cli-plugin-add
