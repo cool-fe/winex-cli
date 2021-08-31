@@ -1,6 +1,6 @@
 {
   "name": "@winex-test/encounter-filter",
-  "version": "2.8.0-beta.0",
+  "version": "2.8.0-beta.2",
   "description": "患者域业务组件",
   "main": "lib/index.js",
   "scripts": {

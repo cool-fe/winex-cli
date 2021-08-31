@@ -16,7 +16,9 @@ Sentry.configureScope((scope) => {
   const path = require('path');
   const fs = require('fs');
   const ini = require('ini');
-  const nodeVersion = execSync('node -v').toString().replace('\n', '');
+  const nodeVersion = execSync('node -v')
+    .toString()
+    .replace('\n', '');
   const cliVersion = require('../package.json').version;
   scope.setTag('level', 'info');
   scope.setTag('os platform', os.platform());
@@ -74,7 +76,7 @@ export class CLI extends BaseCLI {
         mod = mod.default || mod;
         if (mod) this.core.addPlugin(mod[pluginInfo.name] || mod);
       } catch (e) {
-        console.log(123, e);
+        console.log(e);
         /** ignore */
       }
     });
@@ -98,7 +100,9 @@ export class CLI extends BaseCLI {
   displayVersion() {
     const log = this.loadLog();
     try {
-      const nodeVersion = execSync('node -v').toString().replace('\n', '');
+      const nodeVersion = execSync('node -v')
+        .toString()
+        .replace('\n', '');
       log.log('Node.js'.padEnd(20) + nodeVersion);
     } catch (E) {
       /** ignore */
