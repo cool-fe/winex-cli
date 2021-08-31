@@ -13,6 +13,7 @@ coverage
 .DS_Store
 
 .umi
+.umi-production
 **/lib
 **/node_modules
 dist
