@@ -1,32 +1,12 @@
 import { BasePlugin } from '@winfe/cli-core';
 import chalk from 'chalk';
-import Logger from './logger';
-import build from './build';
 import publish from './publish/index';
-
-import App from './core/App';
 
 export type PluginOptions = {
   package: string;
   registry: boolean;
   ci?: boolean;
 };
-
-function createApp(
-  options: { plugins?: any; theme?: any; temp?: string; sourceDir: string } | undefined
-) {
-  Logger.info('Extracting site metadata...');
-  // @ts-ignore
-  return new App(options);
-}
-
-async function runStart() {
-  const app = createApp({
-    sourceDir: process.cwd()
-  });
-  await app.process();
-  await app.dev();
-}
 
 export default class LintPlugin extends BasePlugin {
   commands = {
@@ -139,28 +119,20 @@ export default class LintPlugin extends BasePlugin {
         process.exit(1);
       });
     },
-    'build:build': async ({ parsedOptions }: any): Promise<void> => {
-      if (parsedOptions?.options?.oldBuild) {
-        await build();
-      } else {
-        process.env.APP_ROOT = process.cwd();
-        process.env.APP_TYPE = 'material';
-        require('@winfe/vmi/lib/cli');
-      }
+    'build:build': async (): Promise<void> => {
+      process.env.APP_ROOT = process.cwd();
+      process.env.APP_TYPE = 'material';
+      require('@winfe/vmi/lib/cli');
     },
     'fire:build:build': async (): Promise<void> => {
       const fireBuildInfo = 'winex fire build 命令已经被 winex build 代替，请使用 winex build。';
       console.log();
       console.log(chalk.red.bold(fireBuildInfo));
     },
-    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
-      if (parsedOptions?.options?.oldDev) {
-        await runStart();
-      } else {
-        process.env.APP_ROOT = process.cwd();
-        process.env.APP_TYPE = 'material';
-        require('@winfe/vmi/lib/cli');
-      }
+    'dev:dev': async (): Promise<void> => {
+      process.env.APP_ROOT = process.cwd();
+      process.env.APP_TYPE = 'material';
+      require('@winfe/vmi/lib/cli');
     },
     'fire:start:dev': async (): Promise<void> => {
       const fireStartInfo = 'winex fire start 命令已经被 winex dev 代替，请使用 winex dev。';
