@@ -12,7 +12,7 @@ step_restore_cache: &restore_cache
 step_install_deps: &install_deps
   run:
     name: Install Dependencies
-    command: yarn install --frozen-lockfile
+    command: yarn install --production --frozen-lockfile
 
 step_save_cache: &save_cache
   save_cache:
@@ -27,7 +27,6 @@ step_save_cache: &save_cache
     key: node-deps-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
 jobs:
-
   test:
     <<: *defaults
     steps:
@@ -36,7 +35,6 @@ jobs:
       - *install_deps
       - *save_cache
       - run: yarn run test --ci
-
 
 workflows:
   orb-free-workflow:
