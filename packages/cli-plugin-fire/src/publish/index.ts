@@ -223,6 +223,6 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
     if (!args.publishOnly) {
       await exec('git', ['reset', '--mixed', 'HEAD^']);
     }
-    logStep('fail');
+    return printErrorAndExit(`publish error\n${error}`);
   }
 }
