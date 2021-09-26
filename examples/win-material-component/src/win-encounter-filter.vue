@@ -192,11 +192,14 @@
         </slot>
       </span>
     </div>
+    <test-vue></test-vue>
   </el-popover>
 </template>
 
 <script>
   import queryDialog from './queryDialog';
+  import testVue from '../../fire-start-vue/src/index.vue';
+
   import { reqQueryCondition, requestUpdatewQuery, requestDelPlan } from '../api/index';
   import test from './test.jsx';
   const maps = {
@@ -210,7 +213,7 @@
 
   export default {
     name: 'win-encounter-filter',
-    components: { queryDialog, test },
+    components: { queryDialog, test, testVue },
     props: {
       isNurse: {
         type: Boolean,

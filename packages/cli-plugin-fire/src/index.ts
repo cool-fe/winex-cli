@@ -20,6 +20,12 @@ export default class LintPlugin extends BasePlugin {
         '--component': {
           usage: '打包组件物料'
         },
+        '--app-type': {
+          usage: 'app类型,区分打包的是物料还是spa项目',
+          config: {
+            default: 'material'
+          }
+        },
         '--upload': {
           usage: '打包组件物料后是否上传到minio'
         },
@@ -79,34 +85,6 @@ export default class LintPlugin extends BasePlugin {
         }
       },
       lifecycleEvents: ['dev']
-    },
-    // TODO: Remove in minor
-    fire: {
-      commands: {
-        build: {
-          describe: 'publish a material package',
-          lifecycleEvents: ['build', 'file', 'publish', 'upload'],
-          options: {
-            '--package [package]': {
-              usage: '需要发布的包目录',
-              config: {}
-            },
-            '--registry': {
-              usage: '发布的源地址'
-            },
-            '--ci': {
-              usage: '是否在ci/cd中'
-            },
-            '--verbose': {
-              usage: '是否显示详细的日志信息'
-            }
-          }
-        },
-        start: {
-          describe: 'start a material package',
-          lifecycleEvents: ['dev']
-        }
-      }
     }
   };
 
@@ -119,9 +97,9 @@ export default class LintPlugin extends BasePlugin {
         process.exit(1);
       });
     },
-    'build:build': async (): Promise<void> => {
+    'build:build': async ({ parsedOptions }: any): Promise<void> => {
       process.env.APP_ROOT = process.cwd();
-      process.env.APP_TYPE = 'material';
+      process.env.APP_TYPE = parsedOptions.options.appType;
       require('@winfe/vmi/lib/cli');
     },
     'fire:build:build': async (): Promise<void> => {
@@ -129,9 +107,9 @@ export default class LintPlugin extends BasePlugin {
       console.log();
       console.log(chalk.red.bold(fireBuildInfo));
     },
-    'dev:dev': async (): Promise<void> => {
+    'dev:dev': async ({ parsedOptions }: any): Promise<void> => {
       process.env.APP_ROOT = process.cwd();
-      process.env.APP_TYPE = 'material';
+      process.env.APP_TYPE = parsedOptions.options.appType;
       require('@winfe/vmi/lib/cli');
     },
     'fire:start:dev': async (): Promise<void> => {

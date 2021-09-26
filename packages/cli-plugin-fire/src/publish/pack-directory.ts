@@ -58,16 +58,12 @@ export default function packDirectory(_pkg: any, dir: any, options: any): Promis
         cwd: pkg.contents,
         prefix: 'package/',
         portable: true,
-        // Provide a specific date in the 1980s for the benefit of zip,
-        // which is confounded by files dated at the Unix epoch 0.
-        mtime: new Date('1985-10-26T08:15:00.000Z'),
         gzip: true
       },
       // NOTE: node-tar does some Magic Stuff depending on prefixes for files
       //       specifically with @ signs, so we just neutralize that one
       //       and any such future "features" by prepending `./`
-      //@ts-ignore
-      files.map((f) => `./${f}`)
+      files.map((f: string) => `./${f}`)
     )
   );
   chain = chain.then((stream) => tempWrite(stream as any, getTarballName(pkg)));
