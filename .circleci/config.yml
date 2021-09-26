@@ -12,7 +12,7 @@ step_restore_cache: &restore_cache
 step_install_deps: &install_deps
   run:
     name: Install Dependencies
-    command: yarn install --production --frozen-lockfile
+    command: yarn install --production --frozen-lockfile --no-lockfile
 
 step_save_cache: &save_cache
   save_cache:
