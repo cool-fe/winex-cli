@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.4 (2021-09-29)
+
+
+### Bug Fixes
+
+* upgrade vuepress ([33e2ae4](https://github.com/cool-fe/winex-cli/commit/33e2ae48162972ce445207dc44788e767be3f3c9))
+
+
+
+
+
 ## 1.4.3 (2021-09-29)
 
 
