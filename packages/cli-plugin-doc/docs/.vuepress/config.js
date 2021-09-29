@@ -1,21 +1,16 @@
 const pluginMaterial = require('@winfe/plugin-material-config');
 const path = require('path');
-const fileListPugin = require('@winning-plugin/webpack-filelist-export');
 
 const PROXY_APP_IP = 'http://172.16.7.60';
 const MATERIAL_NAME = process.env.MATERIAL_NAME;
 
 const isDev = process.env.NODE_ENV === 'development';
-const options = {
-  extract: false,
-  cssExternals: ['/web-public/base-ui/index.css']
-};
 
 module.exports = {
   base: `/material-docs/${process.env.MATERIAL_CATEGORY}/${MATERIAL_NAME}/`, //部署站点基础路径
   title: process.env.MATERIAL_TITLE, // 网站标题
   description: '介绍关于前端物料的安装使用方法',
-  head: [],
+  head: [['link', { rel: 'stylesheet', href: 'http://172.16.7.58/web-public/base-ui/index.css' }]],
   plugins: ['demo-container', pluginMaterial.default],
   themeConfig: {
     nav: [
@@ -88,16 +83,6 @@ module.exports = {
       //   children: []
       // }
     ]
-  },
-  chainWebpack: (config) => {
-    config
-      .plugin('filePlugin')
-      .after('html')
-      .use(fileListPugin, [
-        {
-          ...options
-        }
-      ]);
   },
   configureWebpack: {
     module: {

@@ -37,8 +37,7 @@
     "vuepress-plugin-demo-container": "^0.2.0"
   },
   "peerDependencies": {
-    "@winning-plugin/portal-login-plugin": "^1.1.4",
-    "@winning-plugin/webpack-filelist-export": "^1.0.6"
+    "@winning-plugin/portal-login-plugin": "^1.1.4"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
