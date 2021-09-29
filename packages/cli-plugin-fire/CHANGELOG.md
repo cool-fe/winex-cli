@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.2 (2021-09-29)
+
+
+### Bug Fixes
+
+* 解决未发布docs目录 ([193253b](https://github.com/cool-fe/winex-cli/commit/193253b82312f3e82b593d8b5a8a8688d2010147))
+
+
+
+
+
 ## 1.4.1 (2021-09-27)
 
 **Note:** Version bump only for package @winfe/cli-plugin-fire
