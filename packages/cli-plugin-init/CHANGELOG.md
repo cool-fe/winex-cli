@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.3 (2021-09-29)
+
+
+### Bug Fixes
+
+* 移除winning-plugin ([adb984f](https://github.com/cool-fe/winex-cli/commit/adb984fd7eab3fb99ccee494897e3bcaba66643b))
+
+
+
+
+
 ## 1.4.2 (2021-09-29)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@winfe/cli-plugin-doc",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "homepage": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -25,7 +25,7 @@
   "dependencies": {
     "@vuepress/core": "^1.8.2",
     "@vuepress/theme-default": "^1.8.2",
-    "@winfe/cli-core": "^1.4.2",
+    "@winfe/cli-core": "^1.4.3",
     "@winfe/plugin-material-config": "^1.0.2",
     "@winfe/theme-helper": "^0.0.5",
     "enquirer": "^2.3.6",
