@@ -118,6 +118,10 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
         printErrorAndExit('Release failed, there can only be one --beta and --release.');
 
       versionCliArgs.tagPrefix = `${pack.name}@`;
+      versionCliArgs.releaseCommitMessageFormat = `chore(${pack.name}@${
+        // eslint-disable-next-line no-nested-ternary
+        isRelease ? 'release' : isBeta ? 'beta' : 'unknow'
+      }): {{currentTag}}`;
 
       if (isRelease) {
         const relaseConfirm: { release: boolean } = await runPrompts({
