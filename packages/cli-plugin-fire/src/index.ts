@@ -69,6 +69,12 @@ export default class LintPlugin extends BasePlugin {
         '--upload': {
           usage: '打包组件物料后是否上传到minio'
         },
+        '--skip-push': {
+          usage: '是否跳过git push代码'
+        },
+        '--skip-upload-material-data': {
+          usage: '是否跳过上传物料数据'
+        },
         '--ci': {
           usage: '是否在ci/cd中'
         },
@@ -82,6 +88,12 @@ export default class LintPlugin extends BasePlugin {
       options: {
         '--old-dev': {
           usage: '是否起用旧的dev'
+        },
+        '--app-type': {
+          usage: 'app类型,区分打包的是物料还是spa项目',
+          config: {
+            default: 'material'
+          }
         }
       },
       lifecycleEvents: ['dev']

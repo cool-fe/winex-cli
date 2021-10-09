@@ -203,24 +203,27 @@ export default async function release(cwd = process.cwd(), args: any): Promise<v
       );
     }
 
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      await require('iceworks/lib/command/generate').default({
-        rootDir: materialP?.rootPath
-      });
-    } catch (err) {
-      return printErrorAndExit(`iceworks generate error\n${err.message}`);
+    if (!args.skipUploadMaterialData) {
+      try {
+        await require('iceworks/lib/command/generate').default({
+          rootDir: materialP?.rootPath
+        });
+        await uploadMaterialDatas(materialP?.rootPath);
+      } catch (err) {
+        //@ts-ignore
+        return printErrorAndExit(`iceworks generate error\n${err.message}`);
+      }
     }
 
-    await uploadMaterialDatas(materialP?.rootPath);
-
-    // Push all
-    logStep(`git push`);
-    const { branch } = getRepoInfo();
-    await exec('git', ['push', 'origin', branch, '--tags']);
+    if (!args.skipPush) {
+      // Push all
+      logStep(`git push`);
+      const { branch } = getRepoInfo();
+      await exec('git', ['push', 'origin', branch, '--tags']);
+    }
     logStep('done');
   } catch (error) {
-    if (!args.publishOnly) {
+    if (!args.publishOnly && !args.skipPush) {
       await exec('git', ['reset', '--mixed', 'HEAD^']);
     }
     return printErrorAndExit(`publish error\n${error}`);
