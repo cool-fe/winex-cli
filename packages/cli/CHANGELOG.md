@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.6 (2021-10-15)
+
+
+### Bug Fixes
+
+* add registry  https ([9d2f29e](https://github.com/cool-fe/winex-cli/commit/9d2f29e2329d4e495097cbbc3fd19beac68a3381))
+
+
+
+
+
 ## 1.4.5 (2021-10-15)
 
 
