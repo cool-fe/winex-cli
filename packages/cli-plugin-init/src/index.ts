@@ -120,7 +120,7 @@ export default class InitPlugin extends BasePlugin {
 
     this.setContext(options);
 
-    if (options.name) {
+    if (options.dir && options.dir !== './' && options.dir !== '.') {
       const validDir = this.checkTargetDir(this.context);
 
       if (!validDir) {
@@ -130,7 +130,7 @@ export default class InitPlugin extends BasePlugin {
     }
 
     // set outdir and options
-    this.outdir = options.name;
+    this.outdir = options.dir;
     this.options = options;
   }
 
@@ -139,8 +139,8 @@ export default class InitPlugin extends BasePlugin {
    * @param options 命令行解析的参数信息
    */
   setContext(options: ICommandOptions) {
-    this.context = options.name
-      ? path.resolve(options.path || process.cwd(), options.name)
+    this.context = options.dir
+      ? path.resolve(options.path || process.cwd(), options.dir)
       : process.cwd();
   }
 
@@ -172,7 +172,9 @@ export default class InitPlugin extends BasePlugin {
       await this.initProject();
     }
 
-    await this.installingDependencies();
+    if (!this.options.skipInstall) {
+      await this.installingDependencies();
+    }
 
     this.displayGetStarted();
   }

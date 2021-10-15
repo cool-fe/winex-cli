@@ -62,6 +62,15 @@ export default {
       '--path [path]': {
         usage: 'use specified  absolute path'
       },
+      '--dir [dir]': {
+        usage: 'use specified  absolute path',
+        config: {
+          default: './'
+        }
+      },
+      '--skip-install': {
+        usage: 'skip install'
+      },
       '--yes -y': {
         usage: 'no prompt'
       }

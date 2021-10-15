@@ -8,4 +8,7 @@ export interface ICommandOptions {
   registry: string;
   packageManager: string;
   path: string;
+  dir: string;
+  configKey: string;
+  configValue: string;
 }

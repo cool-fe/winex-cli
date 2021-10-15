@@ -1,22 +1,27 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 import {
   writeFileTree,
   loadRemotePreset,
   updateFile,
   gitInfo,
   pathExists,
-  genNpmInfo,
-} from "./utils/index";
-import { ICommandOptions, IAnswers } from "./interface/index";
+  genNpmInfo
+} from './utils/index';
+import { ICommandOptions, IAnswers } from './interface/index';
 
-const execa = require("execa");
+const execa = require('execa');
 
 export class GenerateTemplate {
   core: any;
+
   answers: IAnswers;
+
   options: ICommandOptions;
+
   context: string;
+
   outdir: string;
+
   scaffoldNpmName: string;
 
   constructor(
@@ -42,15 +47,10 @@ export class GenerateTemplate {
     const { name, version } = genNpmInfo(this.scaffoldNpmName);
     const { registry } = this.options;
 
-    const result = await loadRemotePreset(
-      { name, version, registry },
-      this.context
-    );
+    const result = await loadRemotePreset({ name, version, registry }, this.context);
 
     if (result) {
-      this.core.cli.log(
-        `\n✨  Creating project in ${chalk.yellow(this.context)}`
-      );
+      this.core.cli.log(`\n✨  Creating project in ${chalk.yellow(this.context)}`);
     }
   }
 
@@ -63,27 +63,28 @@ export class GenerateTemplate {
     if (pathExists(`${this.context}/README.md`)) return;
 
     // generate README.md
-    this.core.cli.log("\n📄  Generating README.md...");
+    this.core.cli.log('\n📄  Generating README.md...');
     const { packageManager } = this.options;
 
     await writeFileTree(this.context, {
-      "README.md": [
+      'README.md': [
         `# ${this.outdir}\n`,
-        "## Project setup",
-        "```",
+        '## Project setup',
+        '```',
         `${packageManager} install`,
-        "```",
-      ].join("\n"),
+        '```'
+      ].join('\n')
     });
   }
 
   runCommand(command: string, args?: string[]) {
     if (!args) {
+      // eslint-disable-next-line no-param-reassign
       [command, ...args] = command.split(/\s+/);
     }
 
     return execa(command, args, {
-      cwd: this.context,
+      cwd: this.context
     });
   }
 
@@ -97,11 +98,11 @@ export class GenerateTemplate {
 
     // init and set remote
     if (repository) {
-      this.core.cli.log("🗃   Initializing and setting git repository...");
+      this.core.cli.log('🗃   Initializing and setting git repository...');
 
-      await this.runCommand("git init");
+      await this.runCommand('git init');
 
-      await this.runCommand("git", ["remote", "add", "origin", repository]);
+      await this.runCommand('git', ['remote', 'add', 'origin', repository]);
     }
   }
 
@@ -114,20 +115,26 @@ export class GenerateTemplate {
   updatePackageConfig(): void {
     const { user = {} } = gitInfo();
     const { name: author, email } = user;
-    const {
-      version = "0.0.1",
-      description = "A project created by winex-cli",
-    } = this.answers;
-
-    updateFile(this.context, {
+    const { version = '0.0.1', description = 'A project created by winex-cli' } = this.answers;
+    const params = {
       author,
       email,
-      name: this.outdir,
+      name: this.options.name,
       version,
       description,
       scaffoldConfig: null,
-      gitHead: null,
-    });
+      componentConfig: null,
+      blockConfig: null,
+      gitHead: null
+    };
+    let materialConfigValue;
+    try {
+      materialConfigValue = JSON.parse(this.options.configValue);
+      params[this.options.configKey] = materialConfigValue;
+    } catch (error) {
+      this.core.cli.log(error);
+    }
+    updateFile(this.context, params);
   }
 
   async run(): Promise<void> {

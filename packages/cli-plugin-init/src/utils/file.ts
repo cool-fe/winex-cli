@@ -1,14 +1,12 @@
-import fs from "fs-extra";
-import { join, dirname } from "path";
+import fs from 'fs-extra';
+import { join, dirname } from 'path';
 
 /**
  * 判断路径是否存在
  * @param path 文件路径
  * @returns 存在状态
  */
-export const pathExists = (path: string) => {
-  return fs.existsSync(path);
-};
+export const pathExists = (path: string) => fs.existsSync(path);
 
 /**
  * 写文件树
@@ -24,22 +22,23 @@ export const writeFileTree = (dir: string, files: object) => {
   });
 };
 
-export const readDir = async (path: string) => {
-  if (!pathExists(path)) return;
-
-  return await fs.readdir(path);
+export const readDir = async (path: string): Promise<any> => {
+  if (pathExists(path)) {
+    return fs.readdir(path);
+  }
+  return null;
 };
 
 /**
  * 更新文件
  */
-export const updateFile = (context: string, meta: any) => {
-  return new Promise((resolve) => {
+export const updateFile = (context: string, meta: any) =>
+  new Promise((resolve) => {
     const fileName = `${context}/package.json`;
 
     if (fs.existsSync(fileName)) {
       const content = fs.readFileSync(fileName).toString();
-      let result = JSON.parse(content);
+      const result = JSON.parse(content);
 
       Object.keys(meta).forEach((key) => {
         if (meta[key] !== null) {
@@ -57,4 +56,3 @@ export const updateFile = (context: string, meta: any) => {
       resolve(true);
     }
   });
-};
