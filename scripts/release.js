@@ -22,7 +22,7 @@ const argvs = [
   '--legacy-auth',
   process.env.PUB_CI_ACCESS_TOKEN,
   '--registry',
-  'http://registry.npmjs.org/',
+  'https://registry.npmjs.org/',
   '--yes'
 ];
 

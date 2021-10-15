@@ -41,7 +41,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "http://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@types/command-exists": "^1.2.0",

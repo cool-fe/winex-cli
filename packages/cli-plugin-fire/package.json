@@ -48,7 +48,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "http://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
