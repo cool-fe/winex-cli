@@ -20,8 +20,9 @@ const download = require('download-package-tarball');
  */
 function updateDirStructure(arg: IMoveContent): void {
   const { oldPath, newPath, content } = arg;
-
-  fs.moveSync(path.resolve(oldPath, content), newPath);
+  fs.moveSync(path.resolve(oldPath, content), newPath, {
+    overwrite: true
+  });
   fs.removeSync(path.resolve(oldPath));
 }
 

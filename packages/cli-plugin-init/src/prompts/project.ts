@@ -113,7 +113,7 @@ async function packagePrompts() {
       type: 'input',
       name: 'version',
       message: 'Input the project version',
-      initial: '0.0.1',
+      initial: '0.1.0',
       validate(value: string) {
         if (!semver.valid(value)) {
           return `${chalk.red('version should be a valid semver value')}`;

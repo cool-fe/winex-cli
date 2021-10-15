@@ -75,7 +75,16 @@ export default class InitPlugin extends BasePlugin {
    * @param scaffold 指定的模板npm name
    */
   async runCommonPrompts(scaffold: string): Promise<void> {
-    const answers = await commonPrompts();
+    let answers;
+    if (this.options.yes) {
+      answers = {
+        version: '0.1.0',
+        description: 'A project created by winex-cli',
+        repository: ''
+      };
+    } else {
+      answers = await commonPrompts();
+    }
 
     this.answers = answers;
     this.scaffoldNpmName = scaffold;
@@ -111,11 +120,13 @@ export default class InitPlugin extends BasePlugin {
 
     this.setContext(options);
 
-    const validDir = this.checkTargetDir(this.context);
+    if (options.name) {
+      const validDir = this.checkTargetDir(this.context);
 
-    if (!validDir) {
-      this.core.cli.log(`${chalk.red(`✖  Target directory ${options.name} already exists.`)}`);
-      process.exit(1);
+      if (!validDir) {
+        this.core.cli.log(`${chalk.red(`✖  Target directory ${options.name} already exists.`)}`);
+        process.exit(1);
+      }
     }
 
     // set outdir and options
@@ -128,7 +139,9 @@ export default class InitPlugin extends BasePlugin {
    * @param options 命令行解析的参数信息
    */
   setContext(options: ICommandOptions) {
-    this.context = path.resolve(options.path || process.cwd(), options.name);
+    this.context = options.name
+      ? path.resolve(options.path || process.cwd(), options.name)
+      : process.cwd();
   }
 
   /**
