@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.7 (2021-10-15)
+
+
+### Bug Fixes
+
+* 增加命令参数 ([09244d9](https://github.com/cool-fe/winex-cli/commit/09244d9c5cc9aee9e6b395bf127e3deadd5a66c6))
+
+
+
+
+
 ## 1.4.6 (2021-10-15)
 
 
