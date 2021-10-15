@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.4.5 (2021-10-15)
+
+
+### Bug Fixes
+
+* 调整init命令支持ci创建 ([f36b816](https://github.com/cool-fe/winex-cli/commit/f36b816ae4ad090f4fc39dffc802419b10920b8d))
+
+
+
+
+
 ## 1.4.4 (2021-09-29)
 
 
